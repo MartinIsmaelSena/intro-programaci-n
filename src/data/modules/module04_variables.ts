@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module03: CourseModule = {
-  id: 3,
-  number: 3,
+export const module04: CourseModule = {
+  id: 4,
+  number: 4,
   title: 'Variables',
   subtitle: 'Almacenar, recordar y manipular información en la memoria',
   description: 'Aprende a guardar datos usando variables, aplicar buenas prácticas de nomenclatura (snake_case) y actualizar sus valores a lo largo de un programa.',
@@ -125,7 +125,7 @@ export const module03: CourseModule = {
   exercises: [
     {
       id: 'm3_ex1',
-      moduleId: 3,
+      moduleId: 4,
       number: 1,
       title: 'Crear una variable nombre',
       description: 'Crea una variable llamada `nombre` y guárdale el texto "Martín". Luego, usa `print(nombre)` para mostrarla.',
@@ -149,7 +149,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex2',
-      moduleId: 3,
+      moduleId: 4,
       number: 2,
       title: 'Crear una variable edad',
       description: 'Crea una variable llamada `edad` con el valor numérico 40 (sin comillas) y muéstrala con `print(edad)`.',
@@ -173,7 +173,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex3',
-      moduleId: 3,
+      moduleId: 4,
       number: 3,
       title: 'Dos variables en acción',
       description: 'Crea una variable `ciudad` con el valor "Córdoba" y otra variable `pais` con "Argentina". Muestra primero la ciudad y en la siguiente línea el país usando dos print.',
@@ -197,7 +197,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex4',
-      moduleId: 3,
+      moduleId: 4,
       number: 4,
       title: 'Cambiar el valor de una variable',
       description: 'Crea una variable `puntaje` que comience con valor 10. Luego, en la siguiente línea, cámbiale el valor a 50. Finalmente, imprime `puntaje` para comprobar su nuevo valor.',
@@ -221,7 +221,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex5',
-      moduleId: 3,
+      moduleId: 4,
       number: 5,
       title: 'Ficha de un alumno',
       description: 'Crea tres variables: `alumno` con "Sofía", `curso` con "Python" y `nota` con 10. Imprime `alumno`, `curso` y `nota` en tres líneas distintas.',
@@ -245,7 +245,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex6',
-      moduleId: 3,
+      moduleId: 4,
       number: 6,
       title: 'Precio de un producto',
       description: 'Crea una variable `producto` con el valor "Auriculares" y `precio` con 3500. Imprime `producto` y luego `precio`.',
@@ -269,7 +269,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex7',
-      moduleId: 3,
+      moduleId: 4,
       number: 7,
       title: 'Traspaso de valores entre variables',
       description: 'Crea una variable `a` con el valor 100. Luego crea una variable `b` e iguálala a `a` (`b = a`). Imprime el valor de `b`.',
@@ -293,7 +293,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex8',
-      moduleId: 3,
+      moduleId: 4,
       number: 8,
       title: 'Contador de pasos diarios',
       description: 'Crea una variable `pasos` con 2000. Luego suma 500 pasos más a esa misma variable asignándole `pasos = pasos + 500`. Imprime `pasos`.',
@@ -317,7 +317,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex9',
-      moduleId: 3,
+      moduleId: 4,
       number: 9,
       title: 'Intercambio de dos variables (Swap)',
       description: 'Tenemos dos variables: vaso1 = "Agua" y vaso2 = "Jugo". Para intercambiar sus contenidos usamos una variable auxiliar: `temporal = vaso1`, luego `vaso1 = vaso2`, y finalmente `vaso2 = temporal`. Escribe este proceso e imprime vaso1 y vaso2.',
@@ -341,7 +341,7 @@ export const module03: CourseModule = {
     },
     {
       id: 'm3_ex10',
-      moduleId: 3,
+      moduleId: 4,
       number: 10,
       title: 'Mini desafío de variables: Estado de videojuego',
       description: 'Modela el estado de un personaje en un juego: crea `personaje = "Guerrero"`, `nivel = 1`, `vida = 100`. Simula que sube de nivel (`nivel = 2`) y que recibe un golpe (`vida = 80`). Imprime `personaje`, `nivel` y `vida` actualizados.',

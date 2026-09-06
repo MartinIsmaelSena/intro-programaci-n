@@ -196,3 +196,142 @@ Los archivos optimizados y listos para desplegar se generarán en la carpeta `di
 2. **Pedagogía antes que frustración:** Los errores de Python son traducidos a lenguaje cotidiano para que el alumno entienda *por qué* ocurrió el problema y *cómo* resolverlo, en lugar de recibir un traceback árido.
 3. **Persistencia desacoplada:** La arquitectura actual utiliza un servicio unificado en `src/services/storageService.ts`. Cuando se desee añadir una base de datos en la nube (PostgreSQL, Supabase, Firebase) y autenticación con contraseñas, bastará con actualizar ese servicio sin alterar los componentes visuales.
 4. **Validación semántica y flexible:** Las pruebas de los ejercicios evalúan el resultado esperado y patrones de salida en consola, permitiendo que el alumno use diferentes nombres de variables intermedias o estilos propios de código.
+
+---
+
+## ⚔️ Desafíos en Línea — Fase 1
+
+Nueva funcionalidad interactiva, competitiva y gamificada que permite a los estudiantes enfrentarse en duelos 1v1 en tiempo real para poner a prueba sus conocimientos de programación en Python.
+
+### 🌟 Cómo funciona
+1. **Identificación obligatoria:** El alumno ingresa Nombre, Apellido y Colegio antes de acceder a la arena (sin solicitar DNI, email, teléfono ni contraseñas, protegiendo su privacidad).
+2. **Sala de Jugadores:** Se visualizan los contrincantes con su estado en vivo (🟢 Disponible, 🟡 Jugando, 🔴 Desconectado). Solo los jugadores disponibles pueden ser desafiados.
+3. **Sistema de Apuestas en XP:** El alumno selecciona una apuesta predeterminada (🪙 10, 25, 50 o 100 XP), validada contra su XP real disponible. La apuesta **solo se descuenta** si el contrincante acepta y comienza la partida.
+4. **Invitación y Cuenta Regresiva:** Al ser aceptado el desafío, se presenta una cuenta regresiva animada `3... 2... 1... ⚔️ ¡COMIENZA EL DESAFÍO!`.
+5. **Partida 1v1:** Ambos jugadores reciben exactamente las mismas 10 preguntas en el mismo orden.
+6. **Sistema de Puntuación:**
+   - Respuesta correcta: **+100 puntos base**.
+   - Bonus de velocidad: **entre 0 y 50 puntos** según el tiempo de respuesta.
+   - Respuesta incorrecta: **0 puntos**.
+   - **Regla estricta de aciertos:** Quien acierta más preguntas siempre gana (ej: 9 aciertos supera a 8 aciertos sin importar la velocidad).
+7. **Empate Técnico:** Si empatan en aciertos, puntaje y tiempo, el resultado es 🤝 Empate y se reintegra el 100% del XP apostado a ambos jugadores.
+8. **Chat Seguro con Frases Predeterminadas:** No se permite texto libre. Los estudiantes solo pueden enviar reacciones y mensajes predefinidos educativos (ej: *😎 ¡Vamos!*, *🔥 ¡Buenísima!*, *🧠 Buena respuesta*) y emojis rápidos.
+9. **Feedback Educativo al Finalizar:** Al terminar las 10 preguntas se exhibe el podio, el pozo de XP y la sección didáctica de **Información de Errores**, mostrando qué opción eligió el alumno, cuál era la correcta y la explicación formativa.
+
+---
+
+### 📂 Ubicación de Componentes y Configuración
+
+| Componente / Regla | Archivo de Código | Descripción |
+| :--- | :--- | :--- |
+| **Jugadores Simulados** | [`src/data/onlinePlayers.ts`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/data/onlinePlayers.ts) | Capa desacoplada con 7 rivales simulados, avatares, estadísticas, precisión y personalidades. |
+| **Banco de Preguntas** | [`src/data/onlineQuestions.ts`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/data/onlineQuestions.ts) | 36+ preguntas distribuidas de los módulos 1 al 9 (estrictamente hasta `input()`, sin bucles ni condicionales). |
+| **Lógica y Servicios** | [`src/services/onlineChallengesService.ts`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/services/onlineChallengesService.ts) | Gestión de partidas, desempates, estadísticas, historial, rankings y simulación del bot. |
+| **Límite de 3 Partidas** | [`src/services/onlineChallengesService.ts`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/services/onlineChallengesService.ts) | Bloquea un cuarto enfrentamiento consecutivo contra el mismo rival en el mismo día utilizando fechas reales ISO (`YYYY-MM-DD`). |
+| **Insignias de Racha** | [`src/data/badges.ts`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/data/badges.ts) | 🏆 **Racha de 3** (`online_streak_3`), 🔥 **Imparable** (`online_streak_5`) y 👑 **Maestro del desafío** (`online_streak_10`). |
+| **Integración de XP** | [`src/context/ProgressContext.tsx`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/context/ProgressContext.tsx) | Utiliza el mismo `progress.xp` acumulado en el curso para debitar y acreditar apuestas. |
+| **Rankings** | [`src/components/onlineChallenges/OnlineRankingView.tsx`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/components/onlineChallenges/OnlineRankingView.tsx) | Rankings independientes: 👑 Campeón de la semana (por victorias) y 🪙 Mayor XP ganado, con filtros temporales. |
+| **Historial de Duelos** | [`src/components/onlineChallenges/OnlineHistoryView.tsx`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/src/components/onlineChallenges/OnlineHistoryView.tsx) | Tabla detallada con rival, resultado, puntaje, delta de XP y fecha relativa. |
+
+---
+
+### 🤖 Qué es simulado en Fase 1
+- **Lista de Jugadores:** Simulados en memoria mediante `MOCK_ONLINE_PLAYERS`.
+- **Aceptación / Rechazo:** Simulación con tiempo de red (incluye selector en modal para forzar aceptación o rechazo en pruebas).
+- **Respuestas en Tiempo Real del Rival:** Simulación probabilística basada en la tasa de acierto del perfil y su tiempo medio de respuesta, enviando también reacciones en el chat.
+
+---
+
+---
+
+## ⚔️ Desafíos en Línea — Fase 2: Sistema Realtime con Supabase
+
+En la **FASE 2**, los Desafíos en Línea se convierten en un sistema **multijugador real en tiempo real**. Dos alumnos conectados desde dispositivos, pestañas o navegadores diferentes pueden:
+1. Verse en la sala de espera en vivo mediante presencia en tiempo real.
+2. Enviarse invitaciones de desafío 1v1 con apuesta de XP.
+3. Recibir las notificaciones entrantes al instante con un temporizador de respuesta de 60 segundos.
+4. Comenzar la partida en simultáneo con una cuenta regresiva sincronizada (3, 2, 1).
+5. Responder exactamente las mismas 10 preguntas generadas de forma determinista por partida.
+6. Ver en vivo cuándo responde el rival, sus aciertos, puntuación y mensajes predeterminados del chat.
+7. Liquidar las apuestas y estadísticas de forma 100% idempotente en la base de datos PostgreSQL.
+8. Manejar desconexiones con reconexión de 30 segundos y victoria por abandono.
+
+---
+
+### 🌐 Arquitectura Dual (Realtime Supabase + Modo Demo Automático)
+
+La aplicación implementa un patrón desacoplado y tolerante a fallos:
+- **Modo Supabase Activo (`VITE_ONLINE_MODE=supabase`):** Se conecta a Supabase Realtime (Presence & Postgres Changes). Los alumnos reales se identifican con una sesión anónima persistente (`session_id`) generada automáticamente en `localStorage`.
+- **Fallback Automático a Modo Demo / Práctica:** Si las credenciales de Supabase no están configuradas o el servicio no está disponible, la plataforma continúa funcionando transparentemente en modo local (Fase 1) sin errores ni pantallas en blanco.
+- **Sala Mixta:** Si hay estudiantes reales conectados, se muestran primeros con la insignia `🟢 En vivo`. Además, siempre están disponibles los estudiantes de práctica para que un alumno nunca encuentre la sala vacía.
+
+---
+
+### 🗄️ Esquema de Base de Datos (PostgreSQL en Supabase)
+
+El script SQL completo se encuentra en:
+📁 [`supabase/migrations/20260904_phase2_online_challenges.sql`](file:///c:/Users/Ismae/Downloads/proyecto-web-python/supabase/migrations/20260904_phase2_online_challenges.sql)
+
+#### 1. Tablas Principales:
+- `public.online_players`: Perfil público de cada estudiante (nombre, apellido, colegio, curso, avatar, XP, victorias, derrotas, racha, estado `available` / `playing` / `offline` y marca de tiempo `last_seen_at`). **Nunca almacena datos sensibles** (no requiere DNI, email, teléfono ni contraseñas).
+- `public.online_invitations`: Registro de invitaciones 1v1 con la apuesta de XP (`wager_xp`), expiración a los 60s y estado (`pending`, `accepted`, `rejected`, `expired`, `cancelled`).
+- `public.online_matches`: Partida activa y finalizada, contadores de aciertos, puntajes acumulados y control de liquidación idempotente (`payout_settled`).
+- `public.online_match_answers`: Auditoría y registro de cada respuesta individual (índice 0 a 9, opción elegida, tiempo en segundos y puntos obtenidos).
+- `public.online_match_messages`: Mensajes rápidos y emojis del chat dentro de la partida.
+
+#### 2. Funciones Almacenadas (RPC) con Transacciones Atómicas:
+- `fn_accept_invitation_and_create_match(p_invitation_id, p_question_ids)`: Bloquea la invitación con `FOR UPDATE`, valida expiración, crea la partida en `online_matches`, marca a ambos jugadores en estado `playing` y devuelve el `match_id` de forma atómica.
+- `fn_submit_match_answer(...)`: Registra la respuesta, actualiza los acumuladores en `online_matches`, evalúa si ambos jugadores terminaron y, en caso afirmativo, determina el ganador y liquida el XP y las estadísticas una única vez (`payout_settled = true`).
+- `fn_check_daily_consecutive_matches(p_player1, p_player2)`: Evalúa si los dos jugadores ya disputaron 3 partidas consecutivas finalizadas en el día actual (UTC).
+- `fn_abandon_match(p_match_id, p_abandoning_session_id)`: Otorga la victoria al jugador que permaneció conectado si su rival abandona o se desconecta de forma prolongada.
+
+#### 3. Publicaciones Realtime:
+Las tablas `online_players`, `online_invitations`, `online_matches`, `online_match_answers` y `online_match_messages` están suscritas a la publicación `supabase_realtime`.
+
+---
+
+### ⚙️ Configuración del Entorno (.env)
+
+Copia el archivo `.env.example` como `.env` en la raíz del proyecto y completa las credenciales de tu proyecto de Supabase:
+
+```env
+# Supabase Configuration (Fase 2 - Desafíos en Línea)
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=tu-anon-key-publica
+VITE_ONLINE_MODE=supabase
+```
+
+> **Importante:** Únicamente se utiliza la clave pública anónima (`anon key`). Nunca se expone ni se requiere la clave secreta `service_role`.
+
+---
+
+### 🧪 Guía de Prueba Multijugador (Paso a Paso)
+
+Para verificar el funcionamiento en tiempo real en una misma computadora:
+
+1. **Abrir la ventana 1 (Navegador Normal):**
+   - Abrir `http://localhost:5173`.
+   - Navegar a **⚔️ Desafíos en línea**.
+   - Ingresar como Estudiante 1 (ej: `Martín Sena`, Colegio `Normal 1`).
+2. **Abrir la ventana 2 (Ventana de Incógnito u otro navegador como Edge/Chrome):**
+   - Abrir `http://localhost:5173`.
+   - Navegar a **⚔️ Desafíos en línea**.
+   - Ingresar como Estudiante 2 (ej: `Lucía Gómez`, Colegio `Técnica 2`).
+3. **Verificación de Presencia en la Sala:**
+   - En la ventana 1, aparecerá `Lucía Gómez` con la etiqueta verde `🟢 En vivo`.
+   - En la ventana 2, aparecerá `Martín Sena` con la etiqueta verde `🟢 En vivo`.
+4. **Envío y Aceptación de Desafío:**
+   - En la ventana 1, hacer clic en **⚔️ Desafiar** en la tarjeta de Lucía.
+   - Seleccionar la apuesta (ej: 50 XP) y presionar **Enviar desafío**.
+   - En la ventana 2, se abrirá inmediatamente el modal animado de **Desafío Entrante** con la apuesta de 50 XP y el temporizador visual de 60 segundos.
+   - En la ventana 2, hacer clic en **Aceptar duelo**.
+5. **Comienzo Sincronizado:**
+   - Ambas ventanas pasarán inmediatamente a la pantalla de cuenta regresiva `3... 2... 1... ¡Comienza!`.
+6. **Desarrollo de la Partida:**
+   - Ambas ventanas recibirán exactamente las mismas 10 preguntas en el mismo orden (hasta la función `input()`).
+   - Cuando un jugador responde, el otro ve en vivo el aviso: *"⚡ [Nombre] respondió correctamente ✓ (+135 pts)"*.
+   - El chat de frases predeterminadas y emojis transmite reacciones en vivo entre ambos.
+7. **Finalización y Resultados:**
+   - Quien termine primero espera a su rival con un indicador de progreso en vivo.
+   - Al responder ambos la décima pregunta, se presenta el podio final con el cálculo exacto de ganador/empate, acreditación de XP y desglose de errores.
+

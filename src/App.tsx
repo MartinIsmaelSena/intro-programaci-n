@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProgressProvider, useProgress } from './context/ProgressContext';
 import { Navbar } from './components/layout/Navbar';
 import { Sidebar, ViewType } from './components/layout/Sidebar';
 import { WelcomeModal } from './components/onboarding/WelcomeModal';
+import { FeatureAnnouncementModal } from './components/announcements/FeatureAnnouncementModal';
+import {
+  DUEL_1VS1_ANNOUNCEMENT,
+  hasUserSeenAnnouncement,
+  markAnnouncementAsSeen
+} from './components/announcements/announcementsConfig';
 import { CelebrationModal } from './components/common/CelebrationModal';
 import { SettingsModal } from './components/settings/SettingsModal';
 import { DashboardView } from './components/dashboard/DashboardView';
@@ -15,15 +21,46 @@ import { ReviewView } from './components/review/ReviewView';
 import { ResourcesView } from './components/resources/ResourcesView';
 import { ExamsPortalView } from './components/exams/ExamsPortalView';
 import { ChallengesPortalView } from './components/challenges/ChallengesPortalView';
+import { OnlineChallengesPortalView } from './components/onlineChallenges/OnlineChallengesPortalView';
 import { RankingView } from './components/ranking/RankingView';
 import { Footer } from './components/layout/Footer';
 import { ALL_MODULES, getModuleByNumber } from './data/modulesList';
 
 const MainApp: React.FC = () => {
+  const { progress } = useProgress();
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [activeModuleNumber, setActiveModuleNumber] = useState<number>(1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+  const [announcementModalOpen, setAnnouncementModalOpen] = useState<boolean>(false);
+
+  // Anuncio visual para comunicar la nueva funcionalidad Duelo 1 vs 1
+  useEffect(() => {
+    // Solo debe aparecer al ingresar a la página principal / inicio (dashboard)
+    if (currentView !== 'dashboard') return;
+    // Si es un alumno nuevo sin onboarding completado, se prioriza el WelcomeModal
+    if (!progress.userName || !progress.onboardingCompleted) return;
+
+    // Verificar si el usuario ya vio el anuncio
+    const alreadySeen = hasUserSeenAnnouncement(DUEL_1VS1_ANNOUNCEMENT.id, progress.userName);
+    if (!alreadySeen && DUEL_1VS1_ANNOUNCEMENT.active) {
+      const timer = setTimeout(() => {
+        setAnnouncementModalOpen(true);
+      }, 350);
+      return () => clearTimeout(timer);
+    }
+  }, [currentView, progress.userName, progress.onboardingCompleted]);
+
+  const handleCloseAnnouncement = () => {
+    markAnnouncementAsSeen(DUEL_1VS1_ANNOUNCEMENT.id, progress.userName);
+    setAnnouncementModalOpen(false);
+  };
+
+  const handleActionAnnouncement = () => {
+    markAnnouncementAsSeen(DUEL_1VS1_ANNOUNCEMENT.id, progress.userName);
+    setAnnouncementModalOpen(false);
+    handleNavigate('online-challenges');
+  };
 
   const handleSelectModule = (num: number) => {
     setActiveModuleNumber(num);
@@ -101,6 +138,12 @@ const MainApp: React.FC = () => {
             />
           )}
 
+          {currentView === 'online-challenges' && (
+            <OnlineChallengesPortalView
+              onNavigate={handleNavigate}
+            />
+          )}
+
           {currentView === 'ranking' && (
             <RankingView
               onGoToChallenges={() => handleNavigate('challenges')}
@@ -133,6 +176,12 @@ const MainApp: React.FC = () => {
 
       {/* Global Modals & Overlays */}
       <WelcomeModal />
+      <FeatureAnnouncementModal
+        isOpen={announcementModalOpen}
+        onClose={handleCloseAnnouncement}
+        onAction={handleActionAnnouncement}
+        announcement={DUEL_1VS1_ANNOUNCEMENT}
+      />
       <CelebrationModal />
       <SettingsModal
         isOpen={settingsOpen}

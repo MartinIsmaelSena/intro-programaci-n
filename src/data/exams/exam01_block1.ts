@@ -5,11 +5,12 @@ export const exam01: Exam = {
   title: 'Modelo de Examen N.º 1',
   subtitle: 'Fundamentos, Ecosistema Python y Manejo de Variables',
   description: 'Evaluación de los primeros tres módulos del curso. Comprueba tu dominio sobre el pensamiento algorítmico, las características clave de Python y la creación, manipulación y nombrado de variables en memoria.',
-  modules: [1, 2, 3],
+  modules: [1, 2, 3, 4],
   moduleTitles: [
     'Módulo 1: Introducción a la programación',
-    'Módulo 2: ¿Qué es Python?',
-    'Módulo 3: Variables'
+    'Módulo 2: Fundamentos de la programación',
+    'Módulo 3: ¿Qué es Python?',
+    'Módulo 4: Variables'
   ],
   durationMinutes: 40,
   available: false, // 🔒 Próximamente (inicialmente bloqueado)

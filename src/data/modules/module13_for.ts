@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module12: CourseModule = {
-  id: 12,
-  number: 12,
+export const module13: CourseModule = {
+  id: 13,
+  number: 13,
   title: 'El bucle for',
   subtitle: 'Iteraciones definidas con la función range()',
   description: 'Aprende a controlar la repetición exacta con el bucle for y la función range(): conteos, acumulación de sumas, tablas de multiplicar y filtrado de números pares.',
@@ -106,7 +106,7 @@ export const module12: CourseModule = {
   exercises: [
     {
       id: 'm12_ex1',
-      moduleId: 12,
+      moduleId: 13,
       number: 1,
       title: 'Repetir un mensaje 4 veces',
       description: 'Escribe un bucle `for` que imprima exactamente 4 veces el mensaje "Aprender Python es genial".',
@@ -129,7 +129,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex2',
-      moduleId: 12,
+      moduleId: 13,
       number: 2,
       title: 'Mostrar números del 0 al 4',
       description: 'Escribe un bucle `for` con `range(5)` que imprima el valor de `i` en cada vuelta.',
@@ -152,7 +152,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex3',
-      moduleId: 12,
+      moduleId: 13,
       number: 3,
       title: 'Contar del 1 al 5',
       description: 'Usa `range(1, 6)` para imprimir los números del 1 al 5 en líneas sucesivas.',
@@ -175,7 +175,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex4',
-      moduleId: 12,
+      moduleId: 13,
       number: 4,
       title: 'Mostrar números pares con salto (step)',
       description: 'Usa `range(2, 11, 2)` con salto de 2 para imprimir los números pares del 2 al 10: 2, 4, 6, 8, 10.',
@@ -198,7 +198,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex5',
-      moduleId: 12,
+      moduleId: 13,
       number: 5,
       title: 'Suma acumulada del 1 al 5',
       description: 'Crea una variable `total = 0`. Luego haz un bucle `for i in range(1, 6):` que sume `i` a `total` en cada vuelta (`total = total + i`). Al final (fuera del bucle, sin sangría) imprime `total`.',
@@ -222,7 +222,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex6',
-      moduleId: 12,
+      moduleId: 13,
       number: 6,
       title: 'Tabla de multiplicar del 5',
       description: 'Genera la tabla del 5 del 1 al 5. En cada iteración imprime con f-string: `f"5 x {i} = {5 * i}"`.',
@@ -245,7 +245,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex7',
-      moduleId: 12,
+      moduleId: 13,
       number: 7,
       title: 'Cuenta regresiva con paso negativo',
       description: '`range()` también puede retroceder con un paso negativo: `range(5, 0, -1)`. Escribe el bucle e imprime cada número.',
@@ -269,7 +269,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex8',
-      moduleId: 12,
+      moduleId: 13,
       number: 8,
       title: 'Filtrar pares con IF dentro de un FOR',
       description: 'Recorre los números del 1 al 6 con `for i in range(1, 7):`. Adentro, escribe un `if i % 2 == 0:` para imprimir solamente aquellos números que sean pares.',
@@ -293,7 +293,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex9',
-      moduleId: 12,
+      moduleId: 13,
       number: 9,
       title: 'Contador de elementos aprobados',
       description: 'Tenemos las notas: 4, 8, 2, 9, 6. En cada vuelta de un bucle de 5 notas, cuenta cuántas son aprobadas (>= 6) usando una variable `aprobados = 0`. Simula las 5 notas con una lista o con condicionales y al final imprime `aprobados`.',
@@ -317,7 +317,7 @@ export const module12: CourseModule = {
     },
     {
       id: 'm12_ex10',
-      moduleId: 12,
+      moduleId: 13,
       number: 10,
       title: 'Desafío FOR: Cálculo de Factorial',
       description: 'El factorial de 5 (5!) es `5 * 4 * 3 * 2 * 1 = 120`. Inicia con `factorial = 1`. Con un bucle `for i in range(1, 6):` multiplica `factorial = factorial * i`. Al final imprime `factorial`.',

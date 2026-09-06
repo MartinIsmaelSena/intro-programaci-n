@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module13: CourseModule = {
-  id: 13,
-  number: 13,
+export const module14: CourseModule = {
+  id: 14,
+  number: 14,
   title: 'El bucle while',
   subtitle: 'Repetición condicionada y prevención de bucles infinitos',
   description: 'Aprende a ejecutar código mientras una condición permanezca verdadera, controlar variables de corte, actualizar contadores y evitar el riesgo de bucles infinitos.',
@@ -105,7 +105,7 @@ export const module13: CourseModule = {
   exercises: [
     {
       id: 'm13_ex1',
-      moduleId: 13,
+      moduleId: 14,
       number: 1,
       title: 'Contador simple con while',
       description: 'Crea `contador = 1`. Con un bucle `while contador <= 3:`, imprime `contador` e increméntalo con `contador = contador + 1`.',
@@ -129,7 +129,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex2',
-      moduleId: 13,
+      moduleId: 14,
       number: 2,
       title: 'Cuenta regresiva con while',
       description: 'Inicia con `segundos = 5`. Con un `while segundos > 0:`, imprime `segundos` y réstale 1 (`segundos = segundos - 1`).',
@@ -153,7 +153,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex3',
-      moduleId: 13,
+      moduleId: 14,
       number: 3,
       title: 'Uso del operador +=',
       description: 'Crea `x = 2`. Con un `while x <= 10:`, imprime `x` y súmale 2 usando `x += 2`.',
@@ -175,7 +175,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex4',
-      moduleId: 13,
+      moduleId: 14,
       number: 4,
       title: 'Acumulador de ahorros',
       description: 'Crea `ahorro = 0` y `mes = 1`. Con `while mes <= 4:`, suma 500 al ahorro (`ahorro += 500`) y avanza de mes (`mes += 1`). Al final del bucle imprime `ahorro`.',
@@ -200,7 +200,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex5',
-      moduleId: 13,
+      moduleId: 14,
       number: 5,
       title: 'Duplicar hasta superar 100',
       description: 'Crea `numero = 3`. Con un `while numero < 100:`, duplica el número (`numero = numero * 2`). Al final imprime el valor final de `numero`.',
@@ -224,7 +224,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex6',
-      moduleId: 13,
+      moduleId: 14,
       number: 6,
       title: 'Salida de bucle con break',
       description: 'Crea `n = 1`. Con un `while True:` (bucle potencialmente infinito), imprime `n`. Si `n == 3:`, ejecuta `break`. Al final de cada vuelta incrementa `n += 1`.',
@@ -247,7 +247,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex7',
-      moduleId: 13,
+      moduleId: 14,
       number: 7,
       title: 'Simulación de descarga de batería',
       description: 'Un teléfono tiene `bateria = 100`. Con `while bateria > 70:`, imprime con f-string `f"Bateria: {bateria}%"` y descuenta 10 (`bateria -= 10`).',
@@ -271,7 +271,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex8',
-      moduleId: 13,
+      moduleId: 14,
       number: 8,
       title: 'División sucesiva entera',
       description: 'Comenzando con `valor = 80`, divide sucesivamente por 2 (`valor = valor // 2`) mientras `valor > 5`. Al terminar imprime `valor`.',
@@ -294,7 +294,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex9',
-      moduleId: 13,
+      moduleId: 14,
       number: 9,
       title: 'Validación de contraseña con reintentos simulada',
       description: 'Simula un sistema con `intentos = 0` y `clave_correcta = False`. Con `while intentos < 3 and not clave_correcta:`, suma 1 a intentos (`intentos += 1`). Si `intentos == 2`, cambia `clave_correcta = True`. Al final imprime `intentos`.',
@@ -318,7 +318,7 @@ export const module13: CourseModule = {
     },
     {
       id: 'm13_ex10',
-      moduleId: 13,
+      moduleId: 14,
       number: 10,
       title: 'Desafío WHILE: Cálculo de Potencia sin operador **',
       description: 'Calcula 2 elevado a la 5ta potencia (2⁵ = 32) usando un bucle `while` sin usar `**`. Inicia con `base = 2`, `exponente = 5`, `resultado = 1` y `contador = 0`. Multiplica `resultado = resultado * base` e incrementa `contador += 1` mientras `contador < exponente`. Al final imprime `resultado`.',

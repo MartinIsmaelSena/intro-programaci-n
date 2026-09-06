@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module11: CourseModule = {
-  id: 11,
-  number: 11,
+export const module12: CourseModule = {
+  id: 12,
+  number: 12,
   title: 'Introducción a los Loops (Bucles)',
   subtitle: 'El poder de la repetición y la automatización',
   description: 'Comprende el concepto fundamental de bucle: por qué no tiene sentido escribir la misma línea 100 veces a mano y cómo las computadoras automatizan tareas repetitivas en milisegundos.',
@@ -174,7 +174,7 @@ export const module11: CourseModule = {
   exercises: [
     {
       id: 'm11_ex1',
-      moduleId: 11,
+      moduleId: 12,
       number: 1,
       title: 'Comparación: Repetición manual',
       description: 'Muestra tres veces la palabra "Repetición" escribiendo tres líneas con `print("Repetición")` consecutivas.',
@@ -196,7 +196,7 @@ export const module11: CourseModule = {
     },
     {
       id: 'm11_ex2',
-      moduleId: 11,
+      moduleId: 12,
       number: 2,
       title: 'Tu primer bucle de prueba',
       description: 'Escribe tu primer bucle `for` de dos líneas para imprimir "Python es poderoso" 3 veces:\n`for i in range(3):`\n`    print("Python es poderoso")`',

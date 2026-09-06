@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module14: CourseModule = {
-  id: 14,
-  number: 14,
+export const module15: CourseModule = {
+  id: 15,
+  number: 15,
   title: 'Integración y resolución de problemas',
   subtitle: 'Combinando todas las herramientas para construir programas reales y completos',
   description: 'Aplica todo lo aprendido: variables, tipos, operadores, print, input, condicionales y bucles en 5 proyectos emblemáticos y desafíos del mundo real.',
@@ -101,7 +101,7 @@ export const module14: CourseModule = {
   exercises: [
     {
       id: 'm14_ex1',
-      moduleId: 14,
+      moduleId: 15,
       number: 1,
       title: 'Proyecto 1: Calculador de Promedio Escolar con Estado',
       description: 'Pide tres notas con `n1 = float(input("Nota 1: "))`, `n2 = float(input("Nota 2: "))`, `n3 = float(input("Nota 3: "))`. Calcula `promedio = (n1 + n2 + n3) / 3`. Muestra el promedio con f-string `f"Promedio: {promedio}"`. Si `promedio >= 7`, imprime "Aprobado", si no, imprime "Reprobado".',
@@ -133,7 +133,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex2',
-      moduleId: 14,
+      moduleId: 15,
       number: 2,
       title: 'Proyecto 2: Sistema de Control de Acceso',
       description: 'Pide el usuario con `usuario = input("Usuario: ")` y la edad con `edad = int(input("Edad: "))`. Si `usuario == "admin"` y `edad >= 18`, imprime "Acceso total concedido". Si no, imprime "Acceso denegado".',
@@ -165,7 +165,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex3',
-      moduleId: 14,
+      moduleId: 15,
       number: 3,
       title: 'Proyecto 3: Generador de Tablas de Multiplicar a Pedido',
       description: 'Pide al usuario un número con `numero = int(input("Tabla del: "))`. Con un bucle `for i in range(1, 11):`, imprime cada línea con f-string: `f"{numero} x {i} = {numero * i}"`.',
@@ -190,7 +190,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex4',
-      moduleId: 14,
+      moduleId: 15,
       number: 4,
       title: 'Proyecto 4: Calculadora Básica Multifunción',
       description: 'Pide dos números `a = float(input("Primer número: "))` y `b = float(input("Segundo número: "))`, y luego pide la operación con `op = input("Operación (+, -, *, /): ")`. Si `op == "+"`, imprime `a + b`. Si `op == "-"`, imprime `a - b`. Si `op == "*"`, imprime `a * b`. Si `op == "/"`, imprime `a / b`.',
@@ -221,7 +221,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex5',
-      moduleId: 14,
+      moduleId: 15,
       number: 5,
       title: 'Proyecto 5: Juego de Adivinanza de Número',
       description: 'Tenemos `secreto = 50`. Pide un número al usuario con `int(input("Adivina el número: "))`. Si es igual al secreto, imprime "¡Acertaste!". Si es mayor que el secreto, imprime "Demasiado alto". Si es menor, imprime "Demasiado bajo".',
@@ -253,7 +253,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex6',
-      moduleId: 14,
+      moduleId: 15,
       number: 6,
       title: 'Carrito de compras con acumulador for',
       description: 'Un cliente compra 3 productos cuyos precios ingresa por teclado. Crea `total = 0`. Con un `for i in range(3):`, pide `precio = float(input("Precio producto: "))` y acumúlalo en `total`. Al terminar el bucle, muestra con f-string: `f"Total a pagar: ${total}"`.',
@@ -279,7 +279,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex7',
-      moduleId: 14,
+      moduleId: 15,
       number: 7,
       title: 'Cajero automático: Límite de saldo con while',
       description: 'Un cliente tiene `saldo = 5000`. Con un bucle `while saldo >= 1000:`, descuenta 1000 de saldo (`saldo -= 1000`) e imprime con f-string `f"Retiro exitoso. Saldo restante: ${saldo}"`.',
@@ -303,7 +303,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex8',
-      moduleId: 14,
+      moduleId: 15,
       number: 8,
       title: 'Contador de vocales "a" en un texto',
       description: 'Pide una palabra con `palabra = input("Ingresa una palabra: ")`. Crea `cuenta = 0`. Con un `for letra in palabra:`, si `letra == "a" or letra == "A"`, suma 1 a cuenta (`cuenta += 1`). Al final imprime `cuenta`.',
@@ -328,7 +328,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex9',
-      moduleId: 14,
+      moduleId: 15,
       number: 9,
       title: 'Validador de longitud de contraseña',
       description: 'Pide una clave con `clave = input("Nueva contraseña: ")`. La función `len(clave)` cuenta cuántas letras tiene. Si `len(clave) >= 8`, imprime "Contraseña segura", si no, imprime "Contraseña muy corta".',
@@ -359,7 +359,7 @@ export const module14: CourseModule = {
     },
     {
       id: 'm14_ex10',
-      moduleId: 14,
+      moduleId: 15,
       number: 10,
       title: 'Gran Proyecto Final: Simulador de Tienda con Descuento Especial',
       description: 'Pide el nombre del cliente con `nombre = input("Cliente: ")`, el total de la compra con `total = float(input("Monto: "))` y si tiene cupón con `tiene_cupon = input("¿Cupón? (si/no): ")`. Si `total > 10000` y `tiene_cupon == "si"`, aplica un 20% de descuento (`descuento = total * 0.20`), si no, el descuento es 0. Calcula `final = total - descuento`. Imprime con f-string: `f"Cliente: {nombre} | Total final: ${final}"`.',

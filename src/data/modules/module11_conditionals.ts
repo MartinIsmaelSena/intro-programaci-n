@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module10: CourseModule = {
-  id: 10,
-  number: 10,
+export const module11: CourseModule = {
+  id: 11,
+  number: 11,
   title: 'Introducción a los condicionales',
   subtitle: 'Toma de decisiones en código: if, elif y else',
   description: 'Aprende a dotar a tus programas de inteligencia y capacidad de decisión para que elijan caminos diferentes según se cumplan o no determinadas condiciones.',
@@ -120,7 +120,7 @@ export const module10: CourseModule = {
   exercises: [
     {
       id: 'm10_ex1',
-      moduleId: 10,
+      moduleId: 11,
       number: 1,
       title: 'Condicional simple: Mayoría de edad',
       description: 'Crea `edad = 20`. Escribe un condicional: si `edad >= 18`, imprime "Acceso permitido".',
@@ -144,7 +144,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex2',
-      moduleId: 10,
+      moduleId: 11,
       number: 2,
       title: 'Decisión doble con if / else',
       description: 'Crea `llueve = True`. Si `llueve` es True, imprime "Llevar paraguas", si no (else), imprime "Dia despejado".',
@@ -168,7 +168,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex3',
-      moduleId: 10,
+      moduleId: 11,
       number: 3,
       title: 'Número positivo o negativo',
       description: 'Crea `numero = -5`. Si `numero >= 0`, imprime "Positivo", de lo contrario imprime "Negativo".',
@@ -192,7 +192,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex4',
-      moduleId: 10,
+      moduleId: 11,
       number: 4,
       title: 'Semáforo vial con elif',
       description: 'Crea `luz = "amarillo"`. Si `luz == "verde"`, imprime "Avanzar". Si `luz == "amarillo"`, imprime "Precaución". Si no (else), imprime "Detenerse".',
@@ -216,7 +216,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex5',
-      moduleId: 10,
+      moduleId: 11,
       number: 5,
       title: 'Determinar si un número es Par o Impar',
       description: 'Crea `n = 8`. Si `n % 2 == 0`, imprime "Par", de lo contrario imprime "Impar".',
@@ -239,7 +239,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex6',
-      moduleId: 10,
+      moduleId: 11,
       number: 6,
       title: 'Calificación con 3 escalas de notas',
       description: 'Crea `nota = 7`. Si `nota >= 8`, imprime "Distinguido". Si `nota >= 6`, imprime "Aprobado". Si no, imprime "Reprobado".',
@@ -263,7 +263,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex7',
-      moduleId: 10,
+      moduleId: 11,
       number: 7,
       title: 'Condiciones compuestas con AND dentro de IF',
       description: 'Un postulante necesita `edad = 22` y `experiencia = 2` (en años). Si `edad >= 18 and experiencia >= 1`, imprime "Candidato calificado", si no, "No cumple requisitos".',
@@ -286,7 +286,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex8',
-      moduleId: 10,
+      moduleId: 11,
       number: 8,
       title: 'Descuento especial de tienda con OR',
       description: 'Una compra tiene descuento si el cliente es "socio" o si compró más de 10 productos: `es_socio = False`, `productos = 12`. Si `es_socio or productos > 10`, imprime "Tiene 15% de descuento", si no, imprime "Precio regular".',
@@ -309,7 +309,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex9',
-      moduleId: 10,
+      moduleId: 11,
       number: 9,
       title: 'Sistema de Login interactivo con input()',
       description: 'Pide al usuario la contraseña con `clave = input("Contraseña: ")`. Si `clave == "secreto123"`, imprime "Bienvenido al panel", si no, imprime "Contraseña incorrecta".',
@@ -341,7 +341,7 @@ export const module10: CourseModule = {
     },
     {
       id: 'm10_ex10',
-      moduleId: 10,
+      moduleId: 11,
       number: 10,
       title: 'Desafío de Condicionales: Clasificador de edades',
       description: 'Pide la edad con `edad = int(input("Edad: "))`. Si `edad < 13`, imprime "Niño". Si `edad < 18`, imprime "Adolescente". Si `edad < 65`, imprime "Adulto". De lo contrario (else), imprime "Adulto mayor".',

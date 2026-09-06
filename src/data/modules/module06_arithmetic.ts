@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module05: CourseModule = {
-  id: 5,
-  number: 5,
+export const module06: CourseModule = {
+  id: 6,
+  number: 6,
   title: 'Operadores aritméticos',
   subtitle: 'Cálculos matemáticos, división entera, resto (%) y potencias',
   description: 'Aprende a realizar operaciones matemáticas esenciales en Python: suma, resta, multiplicación, división flotante y entera, módulo/resto (%) y potenciación con aplicaciones reales.',
@@ -106,7 +106,7 @@ export const module05: CourseModule = {
   exercises: [
     {
       id: 'm5_ex1',
-      moduleId: 5,
+      moduleId: 6,
       number: 1,
       title: 'Suma de dos números',
       description: 'Crea dos variables: `num1 = 25` y `num2 = 15`. Crea una variable `suma` con su adición (`num1 + num2`) e imprímela.',
@@ -130,7 +130,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex2',
-      moduleId: 5,
+      moduleId: 6,
       number: 2,
       title: 'Calcular el precio total de una compra',
       description: 'Un cliente compra 4 botellas de agua. Cada botella cuesta 350 pesos. Crea `precio = 350`, `cantidad = 4`, calcula `total = precio * cantidad` e imprime `total`.',
@@ -154,7 +154,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex3',
-      moduleId: 5,
+      moduleId: 6,
       number: 3,
       title: 'Promedio de tres calificaciones',
       description: 'Un estudiante obtuvo las notas: `nota1 = 8`, `nota2 = 9` y `nota3 = 7`. Calcula el promedio sumándolas y dividiéndolas entre 3: `promedio = (nota1 + nota2 + nota3) / 3`. Imprime `promedio`.',
@@ -178,7 +178,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex4',
-      moduleId: 5,
+      moduleId: 6,
       number: 4,
       title: 'Calcular un descuento',
       description: 'Una remera cuesta `precio_original = 8000`. Tiene un descuento de `descuento = 1500`. Calcula `precio_final = precio_original - descuento` e imprímelo.',
@@ -202,7 +202,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex5',
-      moduleId: 5,
+      moduleId: 6,
       number: 5,
       title: 'Área de un rectángulo',
       description: 'Calcula el área de un terreno rectangular con `base = 15` y `altura = 8`. El área se obtiene multiplicando `base * altura`. Guarda el resultado en `area` e imprímelo.',
@@ -226,7 +226,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex6',
-      moduleId: 5,
+      moduleId: 6,
       number: 6,
       title: 'Perímetro de un rectángulo',
       description: 'Con `base = 10` y `altura = 5`, el perímetro es la suma de los 4 lados: `perimetro = 2 * (base + altura)`. Calcula e imprime `perimetro`.',
@@ -250,7 +250,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex7',
-      moduleId: 5,
+      moduleId: 6,
       number: 7,
       title: 'Reparto en partes iguales y resto (%)',
       description: 'Tenemos `alfajores = 23` y `amigos = 4`. Calcula cuántos sobran usando el operador de módulo (`sobrantes = alfajores % amigos`) e imprime `sobrantes`.',
@@ -274,7 +274,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex8',
-      moduleId: 5,
+      moduleId: 6,
       number: 8,
       title: 'Horas y minutos con división entera y resto',
       description: 'Tenemos `minutos_totales = 135`. Calcula cuántas horas completas son con `horas = minutos_totales // 60` y cuántos minutos sobran con `minutos_restantes = minutos_totales % 60`. Imprime `horas` y en la siguiente línea `minutos_restantes`.',
@@ -298,7 +298,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex9',
-      moduleId: 5,
+      moduleId: 6,
       number: 9,
       title: 'Potencia matemática',
       description: 'Calcula cuánto es 2 elevado a la 8va potencia (2⁸) usando el operador de potencia `**`. Guarda el resultado en `resultado` e imprímelo.',
@@ -322,7 +322,7 @@ export const module05: CourseModule = {
     },
     {
       id: 'm5_ex10',
-      moduleId: 5,
+      moduleId: 6,
       number: 10,
       title: 'Desafío Aritmético: Cuenta compartida con propina',
       description: 'Tres amigos cenan en una pizzería: la cuenta es `total_comida = 12000`. Quieren dejar una propina del 10% (`propina = total_comida * 0.10`). El gran total es `total_pagar = total_comida + propina`, y se divide entre 3 amigos: `pago_individual = total_pagar / 3`. Calcula e imprime `pago_individual`.',

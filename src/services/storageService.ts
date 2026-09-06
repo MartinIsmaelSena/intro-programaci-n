@@ -46,6 +46,18 @@ export function loadUserProgress(): UserProgress {
     const currentXp = parsed.xp || 0;
     const currentLevelObj = calculateLevel(currentXp);
 
+    // Migración transparente de progreso de 14 a 15 módulos (inserción de Módulo 2)
+    if (!parsed.schemaVersion || parsed.schemaVersion < 2) {
+      if (Array.isArray(parsed.completedModules) && parsed.completedModules.length > 0) {
+        parsed.completedModules = Array.from(
+          new Set(
+            parsed.completedModules.map((m: number) => (m >= 2 ? m + 1 : m))
+          )
+        );
+      }
+      parsed.schemaVersion = 2;
+    }
+
     const merged: UserProgress = {
       ...DEFAULT_PROGRESS,
       ...parsed,
@@ -79,68 +91,73 @@ export function evaluateBadgesToUnlock(progress: UserProgress): string[] {
     newlyUnlocked.push('first_contact');
   }
 
-  // 2. python_explorer: completed module 2
-  if (progress.completedModules.includes(2) && !currentlyUnlocked.has('python_explorer')) {
+  // 2. logic_foundations: completed module 2
+  if (progress.completedModules.includes(2) && !currentlyUnlocked.has('logic_foundations')) {
+    newlyUnlocked.push('logic_foundations');
+  }
+
+  // 3. python_explorer: completed module 3
+  if (progress.completedModules.includes(3) && !currentlyUnlocked.has('python_explorer')) {
     newlyUnlocked.push('python_explorer');
   }
 
-  // 3. variable_collector: completed module 3
-  if (progress.completedModules.includes(3) && !currentlyUnlocked.has('variable_collector')) {
+  // 4. variable_collector: completed module 4
+  if (progress.completedModules.includes(4) && !currentlyUnlocked.has('variable_collector')) {
     newlyUnlocked.push('variable_collector');
   }
 
-  // 4. type_master: completed module 4
-  if (progress.completedModules.includes(4) && !currentlyUnlocked.has('type_master')) {
+  // 5. type_master: completed module 5
+  if (progress.completedModules.includes(5) && !currentlyUnlocked.has('type_master')) {
     newlyUnlocked.push('type_master');
   }
 
-  // 5. math_wizard: completed module 5
-  if (progress.completedModules.includes(5) && !currentlyUnlocked.has('math_wizard')) {
+  // 6. math_wizard: completed module 6
+  if (progress.completedModules.includes(6) && !currentlyUnlocked.has('math_wizard')) {
     newlyUnlocked.push('math_wizard');
   }
 
-  // 6. logical_thinker: completed modules 6 and 7
-  if (progress.completedModules.includes(6) && progress.completedModules.includes(7) && !currentlyUnlocked.has('logical_thinker')) {
+  // 7. logical_thinker: completed modules 7 and 8
+  if (progress.completedModules.includes(7) && progress.completedModules.includes(8) && !currentlyUnlocked.has('logical_thinker')) {
     newlyUnlocked.push('logical_thinker');
   }
 
-  // 7. print_master: completed module 8
-  if (progress.completedModules.includes(8) && !currentlyUnlocked.has('print_master')) {
+  // 8. print_master: completed module 9
+  if (progress.completedModules.includes(9) && !currentlyUnlocked.has('print_master')) {
     newlyUnlocked.push('print_master');
   }
 
-  // 8. data_input: completed module 9
-  if (progress.completedModules.includes(9) && !currentlyUnlocked.has('data_input')) {
+  // 9. data_input: completed module 10
+  if (progress.completedModules.includes(10) && !currentlyUnlocked.has('data_input')) {
     newlyUnlocked.push('data_input');
   }
 
-  // 9. decision_maker: completed module 10
-  if (progress.completedModules.includes(10) && !currentlyUnlocked.has('decision_maker')) {
+  // 10. decision_maker: completed module 11
+  if (progress.completedModules.includes(11) && !currentlyUnlocked.has('decision_maker')) {
     newlyUnlocked.push('decision_maker');
   }
 
-  // 10. loop_repeater: completed module 11
-  if (progress.completedModules.includes(11) && !currentlyUnlocked.has('loop_repeater')) {
+  // 11. loop_repeater: completed module 12
+  if (progress.completedModules.includes(12) && !currentlyUnlocked.has('loop_repeater')) {
     newlyUnlocked.push('loop_repeater');
   }
 
-  // 11. loop_tamer: completed modules 12 and 13
-  if (progress.completedModules.includes(12) && progress.completedModules.includes(13) && !currentlyUnlocked.has('loop_tamer')) {
+  // 12. loop_tamer: completed modules 13 and 14
+  if (progress.completedModules.includes(13) && progress.completedModules.includes(14) && !currentlyUnlocked.has('loop_tamer')) {
     newlyUnlocked.push('loop_tamer');
   }
 
-  // 12. problem_solver: completed module 14
-  if (progress.completedModules.includes(14) && !currentlyUnlocked.has('problem_solver')) {
+  // 13. problem_solver: completed module 15
+  if (progress.completedModules.includes(15) && !currentlyUnlocked.has('problem_solver')) {
     newlyUnlocked.push('problem_solver');
   }
 
-  // 13. challenge_seeker: 2+ challenges completed
+  // 14. challenge_seeker: 2+ challenges completed
   if (progress.completedChallenges.length >= 2 && !currentlyUnlocked.has('challenge_seeker')) {
     newlyUnlocked.push('challenge_seeker');
   }
 
-  // 14. full_pythonista: 14 modules completed
-  if (progress.completedModules.length >= 14 && !currentlyUnlocked.has('full_pythonista')) {
+  // 15. full_pythonista: 15 modules completed
+  if (progress.completedModules.length >= 15 && !currentlyUnlocked.has('full_pythonista')) {
     newlyUnlocked.push('full_pythonista');
   }
 

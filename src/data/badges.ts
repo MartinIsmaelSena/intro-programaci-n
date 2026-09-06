@@ -11,12 +11,21 @@ export const ALL_BADGES: Badge[] = [
     xpBonus: 100
   },
   {
+    id: 'logic_foundations',
+    title: 'Arquitecto lógico',
+    description: 'Comprendiste qué es un algoritmo, la descomposición y el modelo Entrada-Proceso-Salida.',
+    icon: '🧠',
+    category: 'module',
+    requirementText: 'Completa el Módulo 2 de Fundamentos de la Programación.',
+    xpBonus: 100
+  },
+  {
     id: 'python_explorer',
     title: 'Conocedor de Python',
     description: 'Descubriste qué hace a Python un lenguaje único en la industria.',
     icon: '🌍',
     category: 'module',
-    requirementText: 'Completa el Módulo 2 sobre qué es Python y sus aplicaciones.',
+    requirementText: 'Completa el Módulo 3 sobre qué es Python y sus aplicaciones.',
     xpBonus: 100
   },
   {
@@ -25,7 +34,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Dominaste el almacenamiento y etiquetado de valores en memoria.',
     icon: '📦',
     category: 'module',
-    requirementText: 'Completa todos los ejercicios del Módulo 3 de Variables.',
+    requirementText: 'Completa todos los ejercicios del Módulo 4 de Variables.',
     xpBonus: 150
   },
   {
@@ -34,7 +43,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Sabes diferenciar a la perfección entre textos, enteros, flotantes y booleanos.',
     icon: '🏷️',
     category: 'module',
-    requirementText: 'Completa el Módulo 4 de Tipos de Datos.',
+    requirementText: 'Completa el Módulo 5 de Tipos de Datos.',
     xpBonus: 150
   },
   {
@@ -43,7 +52,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Transformas operaciones matemáticas cotidianas en código eficiente.',
     icon: '➕',
     category: 'module',
-    requirementText: 'Completa el Módulo 5 de Operadores Aritméticos.',
+    requirementText: 'Completa el Módulo 6 de Operadores Aritméticos.',
     xpBonus: 150
   },
   {
@@ -52,7 +61,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Dominaste las comparaciones y los operadores booleanos and, or y not.',
     icon: '💡',
     category: 'skill',
-    requirementText: 'Completa los Módulos 6 y 7 de Operadores de Comparación y Lógicos.',
+    requirementText: 'Completa los Módulos 7 y 8 de Operadores de Comparación y Lógicos.',
     xpBonus: 200
   },
   {
@@ -61,7 +70,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Tus programas se comunican con claridad a través de la consola.',
     icon: '🖨️',
     category: 'module',
-    requirementText: 'Completa todos los ejercicios del Módulo 8 de print().',
+    requirementText: 'Completa todos los ejercicios del Módulo 9 de print().',
     xpBonus: 150
   },
   {
@@ -70,16 +79,16 @@ export const ALL_BADGES: Badge[] = [
     description: 'Hiciste que tus programas cobren vida interactuando con el usuario.',
     icon: '🎤',
     category: 'module',
-    requirementText: 'Completa el Módulo 9 de la función input().',
+    requirementText: 'Completa el Módulo 10 de la función input().',
     xpBonus: 150
   },
   {
     id: 'decision_maker',
     title: 'Tomador de decisiones',
     description: 'Tus programas eligen el camino correcto con condicionales if, elif y else.',
-    icon: '🧠',
+    icon: '🔀',
     category: 'module',
-    requirementText: 'Completa el Módulo 10 de Condicionales.',
+    requirementText: 'Completa el Módulo 11 de Condicionales.',
     xpBonus: 200
   },
   {
@@ -88,7 +97,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Comprendiste el poder de la automatización y las iteraciones.',
     icon: '🔁',
     category: 'module',
-    requirementText: 'Completa el Módulo 11 de Introducción a Loops.',
+    requirementText: 'Completa el Módulo 12 de Introducción a Loops.',
     xpBonus: 150
   },
   {
@@ -97,7 +106,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Manejás bucles for y while con total precisión sin ciclos infinitos.',
     icon: '🔥',
     category: 'skill',
-    requirementText: 'Completa los Módulos 12 y 13 (for y while).',
+    requirementText: 'Completa los Módulos 13 y 14 (for y while).',
     xpBonus: 250
   },
   {
@@ -106,7 +115,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Integraste todos los conceptos en programas completos y funcionales.',
     icon: '🚀',
     category: 'module',
-    requirementText: 'Completa el Módulo 14 de Integración y Proyectos.',
+    requirementText: 'Completa el Módulo 15 de Integración y Proyectos.',
     xpBonus: 300
   },
   {
@@ -124,7 +133,7 @@ export const ALL_BADGES: Badge[] = [
     description: 'Completaste con éxito todo el curso de Python desde Cero.',
     icon: '👑',
     category: 'mastery',
-    requirementText: 'Completa los 14 módulos del curso.',
+    requirementText: 'Completa los 15 módulos del curso.',
     xpBonus: 500
   },
   {
@@ -162,6 +171,33 @@ export const ALL_BADGES: Badge[] = [
     category: 'mastery',
     requirementText: 'Supera 5 desafíos de programación con éxito.',
     xpBonus: 400
+  },
+  {
+    id: 'online_streak_3',
+    title: '🏆 Racha de 3',
+    description: 'Conseguiste 3 victorias consecutivas en Desafíos en Línea.',
+    icon: '🏆',
+    category: 'achievement',
+    requirementText: 'Alcanza 3 victorias consecutivas en Desafíos en Línea.',
+    xpBonus: 200
+  },
+  {
+    id: 'online_streak_5',
+    title: '🔥 Imparable',
+    description: 'Conseguiste 5 victorias consecutivas en Desafíos en Línea.',
+    icon: '🔥',
+    category: 'achievement',
+    requirementText: 'Alcanza 5 victorias consecutivas en Desafíos en Línea.',
+    xpBonus: 350
+  },
+  {
+    id: 'online_streak_10',
+    title: '👑 Maestro del desafío',
+    description: 'Conseguiste 10 victorias consecutivas en Desafíos en Línea.',
+    icon: '👑',
+    category: 'mastery',
+    requirementText: 'Alcanza 10 victorias consecutivas en Desafíos en Línea.',
+    xpBonus: 500
   }
 ];
 

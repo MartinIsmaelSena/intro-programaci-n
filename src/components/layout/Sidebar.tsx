@@ -12,10 +12,11 @@ import {
   Settings,
   Rocket,
   Trophy,
+  Swords,
   X
 } from 'lucide-react';
 
-export type ViewType = 'dashboard' | 'roadmap' | 'courses' | 'module' | 'exams' | 'challenges' | 'ranking' | 'badges' | 'progress' | 'review' | 'resources' | 'settings';
+export type ViewType = 'dashboard' | 'roadmap' | 'courses' | 'module' | 'exams' | 'challenges' | 'online-challenges' | 'ranking' | 'badges' | 'progress' | 'review' | 'resources' | 'settings';
 
 interface SidebarProps {
   currentView: ViewType;
@@ -38,6 +39,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'courses' as ViewType, label: 'Curso', icon: BookOpen, badge: '14 Módulos' },
     { id: 'exams' as ViewType, label: 'Exámenes', icon: FileText, badge: '5 Bloques' },
     { id: 'challenges' as ViewType, label: 'Desafíos', icon: Rocket, badge: 'Nuevo' },
+    { id: 'online-challenges' as ViewType, label: 'Desafíos en línea', icon: Swords, badge: '⚔️ 1v1' },
     { id: 'ranking' as ViewType, label: 'Alumnos del mes', icon: Trophy, badge: 'Top 5' },
     { id: 'badges' as ViewType, label: 'Mis insignias', icon: Award, badge: `${progress.unlockedBadges.length}` },
     { id: 'progress' as ViewType, label: 'Mi progreso', icon: BarChart3, badge: null },

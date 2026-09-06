@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module02: CourseModule = {
-  id: 2,
-  number: 2,
+export const module03: CourseModule = {
+  id: 3,
+  number: 3,
   title: '¿Qué es Python?',
   subtitle: 'Historia, filosofía, características y aplicaciones en el mundo real',
   description: 'Descubre por qué Python es el lenguaje más popular del mundo, cómo funciona un lenguaje interpretado y en qué industrias gigantescas se utiliza todos los días.',
@@ -176,7 +176,7 @@ export const module02: CourseModule = {
   exercises: [
     {
       id: 'm2_ex1',
-      moduleId: 2,
+      moduleId: 3,
       number: 1,
       title: 'El saludo del Pythonista',
       description: 'Escribe un programa en Python que muestre por pantalla la frase exacta: "Soy un futuro Pythonista"',
@@ -200,7 +200,7 @@ export const module02: CourseModule = {
     },
     {
       id: 'm2_ex2',
-      moduleId: 2,
+      moduleId: 3,
       number: 2,
       title: 'Python en acción matemática',
       description: 'Python también funciona como una calculadora superpotente. Escribe una instrucción print que calcule y muestre la multiplicación de 12 por 8 usando el asterisco `*`.',

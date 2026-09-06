@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module06: CourseModule = {
-  id: 6,
-  number: 6,
+export const module07: CourseModule = {
+  id: 7,
+  number: 7,
   title: 'Operadores de comparación',
   subtitle: 'Comparar valores para obtener respuestas de Verdadero o Falso (True/False)',
   description: 'Descubre los 6 operadores de comparación (==, !=, >, <, >=, <=) y cómo la computadora evalúa preguntas lógicas generando resultados booleanos.',
@@ -106,7 +106,7 @@ export const module06: CourseModule = {
   exercises: [
     {
       id: 'm6_ex1',
-      moduleId: 6,
+      moduleId: 7,
       number: 1,
       title: 'Verificar igualdad numérica',
       description: 'Crea `a = 15` y `b = 15`. Imprime la comparación `a == b`.',
@@ -130,7 +130,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex2',
-      moduleId: 6,
+      moduleId: 7,
       number: 2,
       title: 'Verificar diferencia (!=)',
       description: 'Crea `color_semaforo = "rojo"`. Comprueba si es distinto de "verde" imprimiendo `color_semaforo != "verde"`.',
@@ -154,7 +154,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex3',
-      moduleId: 6,
+      moduleId: 7,
       number: 3,
       title: 'Mayoría de edad (>=)',
       description: 'Crea una variable `edad = 17`. Imprime si `edad >= 18`.',
@@ -178,7 +178,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex4',
-      moduleId: 6,
+      moduleId: 7,
       number: 4,
       title: 'Comprobar si alcanza el dinero',
       description: 'Tenemos `billetera = 5000` y el `costo_entrada = 4200`. Imprime si `billetera >= costo_entrada`.',
@@ -202,7 +202,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex5',
-      moduleId: 6,
+      moduleId: 7,
       number: 5,
       title: 'Temperatura bajo cero (<)',
       description: 'Un termómetro marca `temp = -3.5`. Imprime si la temperatura es menor a cero (`temp < 0`).',
@@ -226,7 +226,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex6',
-      moduleId: 6,
+      moduleId: 7,
       number: 6,
       title: 'Límite de velocidad superado',
       description: 'Un auto circula a `velocidad = 135` en una autopista con límite de `limite = 130`. Guarda en una variable `exceso = velocidad > limite` e imprime `exceso`.',
@@ -250,7 +250,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex7',
-      moduleId: 6,
+      moduleId: 7,
       number: 7,
       title: 'Comparación de cadenas de texto',
       description: 'Compara si `password_guardado = "secreto"` coincide con `password_intento = "secreto"`. Imprime el resultado de compararlas con `==`.',
@@ -273,7 +273,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex8',
-      moduleId: 6,
+      moduleId: 7,
       number: 8,
       title: 'Stock disponible mayor que cero',
       description: 'Una tienda online tiene `stock = 0`. Crea una variable booleana `hay_stock = stock > 0` e imprime `hay_stock`.',
@@ -297,7 +297,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex9',
-      moduleId: 6,
+      moduleId: 7,
       number: 9,
       title: 'Aprobación escolar (nota >= 6)',
       description: 'Un alumno se sacó `nota = 6`. Comprueba si aprobó imprimiendo `nota >= 6`. Luego cambia la variable a `nota = 5` y vuelve a imprimir `nota >= 6`.',
@@ -321,7 +321,7 @@ export const module06: CourseModule = {
     },
     {
       id: 'm6_ex10',
-      moduleId: 6,
+      moduleId: 7,
       number: 10,
       title: 'Desafío de Comparaciones: Capacidad de una sala de cine',
       description: 'Una sala de cine tiene `capacidad_maxima = 150` y se han vendido `entradas_vendidas = 150`. Crea una variable `sala_llena = entradas_vendidas >= capacidad_maxima` e imprime `sala_llena`.',

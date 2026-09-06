@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module07: CourseModule = {
-  id: 7,
-  number: 7,
+export const module08: CourseModule = {
+  id: 8,
+  number: 8,
   title: 'Operadores lógicos',
   subtitle: 'Conectar múltiples condiciones usando and, or y not',
   description: 'Aprende a combinar varias condiciones lógicas a la vez: cómo funciona la conjunción (and), la disyunción (or) y la negación (not) con analogías cotidianas.',
@@ -100,7 +100,7 @@ export const module07: CourseModule = {
   exercises: [
     {
       id: 'm7_ex1',
-      moduleId: 7,
+      moduleId: 8,
       number: 1,
       title: 'Acceso al evento con AND',
       description: 'Crea `tiene_entrada = True` y `tiene_documento = True`. Imprime el resultado de `tiene_entrada and tiene_documento`.',
@@ -124,7 +124,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex2',
-      moduleId: 7,
+      moduleId: 8,
       number: 2,
       title: 'Falta un requisito con AND',
       description: 'Crea `tiene_entrada = True` pero `tiene_documento = False`. Imprime `tiene_entrada and tiene_documento`.',
@@ -148,7 +148,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex3',
-      moduleId: 7,
+      moduleId: 8,
       number: 3,
       title: 'Descuento con OR (Tarjeta o Efectivo)',
       description: 'Una tienda da descuento si pagas con efectivo o si eres socio del club: `paga_efectivo = False`, `es_socio = True`. Imprime `paga_efectivo or es_socio`.',
@@ -172,7 +172,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex4',
-      moduleId: 7,
+      moduleId: 8,
       number: 4,
       title: 'Inversión con NOT',
       description: 'Crea `llueve = False`. Imprime `not llueve` para saber si el día está despejado.',
@@ -195,7 +195,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex5',
-      moduleId: 7,
+      moduleId: 8,
       number: 5,
       title: 'Rango numérico: Entre 10 y 20',
       description: 'Tenemos un número: `numero = 15`. Comprueba si está dentro del rango de 10 a 20 comprobando si es mayor o igual a 10 Y menor o igual a 20: `en_rango = numero >= 10 and numero <= 20`. Imprime `en_rango`.',
@@ -219,7 +219,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex6',
-      moduleId: 7,
+      moduleId: 8,
       number: 6,
       title: 'Número fuera de rango',
       description: 'Con `numero = 25`, evalúa la misma condición: `en_rango = numero >= 10 and numero <= 20` e imprime `en_rango`. Comprobarás que da `False`.',
@@ -243,7 +243,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex7',
-      moduleId: 7,
+      moduleId: 8,
       number: 7,
       title: 'Día de descanso (Fin de semana)',
       description: 'Crea una variable `dia = "sábado"`. Comprueba si es día de descanso evaluando: `es_descanso = dia == "sábado" or dia == "domingo"`. Imprime `es_descanso`.',
@@ -266,7 +266,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex8',
-      moduleId: 7,
+      moduleId: 8,
       number: 8,
       title: 'Aprobación de beca estudiantil',
       description: 'Para obtener una beca se requiere: `promedio >= 8.5` AND `asistencia >= 90`. Con `promedio = 9.0` y `asistencia = 95`, guarda el resultado en `obtiene_beca` e imprímelo.',
@@ -290,7 +290,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex9',
-      moduleId: 7,
+      moduleId: 8,
       number: 9,
       title: 'Combinando NOT con AND',
       description: 'Un usuario puede publicar un comentario si está registrado y NO está bloqueado: `esta_registrado = True`, `esta_bloqueado = False`. Crea `puede_comentar = esta_registrado and not esta_bloqueado` e imprime `puede_comentar`.',
@@ -314,7 +314,7 @@ export const module07: CourseModule = {
     },
     {
       id: 'm7_ex10',
-      moduleId: 7,
+      moduleId: 8,
       number: 10,
       title: 'Desafío Lógico: Sistema de alarma doméstica',
       description: 'Una alarma suena si: (hay movimiento O una puerta fue abierta) Y el sistema está armado: `hay_movimiento = True`, `puerta_abierta = False`, `sistema_armado = True`. Crea `suena_alarma = (hay_movimiento or puerta_abierta) and sistema_armado` e imprime `suena_alarma`.',

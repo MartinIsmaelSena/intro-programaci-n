@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module09: CourseModule = {
-  id: 9,
-  number: 9,
+export const module10: CourseModule = {
+  id: 10,
+  number: 10,
   title: 'La función input()',
   subtitle: 'Pedir información al usuario y convertir datos con int() y float()',
   description: 'Aprende a crear programas interactivos que escuchen al usuario, soliciten respuestas por teclado y conviertan textos a números para operar matemáticamente.',
@@ -111,7 +111,7 @@ export const module09: CourseModule = {
   exercises: [
     {
       id: 'm9_ex1',
-      moduleId: 9,
+      moduleId: 10,
       number: 1,
       title: 'Pedir el nombre y saludar',
       description: 'Pide al usuario su nombre con `nombre = input("¿Cómo te llamas? ")` y luego muestra "Hola" seguido de su nombre usando `print("Hola", nombre)`.',
@@ -135,7 +135,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex2',
-      moduleId: 9,
+      moduleId: 10,
       number: 2,
       title: 'Pedir color favorito',
       description: 'Pide al usuario su color favorito con `color = input("Tu color favorito: ")`. Luego imprime con f-string: `f"Tu color favorito es {color}"`.',
@@ -159,7 +159,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex3',
-      moduleId: 9,
+      moduleId: 10,
       number: 3,
       title: 'Suma interactiva de dos números con int()',
       description: 'Pide dos números enteros al usuario usando `int(input())`. Suma ambos números en una variable `suma` e imprime el resultado.',
@@ -184,7 +184,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex4',
-      moduleId: 9,
+      moduleId: 10,
       number: 4,
       title: 'Calcular el doble de un número',
       description: 'Pide un número entero al usuario con `numero = int(input("Ingresa un número: "))`. Calcula `doble = numero * 2` e imprime `doble`.',
@@ -209,7 +209,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex5',
-      moduleId: 9,
+      moduleId: 10,
       number: 5,
       title: 'Cálculo de edad futura',
       description: 'Pide la edad actual del usuario con `edad = int(input("¿Qué edad tienes? "))`. Calcula `en_cinco_anios = edad + 5` y muestra el mensaje con f-string: `f"En 5 años tendrás {en_cinco_anios} años"`.',
@@ -234,7 +234,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex6',
-      moduleId: 9,
+      moduleId: 10,
       number: 6,
       title: 'Precio total con cantidad pedida por teclado',
       description: 'Un alfajor cuesta 500 pesos (`precio = 500`). Pide al usuario cuántos alfajores quiere comprar con `cantidad = int(input("¿Cuántos alfajores quieres? "))`. Calcula `total = precio * cantidad` e imprime `total`.',
@@ -259,7 +259,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex7',
-      moduleId: 9,
+      moduleId: 10,
       number: 7,
       title: 'Entrada con números decimales con float()',
       description: 'Pide al usuario el precio en dólares de un producto con `precio = float(input("Precio en USD: "))`. Si el dólar cotiza a 1200 pesos (`tipo_cambio = 1200`), calcula `precio_pesos = precio * tipo_cambio` e imprime `precio_pesos`.',
@@ -284,7 +284,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex8',
-      moduleId: 9,
+      moduleId: 10,
       number: 8,
       title: 'Repartir cuenta del restaurante entre comensales',
       description: 'Pide el total de la cuenta con `total = float(input("Total de la cuenta: "))` y la cantidad de personas con `personas = int(input("Cantidad de personas: "))`. Calcula `por_persona = total / personas` e imprime `por_persona`.',
@@ -310,7 +310,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex9',
-      moduleId: 9,
+      moduleId: 10,
       number: 9,
       title: 'Área de un triángulo interactiva',
       description: 'Pide la base con `base = float(input("Base: "))` y la altura con `altura = float(input("Altura: "))`. Calcula el área (`area = (base * altura) / 2`) e imprime `area`.',
@@ -334,7 +334,7 @@ export const module09: CourseModule = {
     },
     {
       id: 'm9_ex10',
-      moduleId: 9,
+      moduleId: 10,
       number: 10,
       title: 'Desafío de input(): Generador interactivo de Carnet',
       description: 'Pide al usuario tres datos: `nombre = input("Nombre: ")`, `apellido = input("Apellido: ")` y `dni = input("DNI: ")`. Imprime exactamente un carnet de dos líneas:\n"===================="\n"SOCIO: {apellido}, {nombre} | DNI: {dni}" usando f-string.',

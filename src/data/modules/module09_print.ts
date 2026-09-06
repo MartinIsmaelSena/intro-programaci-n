@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module08: CourseModule = {
-  id: 8,
-  number: 8,
+export const module09: CourseModule = {
+  id: 9,
+  number: 9,
   title: 'La función print()',
   subtitle: 'Mostrar mensajes, números, múltiples variables y formato con f-strings',
   description: 'Domina todas las formas de comunicar los resultados de tus programas al usuario: textos, números, separación con comas y las modernas f-strings.',
@@ -111,7 +111,7 @@ export const module08: CourseModule = {
   exercises: [
     {
       id: 'm8_ex1',
-      moduleId: 8,
+      moduleId: 9,
       number: 1,
       title: 'Imprimir texto y variable juntos',
       description: 'Crea `nombre = "Martín"`. Usa `print("Hola", nombre)` para mostrar el saludo con espacio automático.',
@@ -134,7 +134,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex2',
-      moduleId: 8,
+      moduleId: 9,
       number: 2,
       title: 'Mostrar precio con etiqueta',
       description: 'Crea `precio = 1500`. Usa print con coma para mostrar: "Precio: $ 1500" (`print("Precio: $", precio)`).',
@@ -156,7 +156,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex3',
-      moduleId: 8,
+      moduleId: 9,
       number: 3,
       title: 'Tu primera f-string',
       description: 'Crea `lenguaje = "Python"`. Imprime usando una f-string: `f"Estoy aprendiendo {lenguaje}"`.',
@@ -180,7 +180,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex4',
-      moduleId: 8,
+      moduleId: 9,
       number: 4,
       title: 'Ficha con múltiples variables en f-string',
       description: 'Crea `nombre = "Carlos"` y `edad = 28`. Usa una f-string para imprimir exactamente: "Me llamo Carlos y tengo 28 años".',
@@ -202,7 +202,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex5',
-      moduleId: 8,
+      moduleId: 9,
       number: 5,
       title: 'Cálculo directo dentro de una f-string',
       description: '¡Las f-strings pueden calcular operaciones dentro de las llaves! Con `a = 5` y `b = 3`, imprime: `f"La suma es {a + b}"`.',
@@ -226,7 +226,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex6',
-      moduleId: 8,
+      moduleId: 9,
       number: 6,
       title: 'Separador personalizado con sep',
       description: '`print()` acepta un parámetro opcional llamado `sep`. Escribe `print("2026", "09", "15", sep="-")` para mostrar una fecha separada con guiones.',
@@ -249,7 +249,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex7',
-      moduleId: 8,
+      moduleId: 9,
       number: 7,
       title: 'Ticket de supermercado formateado',
       description: 'Tenemos `producto = "Leche"`, `cantidad = 2`, `precio_unitario = 950`. Calcula `total = cantidad * precio_unitario` y muestra con f-string: `f"{cantidad}x {producto} = ${total}"`.',
@@ -272,7 +272,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex8',
-      moduleId: 8,
+      moduleId: 9,
       number: 8,
       title: 'Mensaje multilínea con salto de línea \\n',
       description: 'El carácter especial `\\n` genera un salto de línea dentro de un mismo texto. Imprime en un solo print: "Línea 1\\nLínea 2".',
@@ -295,7 +295,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex9',
-      moduleId: 8,
+      moduleId: 9,
       number: 9,
       title: 'Tablero de puntuaciones',
       description: 'Crea `jugador = "Alex"`, `nivel = 5`, `puntos = 1250`. Imprime exactamente: "JUGADOR: Alex | NIVEL: 5 | SCORE: 1250" usando una f-string.',
@@ -317,7 +317,7 @@ export const module08: CourseModule = {
     },
     {
       id: 'm8_ex10',
-      moduleId: 8,
+      moduleId: 9,
       number: 10,
       title: 'Desafío de print: Resumen financiero',
       description: 'Genera un balance mensual con variables: `ingresos = 80000`, `gastos = 52000`. Calcula `ahorro = ingresos - gastos`. Muestra con f-string en dos líneas:\n"Ingresos: $80000 | Gastos: $52000"\n"Ahorro del mes: $28000"',

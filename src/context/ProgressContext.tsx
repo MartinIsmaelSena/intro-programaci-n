@@ -25,6 +25,7 @@ interface ProgressContextType {
   closeModuleModal: () => void;
   toggleExamAvailability: (examId: string) => void;
   saveExamResult: (result: any) => void;
+  awardBadgeDirectly: (badgeId: string) => void;
 }
 
 const ProgressContext = createContext<ProgressContextType | undefined>(undefined);
@@ -94,7 +95,7 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const addXp = (amount: number) => {
     updateProgress(prev => ({
       ...prev,
-      xp: prev.xp + amount
+      xp: Math.max(0, prev.xp + amount)
     }));
   };
 
@@ -252,6 +253,34 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     });
   };
 
+  const awardBadgeDirectly = (badgeId: string) => {
+    updateProgress(prev => {
+      if (prev.unlockedBadges.some(b => b.id === badgeId)) {
+        return prev;
+      }
+      const badgeObj = ALL_BADGES.find(b => b.id === badgeId);
+      if (!badgeObj) return prev;
+
+      setUnlockedBadgeModal(badgeObj);
+      try {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch {}
+
+      return {
+        ...prev,
+        xp: prev.xp + badgeObj.xpBonus,
+        unlockedBadges: [
+          ...prev.unlockedBadges,
+          { id: badgeId, unlockedAt: new Date().toISOString() }
+        ]
+      };
+    });
+  };
+
   return (
     <ProgressContext.Provider
       value={{
@@ -270,7 +299,8 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         completedModuleModal,
         closeModuleModal,
         toggleExamAvailability,
-        saveExamResult
+        saveExamResult,
+        awardBadgeDirectly
       }}
     >
       {children}

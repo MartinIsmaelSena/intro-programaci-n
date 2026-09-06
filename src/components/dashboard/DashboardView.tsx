@@ -16,7 +16,8 @@ import {
   Lightbulb,
   FileText,
   Rocket,
-  Trophy
+  Trophy,
+  Swords
 } from 'lucide-react';
 
 interface DashboardViewProps {
@@ -290,6 +291,30 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <span>Top 5</span>
           </button>
         </div>
+      </div>
+
+      {/* Online Challenges Callout Banner */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-rose-600 via-orange-600 to-amber-500 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-black/15 text-[11px] font-bold uppercase tracking-wider text-rose-100">
+            <Swords className="w-3.5 h-3.5" />
+            <span>Nuevo · Duelos 1v1 en Vivo</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-extrabold text-white">
+            ⚔️ Desafíos en línea — Apuestas de XP & Rankings
+          </h3>
+          <p className="text-xs sm:text-sm text-rose-50 max-w-xl">
+            Desafiá a otros alumnos en partidas de 10 preguntas de Python (hasta input()), ganá XP, conseguí insignias de racha y liderá la tabla de posiciones.
+          </p>
+        </div>
+
+        <button
+          onClick={() => onNavigate('online-challenges')}
+          className="py-3 px-5 rounded-2xl bg-white hover:bg-rose-50 text-rose-700 font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition-all flex-shrink-0 self-start sm:self-auto cursor-pointer"
+        >
+          <span>Ir a la Arena 1v1</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Modules Quick Catalog */}

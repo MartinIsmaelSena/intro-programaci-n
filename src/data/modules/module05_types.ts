@@ -1,8 +1,8 @@
 import { CourseModule } from '../../types/course';
 
-export const module04: CourseModule = {
-  id: 4,
-  number: 4,
+export const module05: CourseModule = {
+  id: 5,
+  number: 5,
   title: 'Tipos de datos',
   subtitle: 'Textos, enteros, decimales y valores booleanos (str, int, float, bool)',
   description: 'Conoce los 4 tipos de datos primordiales de Python, cómo saber qué tipo tiene una variable con la función type() y cómo interactúan entre sí.',
@@ -110,7 +110,7 @@ export const module04: CourseModule = {
   exercises: [
     {
       id: 'm4_ex1',
-      moduleId: 4,
+      moduleId: 5,
       number: 1,
       title: 'Crear un texto (str)',
       description: 'Crea una variable llamada `saludo` con el texto "Bienvenido al curso" e imprímela.',
@@ -134,7 +134,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex2',
-      moduleId: 4,
+      moduleId: 5,
       number: 2,
       title: 'Crear un número entero (int)',
       description: 'Crea una variable llamada `anio_actual` con el año 2026 (sin comillas). Imprime la variable.',
@@ -158,7 +158,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex3',
-      moduleId: 4,
+      moduleId: 5,
       number: 3,
       title: 'Crear un decimal (float)',
       description: 'Crea una variable llamada `precio_dolar` con el valor 1250.50 (usando punto decimal). Imprime la variable.',
@@ -182,7 +182,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex4',
-      moduleId: 4,
+      moduleId: 5,
       number: 4,
       title: 'Crear un valor booleano (bool)',
       description: 'Crea una variable llamada `activo` con el valor `True` (con T mayúscula y sin comillas). Imprime `activo`.',
@@ -206,7 +206,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex5',
-      moduleId: 4,
+      moduleId: 5,
       number: 5,
       title: 'Inspeccionar con type()',
       description: 'Crea una variable `temperatura = 24.5`. Luego imprime el resultado de `type(temperatura)` para ver su clase float.',
@@ -229,7 +229,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex6',
-      moduleId: 4,
+      moduleId: 5,
       number: 6,
       title: 'Perfil completo con 4 tipos distintos',
       description: 'Modela un producto: `nombre = "Mochila"` (str), `stock = 15` (int), `peso_kg = 0.85` (float) y `en_oferta = False` (bool). Imprime las 4 variables en líneas sucesivas.',
@@ -253,7 +253,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex7',
-      moduleId: 4,
+      moduleId: 5,
       number: 7,
       title: 'Comillas que engañan',
       description: 'Crea una variable `numero_falso = "100"` (entre comillas) y muestra su tipo usando `print(type(numero_falso))`. Verás que Python lo reconoce como `str`.',
@@ -276,7 +276,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex8',
-      moduleId: 4,
+      moduleId: 5,
       number: 8,
       title: 'Cálculo de altura promedio',
       description: 'Dos amigos miden: `h1 = 1.70` y `h2 = 1.80`. Crea ambas variables, calcula el promedio sumándolas y dividiendo entre 2 (`promedio = (h1 + h2) / 2`), e imprime `promedio`.',
@@ -300,7 +300,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex9',
-      moduleId: 4,
+      moduleId: 5,
       number: 9,
       title: 'Booleano resultante de una comparación',
       description: 'Crea una variable `mayor_de_edad = 20 >= 18`. Python evaluará la expresión matemática y guardará un bool. Imprime `mayor_de_edad` e imprime `type(mayor_de_edad)`.',
@@ -324,7 +324,7 @@ export const module04: CourseModule = {
     },
     {
       id: 'm4_ex10',
-      moduleId: 4,
+      moduleId: 5,
       number: 10,
       title: 'Desafío de tipos: Conversor básico',
       description: 'Tenemos un valor guardado como texto: `dato = "50"`. Crea una variable `numero = int(dato)` para convertirlo a entero y súmale 10 en otra variable `total = numero + 10`. Imprime `total`.',
