@@ -1,8 +1,9 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-const ONLINE_MODE = import.meta.env.VITE_ONLINE_MODE || '';
+const env = typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env : ({} as any);
+const SUPABASE_URL = env.VITE_SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = env.VITE_SUPABASE_ANON_KEY || '';
+const ONLINE_MODE = env.VITE_ONLINE_MODE || '';
 
 /**
  * Verifica si las credenciales de Supabase están disponibles

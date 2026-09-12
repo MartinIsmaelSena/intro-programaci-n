@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExamResult, Exam } from '../../types/exam';
-import { CheckCircle2, XCircle, Trophy, Clock, ArrowRight, RotateCcw, X, Award } from 'lucide-react';
+import { Trophy, Clock, RotateCcw, X, Award } from 'lucide-react';
 
 interface ExamResultModalProps {
   result: ExamResult;
@@ -74,41 +74,43 @@ export const ExamResultModal: React.FC<ExamResultModalProps> = ({
         </div>
 
         {/* Section Breakdown */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-            Desglose por secciones evaluadas:
-          </h3>
+        {result.sectionScores && result.sectionScores.length > 0 && (
+          <div className="space-y-3">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+              Desglose por secciones evaluadas:
+            </h3>
 
-          <div className="space-y-2.5">
-            {result.sectionScores.map((sec, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-start justify-between gap-3 text-xs sm:text-sm"
-              >
-                <div className="space-y-1">
-                  <span className="font-bold text-slate-800 dark:text-slate-200 block">
-                    {sec.name}
-                  </span>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {sec.feedback}
-                  </p>
-                </div>
+            <div className="space-y-2.5">
+              {result.sectionScores.map((sec, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-start justify-between gap-3 text-xs sm:text-sm"
+                >
+                  <div className="space-y-1">
+                    <span className="font-bold text-slate-800 dark:text-slate-200 block">
+                      {sec.name}
+                    </span>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {sec.feedback}
+                    </p>
+                  </div>
 
-                <div className="flex-shrink-0 text-right">
-                  <span className={`font-black text-sm ${
-                    sec.obtainedPoints === sec.maxPoints
-                      ? 'text-emerald-600 dark:text-emerald-400'
-                      : sec.obtainedPoints > 0
-                      ? 'text-amber-600 dark:text-amber-400'
-                      : 'text-rose-500 dark:text-rose-400'
-                  }`}>
-                    {sec.obtainedPoints} / {sec.maxPoints} pts
-                  </span>
+                  <div className="flex-shrink-0 text-right">
+                    <span className={`font-black text-sm ${
+                      sec.obtainedPoints === sec.maxPoints
+                        ? 'text-emerald-600 dark:text-emerald-400'
+                        : sec.obtainedPoints > 0
+                        ? 'text-amber-600 dark:text-amber-400'
+                        : 'text-rose-500 dark:text-rose-400'
+                    }`}>
+                      {sec.obtainedPoints} / {sec.maxPoints} pts
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
