@@ -213,17 +213,9 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const closeBadgeModal = () => setUnlockedBadgeModal(null);
   const closeModuleModal = () => setCompletedModuleModal(null);
 
-  const toggleExamAvailability = (examId: string) => {
-    updateProgress(prev => {
-      const current = prev.enabledExams || [];
-      const updated = current.includes(examId)
-        ? current.filter(id => id !== examId)
-        : [...current, examId];
-      return {
-        ...prev,
-        enabledExams: updated
-      };
-    });
+  /** @deprecated La disponibilidad de exámenes se gestiona en Supabase (public.exam_settings) */
+  const toggleExamAvailability = (_examId: string) => {
+    // No-op: Supabase es la única fuente de verdad autoritativa para la disponibilidad global
   };
 
   const saveExamResult = (result: any) => {

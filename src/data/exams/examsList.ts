@@ -18,10 +18,22 @@ export function getExamById(id: string): Exam | undefined {
 }
 
 /**
- * Checks if an exam is available.
- * Default is exam.available (false), but can be enabled via enabledExamIds list (teacher mode / state).
+ * Determina si un examen está disponible.
+ * La fuente de verdad autoritativa y global es el mapa de Supabase (exam_settings).
+ * Si no se provee el mapa o está offline, recurre a exam.available como respaldo.
  */
-export function isExamAvailable(exam: Exam, enabledExamIds: string[]): boolean {
-  if (exam.available) return true;
-  return enabledExamIds.includes(exam.id);
+export function isExamAvailable(
+  exam: Exam,
+  globalSettings?: Record<string, boolean> | string[]
+): boolean {
+  if (globalSettings) {
+    if (Array.isArray(globalSettings)) {
+      // Compatibilidad con lista legacy de IDs
+      return exam.available || globalSettings.includes(exam.id);
+    }
+    if (typeof globalSettings[exam.id] === 'boolean') {
+      return globalSettings[exam.id];
+    }
+  }
+  return exam.available;
 }
