@@ -69,9 +69,9 @@ export const DUEL_1VS1_ANNOUNCEMENT: FeatureAnnouncement = {
   titleHighlight: 'Duelo 1 vs 1',
   description:
     'Ahora podés desafiar a otros estudiantes en partidas de 1 contra 1 y poner a prueba tus conocimientos de programación.',
-  bannerImageSrc: '/img/duelo_1vs1_banner.png',
+  bannerImageSrc: './img/duelo_1vs1_banner.png',
   bannerAlt: 'Duelo 1 vs 1 entre estudiantes en Python Academy',
-  topIconImageSrc: '/img/duelo_1vs1_swords.png',
+  topIconImageSrc: './img/duelo_1vs1_swords.png',
   features: [
     {
       icon: Zap,

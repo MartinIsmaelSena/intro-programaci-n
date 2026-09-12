@@ -22,6 +22,7 @@ import { ResourcesView } from './components/resources/ResourcesView';
 import { ExamsPortalView } from './components/exams/ExamsPortalView';
 import { ChallengesPortalView } from './components/challenges/ChallengesPortalView';
 import { OnlineChallengesPortalView } from './components/onlineChallenges/OnlineChallengesPortalView';
+import { LogicArenaView } from './components/logicArena/LogicArenaView';
 import { RankingView } from './components/ranking/RankingView';
 import { Footer } from './components/layout/Footer';
 import { ALL_MODULES, getModuleByNumber } from './data/modulesList';
@@ -140,6 +141,12 @@ const MainApp: React.FC = () => {
 
           {currentView === 'online-challenges' && (
             <OnlineChallengesPortalView
+              onNavigate={handleNavigate}
+            />
+          )}
+
+          {currentView === 'logic-arena' && (
+            <LogicArenaView
               onNavigate={handleNavigate}
             />
           )}

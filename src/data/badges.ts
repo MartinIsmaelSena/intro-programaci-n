@@ -198,6 +198,33 @@ export const ALL_BADGES: Badge[] = [
     category: 'mastery',
     requirementText: 'Alcanza 10 victorias consecutivas en Desafíos en Línea.',
     xpBonus: 500
+  },
+  {
+    id: 'logic_arena_first',
+    title: '🧠 Primer Razonamiento',
+    description: 'Resolviste con éxito tu primera pregunta en la Arena de Lógica.',
+    icon: '🧠',
+    category: 'achievement',
+    requirementText: 'Completa correctamente tu primera pregunta en la Arena de Lógica.',
+    xpBonus: 100
+  },
+  {
+    id: 'logic_arena_erudito',
+    title: '🎓 Erudito',
+    description: 'Demostraste un dominio sólido del razonamiento resolviendo 15 preguntas correctamente.',
+    icon: '🎓',
+    category: 'skill',
+    requirementText: 'Alcanza 15 respuestas correctas en la Arena de Lógica.',
+    xpBonus: 250
+  },
+  {
+    id: 'logic_arena_master',
+    title: '👑 Maestro de la Lógica',
+    description: 'Alcanzaste el más alto grado de agilidad mental con 30 aciertos o una racha impecable de 10.',
+    icon: '👑',
+    category: 'mastery',
+    requirementText: 'Alcanza 30 respuestas correctas o una racha de 10 aciertos consecutivos en la Arena.',
+    xpBonus: 500
   }
 ];
 

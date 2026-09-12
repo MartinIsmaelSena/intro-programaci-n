@@ -17,7 +17,8 @@ import {
   FileText,
   Rocket,
   Trophy,
-  Swords
+  Swords,
+  Brain
 } from 'lucide-react';
 
 interface DashboardViewProps {
@@ -313,6 +314,30 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           className="py-3 px-5 rounded-2xl bg-white hover:bg-rose-50 text-rose-700 font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition-all flex-shrink-0 self-start sm:self-auto cursor-pointer"
         >
           <span>Ir a la Arena 1v1</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Logic Arena Callout Banner */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950 via-indigo-900 to-blue-900 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-bold uppercase tracking-wider text-purple-200">
+            <Brain className="w-3.5 h-3.5 text-purple-300" />
+            <span>Nuevo Modo · Razonamiento y Código</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-extrabold text-white">
+            🧠 Arena de Lógica — Comparaciones, Lógica y Trazado
+          </h3>
+          <p className="text-xs sm:text-sm text-purple-100 max-w-xl leading-relaxed">
+            Entrená tu razonamiento con ejercicios de operadores booleanos, variables, reasignación y predicción de salidas sin alterar tu avance en el curso.
+          </p>
+        </div>
+
+        <button
+          onClick={() => onNavigate('logic-arena')}
+          className="py-3 px-5 rounded-2xl bg-white hover:bg-purple-50 text-purple-950 font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition-all flex-shrink-0 self-start sm:self-auto cursor-pointer"
+        >
+          <span>Entrar a la Arena</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
