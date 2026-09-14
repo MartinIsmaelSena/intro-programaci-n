@@ -58,7 +58,7 @@ export type QuestionType =
 
 export type QuestionDifficulty = 'easy' | 'medium' | 'hard';
 
-export interface MatchQuestion {
+export interface PublicMatchQuestion {
   id: string;
   moduleId: number; // Módulo educativo (1 a 15)
   topic: string; // Nombre del tema (ej: "Variables", "Condicionales")
@@ -70,8 +70,11 @@ export interface MatchQuestion {
   question: string;
   codeSnippet?: string;
   options: string[];
-  correctAnswer: number; // 0-based index
-  explanation: string;
+}
+
+export interface MatchQuestion extends PublicMatchQuestion {
+  correctAnswer?: number; // 0-based index (privado/servidor)
+  explanation?: string; // explicación pedagógica (privado/servidor)
   hint?: string;
 }
 

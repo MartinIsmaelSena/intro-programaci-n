@@ -251,7 +251,7 @@ export const MatchResultView: React.FC<MatchResultViewProps> = ({
               {result.userMistakes.map((mistake, idx) => {
                 const letters = ['A', 'B', 'C', 'D'];
                 const userOptionText = mistake.question.options[mistake.userSelectedOption] || 'Sin respuesta';
-                const correctOptionText = mistake.question.options[mistake.question.correctAnswer];
+                const hasCorrectAnswer = mistake.question.correctAnswer !== undefined;
 
                 return (
                   <div
@@ -263,7 +263,7 @@ export const MatchResultView: React.FC<MatchResultViewProps> = ({
                         {idx + 1}. {mistake.question.question}
                       </p>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900 flex-shrink-0">
-                        {mistake.question.categoryLabel}
+                        {mistake.question.categoryLabel || mistake.question.topic}
                       </span>
                     </div>
 
@@ -279,15 +279,21 @@ export const MatchResultView: React.FC<MatchResultViewProps> = ({
                         <span>{letters[mistake.userSelectedOption]}) {userOptionText} ❌</span>
                       </div>
 
-                      <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-emerald-800 dark:text-emerald-300">
-                        <span className="font-bold block text-[10px] uppercase opacity-80">Respuesta correcta:</span>
-                        <span>{letters[mistake.question.correctAnswer]}) {correctOptionText} ✅</span>
+                      <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                        <span className="font-bold block text-[10px] uppercase opacity-80">Resultado:</span>
+                        <span>
+                          {hasCorrectAnswer
+                            ? `${letters[mistake.question.correctAnswer!]} ✅`
+                            : 'Marcada como incorrecta por el servidor'}
+                        </span>
                       </div>
                     </div>
 
                     <div className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                      <strong className="text-slate-800 dark:text-slate-200 block mb-0.5">Explicación:</strong>
-                      {mistake.question.explanation}
+                      <strong className="text-slate-800 dark:text-slate-200 block mb-0.5">💡 Recomendación pedagógica:</strong>
+                      {mistake.question.explanation
+                        ? mistake.question.explanation
+                        : `Repasá los contenidos del Módulo ${mistake.question.moduleId} (${mistake.question.topic}) para dominar este concepto.`}
                     </div>
                   </div>
                 );

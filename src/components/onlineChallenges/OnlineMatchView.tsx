@@ -437,16 +437,40 @@ export const OnlineMatchView: React.FC<OnlineMatchViewProps> = ({
   }, [isWaitingForRival, isRealMatch, matchId]);
 
   // Enviar respuesta del usuario
-  const handleSelectOption = (optionIndex: number) => {
+  // Enviar respuesta del usuario
+  const handleSelectOption = async (optionIndex: number) => {
     if (isAnswerSubmitted) return;
 
     if (timerRef.current) clearInterval(timerRef.current);
     setSelectedOption(optionIndex);
     setIsAnswerSubmitted(true);
 
-    const isCorrect = optionIndex === currentQuestion.correctAnswer;
     const timeSpent = Math.max(0.8, questionTimer);
-    const { totalPoints } = calculateAnswerPoints(isCorrect, timeSpent);
+    let isCorrect = false;
+    let totalPoints = 0;
+
+    // Enviar respuesta en tiempo real a Supabase (evaluación autoritativa en servidor)
+    if (isRealMatch && matchId) {
+      try {
+        const res = await supabaseSubmitAnswer(
+          matchId,
+          currentIndex,
+          currentQuestion.id,
+          optionIndex,
+          false,
+          timeSpent,
+          0
+        );
+        isCorrect = Boolean(res.serverIsCorrect);
+        totalPoints = Number(res.serverPoints ?? (isCorrect ? calculateAnswerPoints(true, timeSpent).totalPoints : 0));
+      } catch (err) {
+        console.error('Error al enviar respuesta realtime:', err);
+      }
+    } else {
+      // Modo práctica / bot sin servidor
+      isCorrect = true;
+      totalPoints = calculateAnswerPoints(true, timeSpent).totalPoints;
+    }
 
     const newAnswer: MatchAnswer = {
       questionId: currentQuestion.id,
@@ -469,19 +493,6 @@ export const OnlineMatchView: React.FC<OnlineMatchViewProps> = ({
     setUserScore(nextScore);
     if (isCorrect) setUserCorrectCount(nextCorrect);
     setUserTotalTime(nextTime);
-
-    // Enviar respuesta en tiempo real a Supabase si aplica
-    if (isRealMatch && matchId) {
-      supabaseSubmitAnswer(
-        matchId,
-        currentIndex,
-        currentQuestion.id,
-        optionIndex,
-        isCorrect,
-        timeSpent,
-        totalPoints
-      ).catch(err => console.error('Error al enviar respuesta realtime:', err));
-    }
 
     // Breve pausa para ver si acertó antes de pasar a la siguiente pregunta
     setTimeout(() => {
@@ -714,21 +725,18 @@ export const OnlineMatchView: React.FC<OnlineMatchViewProps> = ({
               {currentQuestion.options.map((option, idx) => {
                 const letters = ['A', 'B', 'C', 'D'];
                 const isSelected = selectedOption === idx;
-                const isCorrect = idx === currentQuestion.correctAnswer;
+                const isAnswerCorrect = Boolean(userAnswers[currentIndex]?.isCorrect);
 
                 let buttonClasses =
                   'bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 hover:border-rose-400 dark:hover:border-rose-500';
 
                 if (isAnswerSubmitted) {
-                  if (isSelected && isCorrect) {
+                  if (isSelected && isAnswerCorrect) {
                     buttonClasses =
                       'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-100 shadow-md shadow-emerald-500/20';
-                  } else if (isSelected && !isCorrect) {
+                  } else if (isSelected && !isAnswerCorrect) {
                     buttonClasses =
                       'bg-rose-50 dark:bg-rose-950/60 border-rose-500 text-rose-900 dark:text-rose-100 shadow-md shadow-rose-500/20';
-                  } else if (isCorrect) {
-                    buttonClasses =
-                      'bg-emerald-50/50 dark:bg-emerald-950/30 border-emerald-400/80 text-emerald-800 dark:text-emerald-200';
                   } else {
                     buttonClasses =
                       'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800 text-slate-400 opacity-50';
@@ -745,9 +753,9 @@ export const OnlineMatchView: React.FC<OnlineMatchViewProps> = ({
                   >
                     <span
                       className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0 ${
-                        isAnswerSubmitted && isSelected && isCorrect
+                        isAnswerSubmitted && isSelected && isAnswerCorrect
                           ? 'bg-emerald-500 text-white'
-                          : isAnswerSubmitted && isSelected && !isCorrect
+                          : isAnswerSubmitted && isSelected && !isAnswerCorrect
                           ? 'bg-rose-500 text-white'
                           : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-xs'
                       }`}
@@ -759,7 +767,7 @@ export const OnlineMatchView: React.FC<OnlineMatchViewProps> = ({
 
                     {isAnswerSubmitted && isSelected && (
                       <div className="flex-shrink-0 pt-0.5">
-                        {isCorrect ? (
+                        {isAnswerCorrect ? (
                           <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                         ) : (
                           <XCircle className="w-5 h-5 text-rose-500" />
@@ -775,13 +783,13 @@ export const OnlineMatchView: React.FC<OnlineMatchViewProps> = ({
             {isAnswerSubmitted && (
               <div
                 className={`p-4 rounded-2xl border text-xs leading-relaxed animate-fadeIn flex items-center justify-between ${
-                  selectedOption === currentQuestion.correctAnswer
+                  Boolean(userAnswers[currentIndex]?.isCorrect)
                     ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200'
                     : 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 text-rose-900 dark:text-rose-200'
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  {selectedOption === currentQuestion.correctAnswer ? (
+                  {Boolean(userAnswers[currentIndex]?.isCorrect) ? (
                     <>
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                       <span className="font-bold">

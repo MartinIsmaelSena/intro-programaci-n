@@ -14,10 +14,11 @@ import {
   Trophy,
   Swords,
   Brain,
-  X
+  X,
+  Users
 } from 'lucide-react';
 
-export type ViewType = 'dashboard' | 'roadmap' | 'courses' | 'module' | 'exams' | 'challenges' | 'online-challenges' | 'logic-arena' | 'ranking' | 'badges' | 'progress' | 'review' | 'resources' | 'settings';
+export type ViewType = 'dashboard' | 'roadmap' | 'courses' | 'module' | 'exams' | 'challenges' | 'online-challenges' | 'team-duel' | 'logic-arena' | 'ranking' | 'badges' | 'progress' | 'review' | 'resources' | 'settings';
 
 interface SidebarProps {
   currentView: ViewType;
@@ -41,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'exams' as ViewType, label: 'Exámenes', icon: FileText, badge: '5 Bloques' },
     { id: 'challenges' as ViewType, label: 'Desafíos', icon: Rocket, badge: 'Nuevo' },
     { id: 'online-challenges' as ViewType, label: 'Desafíos en línea', icon: Swords, badge: '⚔️ 1v1' },
+    { id: 'team-duel' as ViewType, label: 'Duelo de Equipos', icon: Users, badge: '🏆 Equipos' },
     { id: 'logic-arena' as ViewType, label: 'Arena de Lógica', icon: Brain, badge: '🧠 Práctica' },
     { id: 'ranking' as ViewType, label: 'Alumnos del mes', icon: Trophy, badge: 'Top 5' },
     { id: 'badges' as ViewType, label: 'Mis insignias', icon: Award, badge: `${progress.unlockedBadges.length}` },

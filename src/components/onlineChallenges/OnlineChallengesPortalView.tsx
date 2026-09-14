@@ -29,7 +29,7 @@ import {
   supabaseRespondToInvitation
 } from '../../services/onlineChallengesService';
 import { getSimulatedPlayers } from '../../data/onlinePlayers';
-import { getMatchQuestions } from '../../data/onlineQuestions';
+import { getPublicMatchQuestions } from '../../data/onlineQuestionsPublic';
 import { StudentRegistrationModal } from './StudentRegistrationModal';
 import { PlayerLobbyCard } from './PlayerLobbyCard';
 import { ChallengeInviteModal } from './ChallengeInviteModal';
@@ -213,7 +213,7 @@ export const OnlineChallengesPortalView: React.FC<OnlineChallengesPortalViewProp
     // Preguntas limitadas estrictamente a los contenidos completados por ambos (intersección pedagógica)
     const oppMaxModule = opponent.maxCompletedModule || 1;
     const maxAllowedModule = getMaxAllowedMatchModule(myMaxModule, oppMaxModule);
-    const matchQuestions = getMatchQuestions(matchId || `match_${Date.now()}`, maxAllowedModule);
+    const matchQuestions = getPublicMatchQuestions(matchId || `match_${Date.now()}`, maxAllowedModule);
 
     setCountdownSession({
       opponent,
@@ -229,7 +229,7 @@ export const OnlineChallengesPortalView: React.FC<OnlineChallengesPortalViewProp
     try {
       const oppModule = inv.challengerMaxModule || 1;
       const maxAllowedModule = getMaxAllowedMatchModule(myMaxModule, oppModule);
-      const matchQuestions = getMatchQuestions(inv.invitationId, maxAllowedModule);
+      const matchQuestions = getPublicMatchQuestions(inv.invitationId, maxAllowedModule);
 
       const { matchId } = await supabaseRespondToInvitation(
         inv.invitationId,
@@ -292,7 +292,7 @@ export const OnlineChallengesPortalView: React.FC<OnlineChallengesPortalViewProp
     const maxAllowedModule = getMaxAllowedMatchModule(myMaxModule, oppModule);
     const matchQuestions =
       countdownSession.questions ||
-      getMatchQuestions(countdownSession.matchId || `match_${Date.now()}`, maxAllowedModule);
+      getPublicMatchQuestions(countdownSession.matchId || `match_${Date.now()}`, maxAllowedModule);
 
     setActiveMatch({
       opponent: countdownSession.opponent,

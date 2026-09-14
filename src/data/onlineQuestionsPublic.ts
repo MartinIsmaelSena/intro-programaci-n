@@ -1,11 +1,11 @@
-import { MatchQuestion } from '../types/onlineChallenge';
+import { PublicMatchQuestion } from '../types/onlineChallenge';
 
 /**
- * Banco Integral de Preguntas para Desafíos en Línea — Banco Privado Completo
- * Contiene respuestas correctas y explicaciones pedagógicas docentes.
- * USO EXCLUSIVO EN ENTORNO PRIVADO / SERVIDOR / TESTS.
+ * Banco Integral de Preguntas para Desafíos en Línea — Banco Oficial Aprobado
+ * Cobertura estructurada de los 15 módulos de "Python desde Cero" (8 preguntas por módulo = 120 preguntas).
+ * No contiene respuestas correctas ni explicaciones (archivo público para clientes/alumnos).
  */
-export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
+export const ONLINE_QUESTIONS_PUBLIC_BANK: PublicMatchQuestion[] = [
   // ==========================================
   // M1: INTRODUCCIÓN A LA PROGRAMACIÓN
   // ==========================================,
@@ -24,9 +24,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Un componente físico dentro del procesador que almacena contraseñas de red.",
       "Un archivo de texto que solo contiene fórmulas matemáticas avanzadas sin instrucciones.",
       "Una pantalla gráfica donde el usuario únicamente visualiza videos.",
-    ],
-    correctAnswer: 0,
-    explanation: "Un programa es un conjunto ordenado de instrucciones que guían a la computadora paso a paso para realizar una tarea o resolver un problema determinado."
+    ]
   },
   {
     id: "duel_m01_q02",
@@ -44,9 +42,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Porque la variable precio se intenta utilizar antes de haber sido creada y asignada.",
       "Porque el número 250 debe escribirse obligatoriamente con comillas dobles.",
       "Porque en Python no se pueden guardar números mayores a 100.",
-    ],
-    correctAnswer: 1,
-    explanation: "Python lee y ejecuta las instrucciones en orden secuencial (de arriba hacia abajo). En la primera línea la variable 'precio' todavía no existe en memoria, produciendo un error."
+    ]
   },
   {
     id: "duel_m01_q03",
@@ -63,9 +59,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Salida de información.",
       "Proceso.",
       "Almacenamiento secundario permanente.",
-    ],
-    correctAnswer: 2,
-    explanation: "La suma y transformación de los datos para obtener el total a pagar es el procesamiento lógico (Proceso) dentro del esquema clásico Entrada - Proceso - Salida."
+    ]
   },
   {
     id: "duel_m01_q04",
@@ -82,9 +76,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Limpiar la memoria física de la computadora cuando se apaga.",
       "Corregir automáticamente la lógica de un algoritmo incorrecto.",
       "Leer, traducir y ejecutar las instrucciones del código fuente paso a paso.",
-    ],
-    correctAnswer: 3,
-    explanation: "El intérprete de Python lee el código fuente instrucción por instrucción, lo traduce a un formato ejecutable y lo lleva a cabo en tiempo real."
+    ]
   },
   {
     id: "duel_m01_q05",
@@ -101,9 +93,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Producirá resultados distintos porque las computadoras varían su criterio en cada intento.",
       "Dará error a partir del tercer intento por sobrecarga de instrucciones repetidas.",
       "El resultado cambiará dependiendo de cuántas ventanas estén abiertas.",
-    ],
-    correctAnswer: 0,
-    explanation: "Los algoritmos son deterministas: ante las mismas entradas y las mismas instrucciones, el camino y el resultado siempre son idénticos."
+    ]
   },
   {
     id: "duel_m01_q06",
@@ -120,9 +110,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Obtener o ingresar los valores de las dos calificaciones.",
       "Dividir la suma por dos.",
       "Imprimir un mensaje de felicitación.",
-    ],
-    correctAnswer: 1,
-    explanation: "Para poder sumar dos calificaciones (Proceso), es un requisito indispensable haber obtenido previamente ambos valores (Entrada)."
+    ]
   },
   {
     id: "duel_m01_q07",
@@ -139,9 +127,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "El porcentaje del 10% utilizado en la fórmula matemática.",
       "El sueldo neto final exhibido en el recibo.",
       "La fórmula de cálculo interna de la retención.",
-    ],
-    correctAnswer: 2,
-    explanation: "La Salida es el resultado final generado por el algoritmo para ser comunicado al usuario (en este caso, el sueldo neto mostrado en el recibo)."
+    ]
   },
   {
     id: "duel_m01_q08",
@@ -159,9 +145,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Falta colocar paréntesis obligatorios alrededor de la suma en la primera línea.",
       "La instrucción print(total) debería estar ubicada al principio del programa.",
       "La variable total intenta sumar subtotal y envio antes de que ambas variables hayan sido creadas con sus valores.",
-    ],
-    correctAnswer: 3,
-    explanation: "Python procesa de arriba hacia abajo. En la línea 1, las variables subtotal y envio aún no existen, provocando un error de nombre (NameError)."
+    ]
   },
   // ==========================================
   // M2: FUNDAMENTOS / ALGORITMOS
@@ -181,9 +165,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Debe contener al menos 100 instrucciones distintas.",
       "Debe incluir obligatoriamente números decimales.",
       "Debe ejecutarse únicamente en internet.",
-    ],
-    correctAnswer: 0,
-    explanation: "Un algoritmo debe ser preciso (indicar el orden exacto de cada paso), definido (producir el mismo resultado ante los mismos datos) y finito (tener un fin determinado)."
+    ]
   },
   {
     id: "duel_m02_q02",
@@ -200,9 +182,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Porque es ambigua y no define con precisión la duración ni el criterio exacto de parada.",
       "Porque las computadoras no entienden verbos en infinitivo.",
       "Porque los algoritmos solo pueden resolver problemas bancarios.",
-    ],
-    correctAnswer: 1,
-    explanation: "Las instrucciones de un algoritmo deben ser completamente precisas y no dejar lugar a dudas o interpretaciones subjetivas."
+    ]
   },
   {
     id: "duel_m02_q03",
@@ -220,9 +200,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "25",
       "30",
       "15",
-    ],
-    correctAnswer: 2,
-    explanation: "El seguimiento paso a paso es: puntos comienza en 10. Luego 10 + 5 = 15. Finalmente 15 * 2 = 30. Se imprime 30."
+    ]
   },
   {
     id: "duel_m02_q04",
@@ -239,9 +217,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Imprimir la nota 1 en pantalla.",
       "Restar nota 2 de nota 1.",
       "Sumar nota 1, nota 2 y nota 3 para obtener el total.",
-    ],
-    correctAnswer: 3,
-    explanation: "Antes de dividir el total entre 3, es indispensable haber calculado la suma de las tres calificaciones para obtener dicho total."
+    ]
   },
   {
     id: "duel_m02_q05",
@@ -258,9 +234,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Que la distancia recorrida sea exactamente 100 kilómetros.",
       "Que el viaje se realice únicamente en automóvil.",
       "Que el tiempo esté expresado en números romanos.",
-    ],
-    correctAnswer: 0,
-    explanation: "La división por cero es una operación matemática indefinida que detiene cualquier programa. Por ello, el tiempo debe ser mayor a cero."
+    ]
   },
   {
     id: "duel_m02_q06",
@@ -278,9 +252,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "20",
       "45",
       "10",
-    ],
-    correctAnswer: 1,
-    explanation: "Se asigna base = 4 y altura = 5. La variable superficie almacena el producto 4 * 5 = 20. Se imprime 20."
+    ]
   },
   {
     id: "duel_m02_q07",
@@ -298,9 +270,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "90.0",
       "88.0",
       "110.0",
-    ],
-    correctAnswer: 2,
-    explanation: "precio_con_descuento = 100 - 20 = 80. impuesto = 80 * 0.10 = 8.0. total = 80 + 8.0 = 88.0."
+    ]
   },
   {
     id: "duel_m02_q08",
@@ -317,9 +287,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "El stock inicial debería haber sido igual a cero.",
       "La variable venta debió nombrarse compra obligatoriamente.",
       "Restó el stock a la venta en lugar de restar la cantidad vendida al stock disponible.",
-    ],
-    correctAnswer: 3,
-    explanation: "Al escribir 'venta - stock' calcula 10 - 50 = -40. Lo correcto era restar la venta al stock: 'stock = stock - venta', dando 40."
+    ]
   },
   // ==========================================
   // M3: PRIMEROS PASOS CON PYTHON
@@ -340,9 +308,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "A B C",
       "A\nB\nC",
       "# B",
-    ],
-    correctAnswer: 0,
-    explanation: "Las líneas que comienzan con el símbolo # son comentarios ignorados por el intérprete. Solo se ejecuta print('B')."
+    ]
   },
   {
     id: "duel_m03_q02",
@@ -360,9 +326,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "10",
       "30",
       "Error por nombre duplicado",
-    ],
-    correctAnswer: 1,
-    explanation: "Python distingue mayúsculas de minúsculas (case-sensitive). 'dato' y 'Dato' son dos variables distintas e independientes."
+    ]
   },
   {
     id: "duel_m03_q03",
@@ -379,9 +343,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       ".doc",
       ".py",
       ".exe",
-    ],
-    correctAnswer: 2,
-    explanation: "Los archivos de código fuente de Python utilizan la extensión '.py' para que el sistema y el intérprete los identifiquen correctamente."
+    ]
   },
   {
     id: "duel_m03_q04",
@@ -398,9 +360,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "valor_1 = 10",
       "dato_if = 10",
       "if = 10",
-    ],
-    correctAnswer: 3,
-    explanation: "'if' es una palabra reservada por Python para las estructuras condicionales y no puede ser utilizada como nombre de variable."
+    ]
   },
   {
     id: "duel_m03_q05",
@@ -418,9 +378,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Un error aritmético de división por cero.",
       "No produce ningún error y muestra el texto normalmente.",
       "Un error porque print debe escribirse siempre en mayúsculas.",
-    ],
-    correctAnswer: 0,
-    explanation: "Si se abren comillas para definir una cadena de texto, es obligatorio cerrarlas antes de cerrar el paréntesis. Si no, se genera un SyntaxError."
+    ]
   },
   {
     id: "duel_m03_q06",
@@ -437,9 +395,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "En el archivo .py las instrucciones quedan guardadas para volver a ejecutarse cuantas veces sea necesario.",
       "Los archivos .py no pueden usar la función print().",
       "La consola interactiva borra el sistema operativo al cerrarse.",
-    ],
-    correctAnswer: 1,
-    explanation: "La consola interactiva evalúa instrucciones inmediatas que se pierden al salir, mientras que un script (.py) almacena el código de manera persistente."
+    ]
   },
   {
     id: "duel_m03_q07",
@@ -457,9 +413,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "5",
       "10",
       "20",
-    ],
-    correctAnswer: 2,
-    explanation: "La línea '# a = a + 10' está comentada y no tiene efecto. Por ende a vale 5, luego a = 5 * 2 = 10. Se imprime 10."
+    ]
   },
   {
     id: "duel_m03_q08",
@@ -477,9 +431,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Porque falta colocar comillas dobles alrededor de 100.",
       "Porque la palabra 'mi' está prohibida en Python.",
       "Porque los nombres de variables no pueden contener espacios en blanco en su interior.",
-    ],
-    correctAnswer: 3,
-    explanation: "En Python los identificadores de variables deben ser una única palabra continua. Para separar palabras se debe utilizar guion bajo (mi_puntaje)."
+    ]
   },
   // ==========================================
   // M4: VARIABLES
@@ -499,9 +451,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Un cable interno de la computadora que conecta el monitor con el teclado.",
       "Una función fija que siempre muestra el mismo texto en pantalla.",
       "Un error grave que congela el sistema operativo.",
-    ],
-    correctAnswer: 0,
-    explanation: "Una variable es una posición de memoria identificada con un nombre donde se guarda un valor para ser leído o modificado durante la ejecución."
+    ]
   },
   {
     id: "duel_m04_q02",
@@ -519,9 +469,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "15",
       "\"15\"",
       "0",
-    ],
-    correctAnswer: 1,
-    explanation: "El operador = asigna el valor numérico 15 a la variable x. La instrucción print(x) muestra su contenido numérico: 15."
+    ]
   },
   {
     id: "duel_m04_q03",
@@ -539,9 +487,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "80",
       "20",
       "150",
-    ],
-    correctAnswer: 2,
-    explanation: "En Python la asignación es destructiva: cada nueva asignación sobrescribe el valor previo. El último valor asignado fue 20."
+    ]
   },
   {
     id: "duel_m04_q04",
@@ -558,9 +504,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "_puesto1",
       "puesto_1",
       "1er_puesto",
-    ],
-    correctAnswer: 3,
-    explanation: "Los nombres de variables en Python no pueden comenzar con un dígito numérico. Deben iniciar con una letra o un guion bajo."
+    ]
   },
   {
     id: "duel_m04_q05",
@@ -578,9 +522,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "99",
       "a",
       "Error",
-    ],
-    correctAnswer: 0,
-    explanation: "Al hacer 'b = a', b recibe una copia del valor actual de a (10). Cambiar posteriormente 'a = 99' no afecta el valor que ya tenía b."
+    ]
   },
   {
     id: "duel_m04_q06",
@@ -598,9 +540,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Si la variable y no fue creada previamente, se produce un error porque Python no conoce su valor.",
       "La variable x toma el valor 5 y la y se borra de la memoria.",
       "El programa imprime 5 en la pantalla sin problemas.",
-    ],
-    correctAnswer: 1,
-    explanation: "No se puede utilizar una variable en el lado derecho de una asignación si no ha sido definida y asignada previamente (NameError)."
+    ]
   },
   {
     id: "duel_m04_q07",
@@ -618,9 +558,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "8 8",
       "8 3",
       "3 3",
-    ],
-    correctAnswer: 2,
-    explanation: "aux guarda 3. Luego x pasa a valer 8. Finalmente y toma el valor de aux (3). Los valores quedaron intercambiados: x=8, y=3."
+    ]
   },
   {
     id: "duel_m04_q08",
@@ -638,9 +576,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "70",
       "100",
       "75",
-    ],
-    correctAnswer: 3,
-    explanation: "100 - 30 = 70. Luego 70 + 10 = 80. Luego 80 - 5 = 75. Se imprime 75."
+    ]
   },
   // ==========================================
   // M5: TIPOS DE DATOS
@@ -660,9 +596,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "str (cadena de texto)",
       "float (número decimal)",
       "bool (booleano)",
-    ],
-    correctAnswer: 0,
-    explanation: "Los números sin parte decimal pertenecen al tipo int (integer o entero)."
+    ]
   },
   {
     id: "duel_m05_q02",
@@ -679,9 +613,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "float (números de punto flotante)",
       "str (texto)",
       "char (carácter simple)",
-    ],
-    correctAnswer: 1,
-    explanation: "Los números con parte fraccionaria o decimal se representan con el tipo de dato float."
+    ]
   },
   {
     id: "duel_m05_q03",
@@ -698,9 +630,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "\"100\" es un número decimal y 100 es una palabra.",
       "100 es un número entero con el que se pueden hacer cálculos y \"100\" es una cadena de texto (str).",
       "El valor 100 da error si se intenta imprimir.",
-    ],
-    correctAnswer: 2,
-    explanation: "La presencia de comillas convierte al valor en una cadena de texto (str), impidiendo realizar operaciones aritméticas directas con números."
+    ]
   },
   {
     id: "duel_m05_q04",
@@ -718,9 +648,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "<class 'str'>",
       "True",
       "<class 'bool'>",
-    ],
-    correctAnswer: 3,
-    explanation: "True y False son literales del tipo booleano, cuya clase en Python es 'bool'."
+    ]
   },
   {
     id: "duel_m05_q05",
@@ -738,9 +666,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Porque las variables no pueden almacenar respuestas afirmativas.",
       "Porque la palabra true debe escribirse obligatoriamente entre comillas.",
       "Porque faltan los dos puntos al final.",
-    ],
-    correctAnswer: 0,
-    explanation: "Python requiere que los literales booleanos inicien con mayúscula (True, False). Escribir 'true' en minúsculas es interpretado como una variable no definida."
+    ]
   },
   {
     id: "duel_m05_q06",
@@ -758,9 +684,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "2030",
       "\"50\"",
       "Error por sumar comillas",
-    ],
-    correctAnswer: 1,
-    explanation: "Cuando el operador + se aplica entre dos cadenas de texto, realiza la concatenación (unión de textos), produciendo '2030'."
+    ]
   },
   {
     id: "duel_m05_q07",
@@ -778,9 +702,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "La variable resultado queda con el valor numérico 50.",
       "Se produce un error de tipo (TypeError) porque Python no permite concatenar directamente texto con un número entero.",
       "Python convierte automáticamente el texto a número y da 55.",
-    ],
-    correctAnswer: 2,
-    explanation: "Python no convierte tipos implícitamente en el operador +. No se puede sumar un str con un int; se debe convertir explícitamente con str(50)."
+    ]
   },
   {
     id: "duel_m05_q08",
@@ -798,9 +720,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "10 Hola",
       "Error de tipos",
       "Hola",
-    ],
-    correctAnswer: 3,
-    explanation: "Python tiene tipado dinámico: una misma variable puede cambiar de tipo de dato si se le reasigna un nuevo valor de otro tipo."
+    ]
   },
   // ==========================================
   // M6: OPERADORES ARITMÉTICOS
@@ -821,9 +741,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "22",
       "-8",
       "7",
-    ],
-    correctAnswer: 0,
-    explanation: "15 - 7 = 8. Se imprime el valor 8."
+    ]
   },
   {
     id: "duel_m06_q02",
@@ -840,9 +758,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "El asterisco (*)",
       "El punto (.)",
       "El signo numeral (#)",
-    ],
-    correctAnswer: 1,
-    explanation: "En Python el operador de multiplicación es el asterisco (*)."
+    ]
   },
   {
     id: "duel_m06_q03",
@@ -860,9 +776,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "3.0",
       "3.5",
       "3 resto 1",
-    ],
-    correctAnswer: 2,
-    explanation: "El operador / siempre realiza la división real (con decimales) devolviendo un valor de tipo float: 7 / 2 = 3.5."
+    ]
   },
   {
     id: "duel_m06_q04",
@@ -880,9 +794,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "2",
       "5",
       "4",
-    ],
-    correctAnswer: 3,
-    explanation: "El operador // calcula el cociente entero de la división, descartando la parte decimal: 14 // 3 = 4."
+    ]
   },
   {
     id: "duel_m06_q05",
@@ -900,9 +812,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "4",
       "4.75",
       "1",
-    ],
-    correctAnswer: 0,
-    explanation: "El operador % devuelve el resto de la división entera. 19 dividido 4 es 4 con resto 3 (4 * 4 + 3 = 19)."
+    ]
   },
   {
     id: "duel_m06_q06",
@@ -920,9 +830,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "14",
       "24",
       "9",
-    ],
-    correctAnswer: 1,
-    explanation: "Por reglas de precedencia matemática estándar, la multiplicación se evalúa antes que la suma: 3 * 4 = 12, y 2 + 12 = 14."
+    ]
   },
   {
     id: "duel_m06_q07",
@@ -940,9 +848,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "24",
       "20",
       "11",
-    ],
-    correctAnswer: 2,
-    explanation: "Los paréntesis alteran la precedencia obligando a evaluar primero lo que encierran: (2 + 3) = 5, y luego 5 * 4 = 20."
+    ]
   },
   {
     id: "duel_m06_q08",
@@ -960,9 +866,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "8",
       "5",
       "6",
-    ],
-    correctAnswer: 3,
-    explanation: "23 % 5 da 3 (porque 5 * 4 = 20, resto 3). 10 // 3 da 3. Luego la suma es 3 + 3 = 6."
+    ]
   },
   // ==========================================
   // M7: OPERADORES DE COMPARACIÓN
@@ -982,9 +886,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "= compara números y == compara textos.",
       "Son exactamente iguales y pueden usarse indistintamente.",
       "== borra el contenido de una variable y = la crea.",
-    ],
-    correctAnswer: 0,
-    explanation: "El signo simple = es el operador de asignación. El signo doble == es el operador relacional de comparación de igualdad."
+    ]
   },
   {
     id: "duel_m07_q02",
@@ -1002,9 +904,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "False",
       "Error",
       "None",
-    ],
-    correctAnswer: 1,
-    explanation: "El operador != pregunta si los valores son diferentes. Como 10 es igual a 10, la afirmación de que son diferentes es falsa (False)."
+    ]
   },
   {
     id: "duel_m07_q03",
@@ -1022,9 +922,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "15",
       "True",
       "Error",
-    ],
-    correctAnswer: 2,
-    explanation: "El operador <= es verdadero si el primer valor es menor o si es igual al segundo. Al ser iguales, da True."
+    ]
   },
   {
     id: "duel_m07_q04",
@@ -1042,9 +940,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "8",
       "12",
       "False",
-    ],
-    correctAnswer: 3,
-    explanation: "Se compara si 8 > 12. Como 8 no es mayor que 12, la comparación evalúa a False."
+    ]
   },
   {
     id: "duel_m07_q05",
@@ -1062,9 +958,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Porque print no puede mostrar comparaciones.",
       "Porque el número 5 debe ir entre comillas obligatoriamente.",
       "Porque las variables solo pueden compararse con letras.",
-    ],
-    correctAnswer: 0,
-    explanation: "En Python el signo = solo asigna valores y no puede colocarse como expresión dentro de print o de una condición. La comparación requiere ==."
+    ]
   },
   {
     id: "duel_m07_q06",
@@ -1082,9 +976,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "False",
       "Error",
       "None",
-    ],
-    correctAnswer: 1,
-    explanation: "Las cadenas se comparan carácter por carácter de forma exacta. Debido a la mayúscula inicial ('P' vs 'p'), las palabras no son iguales (False)."
+    ]
   },
   {
     id: "duel_m07_q07",
@@ -1102,9 +994,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "0",
       "False",
       "1",
-    ],
-    correctAnswer: 2,
-    explanation: "25 % 2 calcula el resto de dividir 25 por 2, que es 1. Luego 1 == 0 evalúa a False. (Comprueba si 25 es par)."
+    ]
   },
   {
     id: "duel_m07_q08",
@@ -1122,9 +1012,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "20",
       "Error",
       "True",
-    ],
-    correctAnswer: 3,
-    explanation: "x + 10 evalúa a 20. Luego 20 == y (20 == 20) es True. Se asigna True a resultado y se imprime."
+    ]
   },
   // ==========================================
   // M8: OPERADORES LÓGICOS
@@ -1144,9 +1032,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Cuando al menos una de las dos condiciones es verdadera.",
       "Cuando ambas condiciones son falsas.",
       "Solo cuando se comparan números positivos.",
-    ],
-    correctAnswer: 0,
-    explanation: "La conjunción lógica and exige que todas las proposiciones involucradas sean verdaderas simultáneamente para resultar True."
+    ]
   },
   {
     id: "duel_m08_q02",
@@ -1163,9 +1049,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Con que al menos una de las condiciones sea verdadera (True).",
       "Solo cuando ambas condiciones son exactamente idénticas.",
       "Nunca da True con variables numéricas.",
-    ],
-    correctAnswer: 1,
-    explanation: "La disyunción lógica or es verdadera si al menos una de las condiciones es verdadera. Solo es False si ambas son falsas."
+    ]
   },
   {
     id: "duel_m08_q03",
@@ -1183,9 +1067,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "None",
       "True",
       "Error",
-    ],
-    correctAnswer: 2,
-    explanation: "El operador unario not invierte el valor de verdad booleano: convierte False en True y True en False."
+    ]
   },
   {
     id: "duel_m08_q04",
@@ -1203,9 +1085,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "None",
       "16",
       "False",
-    ],
-    correctAnswer: 3,
-    explanation: "edad >= 18 es 16 >= 18 (False). Como la primera condición es False, el and completo resulta False."
+    ]
   },
   {
     id: "duel_m08_q05",
@@ -1223,9 +1103,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "False",
       "None",
       "Error",
-    ],
-    correctAnswer: 0,
-    explanation: "En una operación con or, al ser tiene_cupon verdadero (True), la expresión completa evalúa a True."
+    ]
   },
   {
     id: "duel_m08_q06",
@@ -1243,9 +1121,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "True",
       "10",
       "Error",
-    ],
-    correctAnswer: 1,
-    explanation: "5 > 10 es False. Al aplicar not a False, el resultado final se invierte y es True."
+    ]
   },
   {
     id: "duel_m08_q07",
@@ -1263,9 +1139,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "7",
       "True",
       "4",
-    ],
-    correctAnswer: 2,
-    explanation: "nota >= 4 es 7 >= 4 (True). nota <= 10 es 7 <= 10 (True). True and True resulta True."
+    ]
   },
   {
     id: "duel_m08_q08",
@@ -1283,9 +1157,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "None",
       "Error",
       "True",
-    ],
-    correctAnswer: 3,
-    explanation: "(a or b) es True or False = True. not c es not False = True. Luego True and True da True."
+    ]
   },
   // ==========================================
   // M9: PRINT()
@@ -1306,9 +1178,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "\"Hola Mundo\"",
       "HolaMundo",
       "print(Hola Mundo)",
-    ],
-    correctAnswer: 0,
-    explanation: "print() muestra el texto literal en la consola sin incluir las comillas delimitadoras."
+    ]
   },
   {
     id: "duel_m09_q02",
@@ -1326,9 +1196,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Bienvenido",
       "\"mensaje\"",
       "\"Bienvenido\"",
-    ],
-    correctAnswer: 1,
-    explanation: "Al no tener comillas, Python busca la variable llamada mensaje y muestra su contenido guardado."
+    ]
   },
   {
     id: "duel_m09_q03",
@@ -1346,9 +1214,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Total:, 50",
       "Total: 50",
       "Total: (50)",
-    ],
-    correctAnswer: 2,
-    explanation: "Cuando print() recibe varios argumentos separados por coma, los muestra separados por un espacio en blanco por defecto."
+    ]
   },
   {
     id: "duel_m09_q04",
@@ -1366,9 +1232,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "5\n5",
       "x\nx",
       "x\n5",
-    ],
-    correctAnswer: 3,
-    explanation: "La primera instrucción imprime la letra literal 'x'. La segunda instrucción imprime el valor numérico 5 de la variable x."
+    ]
   },
   {
     id: "duel_m09_q05",
@@ -1386,9 +1250,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Muestra ambos textos pegados en el mismo renglón.",
       "Muestra únicamente el segundo mensaje borrando el primero.",
       "Produce un error porque no se pueden poner dos prints seguidos.",
-    ],
-    correctAnswer: 0,
-    explanation: "Por defecto, cada llamada a la función print() concluye con un salto de línea invisible, ubicando la siguiente salida en el renglón de abajo."
+    ]
   },
   {
     id: "duel_m09_q06",
@@ -1406,9 +1268,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Se produce un error de sintaxis (SyntaxError) porque falta el paréntesis de cierre.",
       "Se imprime Hola con un paréntesis al final.",
       "El programa espera a que el usuario presione una tecla.",
-    ],
-    correctAnswer: 1,
-    explanation: "Toda llamada a una función debe abrir y cerrar sus paréntesis correspondientes. Omitir el cierre genera un error de sintaxis."
+    ]
   },
   {
     id: "duel_m09_q07",
@@ -1426,9 +1286,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Resultado: 50",
       "Resultado: 32",
       "Resultado:32",
-    ],
-    correctAnswer: 2,
-    explanation: "Python evalúa la expresión aritmética 10 * 3 + 2 = 32 y luego la imprime precedida del texto literal separado por un espacio."
+    ]
   },
   {
     id: "duel_m09_q08",
@@ -1446,9 +1304,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Inicio con: 2\nQuedan: 2",
       "Inicio con:vidas\nQuedan:vidas",
       "Inicio con: 3\nQuedan: 2",
-    ],
-    correctAnswer: 3,
-    explanation: "Primero imprime 'Inicio con: 3'. Luego vidas pasa a valer 2. Finalmente imprime 'Quedan: 2'."
+    ]
   },
   // ==========================================
   // M10: INPUT() Y CONVERSIÓN
@@ -1468,9 +1324,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "int (número entero)",
       "float (número decimal)",
       "Depende de si el usuario escribió números o letras",
-    ],
-    correctAnswer: 0,
-    explanation: "La función input() siempre lee y entrega la información como una cadena de texto (str), aun cuando el usuario solo haya ingresado dígitos numéricos."
+    ]
   },
   {
     id: "duel_m10_q02",
@@ -1487,9 +1341,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Es un mensaje orientativo (prompt) que se muestra en pantalla para que el usuario sepa qué escribir.",
       "Es una contraseña que valida la entrada del usuario.",
       "Es el nombre interno de la variable en memoria.",
-    ],
-    correctAnswer: 1,
-    explanation: "El texto dentro de input() es el mensaje guía o 'prompt' que se exhibe al usuario para indicarle qué dato se espera recibir."
+    ]
   },
   {
     id: "duel_m10_q03",
@@ -1507,9 +1359,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "4 5",
       "45",
       "Error de tipos",
-    ],
-    correctAnswer: 2,
-    explanation: "Como no se realizó conversión, a guarda '4' y b guarda '5'. El operador + entre textos los concatena, produciendo '45'."
+    ]
   },
   {
     id: "duel_m10_q04",
@@ -1527,9 +1377,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "6666666",
       "Error",
       "42",
-    ],
-    correctAnswer: 3,
-    explanation: "La función int() convierte los textos '6' y '7' en los enteros 6 y 7. La multiplicación matemática es 6 * 7 = 42."
+    ]
   },
   {
     id: "duel_m10_q05",
@@ -1546,9 +1394,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "int(input(...))",
       "str(input(...))",
       "bool(input(...))",
-    ],
-    correctAnswer: 0,
-    explanation: "Para interpretar y almacenar números con parte decimal es necesario utilizar la función de conversión float()."
+    ]
   },
   {
     id: "duel_m10_q06",
@@ -1566,9 +1412,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Porque intenta sumar un texto (str retornado por input) con un número entero (int).",
       "Porque la función input solo acepta nombres de personas.",
       "Porque el operador + no está permitido en Python después de un input.",
-    ],
-    correctAnswer: 1,
-    explanation: "edad contiene una cadena de texto. Intentar sumarle el entero 1 produce un TypeError por incompatibilidad de tipos."
+    ]
   },
   {
     id: "duel_m10_q07",
@@ -1586,9 +1430,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "La variable n queda con valor 0 por defecto.",
       "Se produce un error de ejecución porque int() no puede convertir palabras con letras a números enteros.",
       "La variable n guarda la palabra 'cinco'.",
-    ],
-    correctAnswer: 2,
-    explanation: "La función int() exige que la cadena esté formada estrictamente por dígitos numéricos ('5'). Si recibe letras, falla la conversión."
+    ]
   },
   {
     id: "duel_m10_q08",
@@ -1606,9 +1448,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "El año próximo tendrás: 15",
       "Error de tipos",
       "El año próximo tendrás: 16",
-    ],
-    correctAnswer: 3,
-    explanation: "edad se convierte a 15. edad_proxima = 15 + 1 = 16. print() muestra el texto seguido de 16."
+    ]
   },
   // ==========================================
   // M11: IF / ELIF / ELSE
@@ -1629,9 +1469,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "puntos",
       "120",
       "No imprime nada",
-    ],
-    correctAnswer: 0,
-    explanation: "La condición 120 > 100 es verdadera (True), por lo que se ejecuta la instrucción indentada dentro del bloque if."
+    ]
   },
   {
     id: "duel_m11_q02",
@@ -1649,9 +1487,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Fin del juego",
       "Nivel superado",
       "No imprime nada",
-    ],
-    correctAnswer: 1,
-    explanation: "La condición 80 > 100 es False. El bloque if no se ejecuta. El programa continúa con la siguiente instrucción fuera del if."
+    ]
   },
   {
     id: "duel_m11_q03",
@@ -1669,9 +1505,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Saldo insuficiente",
       "Compra exitosa, saldo: 200",
       "Compra exitosa, saldo: 300",
-    ],
-    correctAnswer: 2,
-    explanation: "La condición compra <= saldo evalúa 300 <= 500 (True). Se entra al if: saldo pasa a valer 500 - 300 = 200 y se imprime el mensaje con 200. El bloque else no se ejecuta."
+    ]
   },
   {
     id: "duel_m11_q04",
@@ -1689,9 +1523,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Templado\nFresco",
       "10",
       "Fresco",
-    ],
-    correctAnswer: 3,
-    explanation: "temperatura >= 20 es 10 >= 20 (False). Al ser falsa la condición del if, el flujo pasa directamente al bloque else e imprime 'Fresco'."
+    ]
   },
   {
     id: "duel_m11_q05",
@@ -1709,9 +1541,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Excelente",
       "Desaprobado",
       "Excelente\nAprobado",
-    ],
-    correctAnswer: 0,
-    explanation: "La primera condición (7 >= 9) es False. Se evalúa el elif: (7 >= 6) es True. Se ejecuta su bloque ('Aprobado') y finaliza la estructura condicional."
+    ]
   },
   {
     id: "duel_m11_q06",
@@ -1729,9 +1559,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Falta colocar los dos puntos (:) obligatorios al final de la línea del if.",
       "No se puede usar el operador >= dentro de un condicional.",
       "La variable edad debe ir entre comillas.",
-    ],
-    correctAnswer: 1,
-    explanation: "En Python, las cabeceras de estructuras de control como if, elif, else deben terminar obligatoriamente con el carácter de dos puntos (:)."
+    ]
   },
   {
     id: "duel_m11_q07",
@@ -1749,9 +1577,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "TypeError: no se puede comparar números con 5.",
       "IndentationError: las instrucciones dentro del bloque if deben estar indentadas con sangría.",
       "No produce ningún error y funciona.",
-    ],
-    correctAnswer: 2,
-    explanation: "En Python los bloques de código no usan llaves sino sangría (indentación). El cuerpo del if debe tener sangría hacia la derecha."
+    ]
   },
   {
     id: "duel_m11_q08",
@@ -1769,9 +1595,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Trabajar",
       "Playa\nCine",
       "Cine",
-    ],
-    correctAnswer: 3,
-    explanation: "Entra al primer if porque es_fin_de_semana es True. Dentro, evalúa hay_sol: como es False, va al else interno e imprime 'Cine'."
+    ]
   },
   // ==========================================
   // M12: INTRODUCCIÓN A BUCLES
@@ -1791,9 +1615,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Borrar la memoria de la computadora cada vez que termina un cálculo.",
       "Convertir automáticamente números enteros a palabras en inglés.",
       "Impedir que el usuario ingrese datos por teclado.",
-    ],
-    correctAnswer: 0,
-    explanation: "Los bucles permiten automatizar la repetición de tareas e instrucciones de forma controlada y eficiente."
+    ]
   },
   {
     id: "duel_m12_q02",
@@ -1810,9 +1632,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Debe existir una condición que en algún momento pase a ser falsa o se alcance un límite definido de vueltas.",
       "Debe llamarse a la función print() exactamente tres veces.",
       "Debe apagarse el monitor de la computadora.",
-    ],
-    correctAnswer: 1,
-    explanation: "Todo ciclo debe tener un mecanismo o condición de parada que garantice su terminación y evite una ejecución infinita."
+    ]
   },
   {
     id: "duel_m12_q03",
@@ -1829,9 +1649,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "A un ciclo que se ejecuta exactamente 100 veces por segundo.",
       "A un ciclo que nunca se detiene porque su condición de parada nunca se cumple.",
       "A un programa que no tiene ninguna variable.",
-    ],
-    correctAnswer: 2,
-    explanation: "Un bucle infinito se produce cuando la condición de permanencia se mantiene en True indefinidamente, impidiendo que el programa avance."
+    ]
   },
   {
     id: "duel_m12_q04",
@@ -1848,9 +1666,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Multiplicar los resultados por 100 de forma automática.",
       "Impedir que el código use condicionales.",
       "Llevar la cuenta de la cantidad de repeticiones y ayudar a controlar cuándo debe detenerse el ciclo.",
-    ],
-    correctAnswer: 3,
-    explanation: "Un contador registra cuántas iteraciones se han realizado y suele formar parte de la condición que determina el fin del ciclo."
+    ]
   },
   {
     id: "duel_m12_q05",
@@ -1868,9 +1684,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "3 veces",
       "Ninguna vez",
       "4 veces",
-    ],
-    correctAnswer: 0,
-    explanation: "La instrucción print('Listo') no está indentada, lo que indica que está fuera del bucle. Por ende, se ejecuta una única vez al finalizar el for."
+    ]
   },
   {
     id: "duel_m12_q06",
@@ -1888,9 +1702,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Afuera",
       "Adentro",
       "No imprime nada",
-    ],
-    correctAnswer: 1,
-    explanation: "La condición inicial 10 < 5 es falsa (False) desde el comienzo, por lo que el cuerpo del ciclo no se ejecuta ni una sola vez. Se imprime directamente 'Afuera'."
+    ]
   },
   {
     id: "duel_m12_q07",
@@ -1908,9 +1720,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "5 líneas",
       "4 líneas",
       "1 línea",
-    ],
-    correctAnswer: 2,
-    explanation: "contador toma sucesivamente los valores 0, 1, 2, 3 (4 iteraciones en total). Cuando llega a 4, la condición 4 < 4 es False y se detiene."
+    ]
   },
   {
     id: "duel_m12_q08",
@@ -1928,9 +1738,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1",
       "2",
       "4",
-    ],
-    correctAnswer: 3,
-    explanation: "En la vuelta 3, i se incrementa a 4. Al volver a evaluar la condición (4 <= 3), resulta False y el bucle termina. El valor de i al salir es 4."
+    ]
   },
   // ==========================================
   // M13: FOR / RANGE
@@ -1951,9 +1759,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1, 2, 3",
       "0, 1, 2, 3",
       "3 veces el número 3",
-    ],
-    correctAnswer: 0,
-    explanation: "range(3) genera la secuencia de números enteros comenzando en 0 y terminando en n-1: 0, 1 y 2."
+    ]
   },
   {
     id: "duel_m13_q02",
@@ -1971,9 +1777,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "5 veces",
       "6 veces",
       "1 sola vez",
-    ],
-    correctAnswer: 1,
-    explanation: "range(5) genera 5 elementos (0, 1, 2, 3, 4), por lo que el cuerpo del ciclo se repite exactamente 5 veces."
+    ]
   },
   {
     id: "duel_m13_q03",
@@ -1991,9 +1795,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1\n2\n3\n4",
       "2\n3\n4",
       "5\n4\n3\n2",
-    ],
-    correctAnswer: 2,
-    explanation: "Cuando range recibe dos argumentos (inicio, fin), comienza en 'inicio' y llega hasta 'fin - 1'. Aquí genera 2, 3 y 4."
+    ]
   },
   {
     id: "duel_m13_q04",
@@ -2011,9 +1813,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "2\n4\n6\n8",
       "1\n3\n5",
       "1\n3\n5\n7",
-    ],
-    correctAnswer: 3,
-    explanation: "El tercer parámetro es el paso (incremento). Comienza en 1 y avanza de 2 en 2 mientras sea menor a 8: 1, 3, 5 y 7."
+    ]
   },
   {
     id: "duel_m13_q05",
@@ -2031,9 +1831,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "10",
       "3",
       "4",
-    ],
-    correctAnswer: 0,
-    explanation: "i toma los valores 1, 2, 3. suma = 0 + 1 = 1; luego 1 + 2 = 3; luego 3 + 3 = 6. Se imprime 6 al salir del bucle."
+    ]
   },
   {
     id: "duel_m13_q06",
@@ -2051,9 +1849,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Falta colocar los dos puntos (:) obligatorios al final de la línea del for.",
       "La función range solo acepta dos argumentos.",
       "No se puede usar la letra i como nombre de variable.",
-    ],
-    correctAnswer: 1,
-    explanation: "Al igual que en las estructuras condicionales, la cabecera del bucle for debe terminar obligatoriamente con el carácter de dos puntos (:)."
+    ]
   },
   {
     id: "duel_m13_q07",
@@ -2071,9 +1867,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "12",
       "24",
       "120",
-    ],
-    correctAnswer: 2,
-    explanation: "factor toma los valores 1, 2, 3, 4. producto = 1 * 1 = 1; luego 1 * 2 = 2; luego 2 * 3 = 6; luego 6 * 4 = 24. Imprime 24."
+    ]
   },
   {
     id: "duel_m13_q08",
@@ -2091,9 +1885,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "5",
       "0",
       "2",
-    ],
-    correctAnswer: 3,
-    explanation: "n recorre 1, 2, 3, 4, 5. La condición n % 2 == 0 es verdadera únicamente para 2 y 4 (2 números pares). Se imprime 2."
+    ]
   },
   // ==========================================
   // M14: WHILE Y CONTROL
@@ -2113,9 +1905,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Cuando se alcanza automáticamente la vuelta número 10.",
       "Cuando se ejecuta la función print().",
       "Cuando la computadora detecta números negativos.",
-    ],
-    correctAnswer: 0,
-    explanation: "El bucle while repite su bloque mientras su condición sea verdadera. En el momento en que la condición evalúa a False, el ciclo se detiene."
+    ]
   },
   {
     id: "duel_m14_q02",
@@ -2133,9 +1923,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1\n2\n3",
       "3\n2\n1",
       "1 2 3",
-    ],
-    correctAnswer: 1,
-    explanation: "c inicia en 1. Imprime 1 e incrementa a 2. Imprime 2 e incrementa a 3. Imprime 3 e incrementa a 4. Al ser 4 <= 3 falso, finaliza."
+    ]
   },
   {
     id: "duel_m14_q03",
@@ -2153,9 +1941,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1\n2\n3\nDespegue",
       "3\n2\n1\nDespegue",
       "Despegue",
-    ],
-    correctAnswer: 2,
-    explanation: "Imprime 3, luego 2, luego 1. Al restar a 0, la condición 0 > 0 es False. Sale del ciclo e imprime 'Despegue'."
+    ]
   },
   {
     id: "duel_m14_q04",
@@ -2172,9 +1958,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "No imprime nada porque x vale menos que 5.",
       "Se detiene automáticamente en la segunda vuelta.",
       "Produce un bucle infinito porque nunca se modifica el valor de x, por lo que x <= 5 siempre será verdadero.",
-    ],
-    correctAnswer: 3,
-    explanation: "Si dentro del cuerpo del while no se modifica la variable involucrada en la condición, esta nunca cambiará y el ciclo se ejecutará infinitamente."
+    ]
   },
   {
     id: "duel_m14_q05",
@@ -2192,9 +1976,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "30",
       "10",
       "100",
-    ],
-    correctAnswer: 0,
-    explanation: "n=1: total = 0 + 10 = 10. n=2: total = 10 + 20 = 30. n=3: total = 30 + 30 = 60. n pasa a 4 y sale. Imprime 60."
+    ]
   },
   {
     id: "duel_m14_q06",
@@ -2212,9 +1994,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1 sola vez",
       "Ninguna vez",
       "4 veces",
-    ],
-    correctAnswer: 1,
-    explanation: "print('Fin') está al mismo nivel que el while (sin sangría), lo que significa que está fuera del bucle. Solo se ejecuta una vez al terminar."
+    ]
   },
   {
     id: "duel_m14_q07",
@@ -2232,9 +2012,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "18",
       "27",
       "21",
-    ],
-    correctAnswer: 2,
-    explanation: "Inicial: valor = 1. Vuelta 1: valor = 1 * 3 = 3 (< 20). Vuelta 2: valor = 3 * 3 = 9 (< 20). Vuelta 3: valor = 9 * 3 = 27 (no es < 20, sale). Imprime 27."
+    ]
   },
   {
     id: "duel_m14_q08",
@@ -2252,9 +2030,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "10 5",
       "4 8",
       "8 6",
-    ],
-    correctAnswer: 3,
-    explanation: "Inicio: a=0, b=10 (0<10). Vuelta 1: a=2, b=9 (2<9). Vuelta 2: a=4, b=8 (4<8). Vuelta 3: a=6, b=7 (6<7). Vuelta 4: a=8, b=6 (8<6 es False, sale). Imprime 8 6."
+    ]
   },
   // ==========================================
   // M15: INTEGRACIÓN / RESOLUCIÓN DE PROBLEMAS
@@ -2275,9 +2051,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Total a abonar: $100",
       "Total a abonar: $ 254",
       "Total a abonar: $ 29",
-    ],
-    correctAnswer: 0,
-    explanation: "total = 4 * 25 = 100. La función print() muestra el texto literal seguido de un espacio y el número 100."
+    ]
   },
   {
     id: "duel_m15_q02",
@@ -2295,9 +2069,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "1000",
       "800",
       "1400",
-    ],
-    correctAnswer: 1,
-    explanation: "Como 1200 > 1000 es True, descuento = 200. Luego total = 1200 - 200 = 1000. Se imprime 1000."
+    ]
   },
   {
     id: "duel_m15_q03",
@@ -2315,9 +2087,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Bronce",
       "Plata",
       "Error",
-    ],
-    correctAnswer: 2,
-    explanation: "puntos >= 100 es False. Se evalúa elif puntos >= 50: 65 >= 50 es True. Asigna cat = 'Plata' e imprime."
+    ]
   },
   {
     id: "duel_m15_q04",
@@ -2335,9 +2105,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "5",
       "4",
       "3",
-    ],
-    correctAnswer: 3,
-    explanation: "Las notas mayores o iguales a 4 son: 4, 8 y 7 (3 notas). El contador aprobados se incrementa 3 veces. Se imprime 3."
+    ]
   },
   {
     id: "duel_m15_q05",
@@ -2355,9 +2123,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "No se puede sumar precio con recargo.",
       "Falta pedir los datos con input obligatoriamente.",
       "El recargo debió ser un número negativo.",
-    ],
-    correctAnswer: 0,
-    explanation: "La instrucción print(total) aparece en la primera línea, antes de que total haya sido calculada y definida, violando el orden lógico de ejecución."
+    ]
   },
   {
     id: "duel_m15_q06",
@@ -2375,9 +2141,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Vuelto: 150",
       "Vuelto: 500",
       "Falta dinero",
-    ],
-    correctAnswer: 1,
-    explanation: "500 >= 350 es True. Entra al if: vuelto = 500 - 350 = 150. Se imprime 'Vuelto: 150'."
+    ]
   },
   {
     id: "duel_m15_q07",
@@ -2395,9 +2159,7 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "El mayor es: 123",
       "El mayor es: 78",
       "El mayor es: mayor",
-    ],
-    correctAnswer: 2,
-    explanation: "45 > 78 es False. Se ejecuta la rama else, asignando mayor = num2 (78). Se imprime 'El mayor es: 78'."
+    ]
   },
   {
     id: "duel_m15_q08",
@@ -2415,12 +2177,101 @@ export const ONLINE_QUESTIONS_BANK: MatchQuestion[] = [
       "Meta alcanzada en meses: 2",
       "Meta alcanzada en meses: 150",
       "Meta alcanzada en meses: 3",
-    ],
-    correctAnswer: 3,
-    explanation: "Mes 1: ahorro=50. Mes 2: ahorro=100. Mes 3: ahorro=150. Al llegar a 150, la condición (150 < 150) es False y sale. meses vale 3."
+    ]
   }
 ];
 
-export function getQuestionById(id: string): MatchQuestion | undefined {
-  return ONLINE_QUESTIONS_BANK.find(q => q.id === id);
+function createSeededRandom(seed: string): () => number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return function() {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    return ((h ^= h >>> 16) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleDeterministic<T>(array: T[], randomFn: () => number): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(randomFn() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+/**
+ * Genera el conjunto de exactamente 10 preguntas para una partida 1v1:
+ * 1. Filtra estrictamente el banco por contenidos permitidos: q.moduleId <= maxAllowedModule.
+ * 2. Agrupa por dificultad: fácil (3), media (4), difícil (3).
+ * 3. Selecciona de forma determinista con la semilla de la partida (seedOrMatchId).
+ * 4. Si alguna dificultad no alcanza el cupo, realiza un backfill equilibrado exclusivamente dentro del pool permitido.
+ * 5. Mezcla determinísticamente las 10 preguntas seleccionadas para que ambos jugadores las reciban en el mismo orden.
+ */
+export function getPublicMatchQuestions(
+  seedOrMatchId: string = 'match_seed_default',
+  maxAllowedModule: number = 15
+): PublicMatchQuestion[] {
+  const safeMaxModule = Math.max(1, Math.min(15, maxAllowedModule || 1));
+  const prng = createSeededRandom(seedOrMatchId);
+
+  const allowedPool = ONLINE_QUESTIONS_PUBLIC_BANK.filter(q => q.moduleId <= safeMaxModule);
+  const pool = allowedPool.length >= 10 
+    ? allowedPool 
+    : ONLINE_QUESTIONS_PUBLIC_BANK.filter(q => q.moduleId <= Math.max(2, safeMaxModule));
+
+  const easyPool = shuffleDeterministic(pool.filter(q => q.difficulty === 'easy'), prng);
+  const mediumPool = shuffleDeterministic(pool.filter(q => q.difficulty === 'medium'), prng);
+  const hardPool = shuffleDeterministic(pool.filter(q => q.difficulty === 'hard'), prng);
+
+  const targetEasy = 3;
+  const targetMedium = 4;
+  const targetHard = 3;
+
+  const selected: PublicMatchQuestion[] = [];
+  const selectedIds = new Set<string>();
+
+  const takeFrom = (source: PublicMatchQuestion[], count: number) => {
+    for (const q of source) {
+      if (selected.length >= 10) break;
+      if (!selectedIds.has(q.id) && count > 0) {
+        selected.push(q);
+        selectedIds.add(q.id);
+        count--;
+      }
+    }
+  };
+
+  takeFrom(easyPool, targetEasy);
+  takeFrom(mediumPool, targetMedium);
+  takeFrom(hardPool, targetHard);
+
+  if (selected.length < 10) {
+    const remaining = shuffleDeterministic(pool.filter(q => !selectedIds.has(q.id)), prng);
+    for (const q of remaining) {
+      if (selected.length >= 10) break;
+      selected.push(q);
+      selectedIds.add(q.id);
+    }
+  }
+
+  if (selected.length < 10) {
+    for (const q of pool) {
+      if (selected.length >= 10) break;
+      selected.push(q);
+    }
+  }
+
+  const finalOrdered = shuffleDeterministic(selected, prng);
+  return finalOrdered.slice(0, 10);
+}
+
+/**
+ * Busca una pregunta por su identificador único.
+ */
+export function getPublicQuestionById(id: string): PublicMatchQuestion | undefined {
+  return ONLINE_QUESTIONS_PUBLIC_BANK.find(q => q.id === id);
 }

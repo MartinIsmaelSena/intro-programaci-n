@@ -166,10 +166,10 @@ export function mockSimulateRivalAnswer(
 
   const timeSeconds = Math.max(1.8, Math.round((avgTime + (Math.random() * 2.4 - 1.2)) * 10) / 10);
   const isCorrect = Math.random() < accuracy;
-  let selectedOption = question.correctAnswer;
+  let selectedOption = question.correctAnswer ?? Math.floor(Math.random() * (question.options?.length || 4));
 
   if (!isCorrect) {
-    const wrongOptions = [0, 1, 2, 3].filter(idx => idx !== question.correctAnswer);
+    const wrongOptions = [0, 1, 2, 3].filter(idx => idx !== selectedOption);
     selectedOption = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
   }
 
