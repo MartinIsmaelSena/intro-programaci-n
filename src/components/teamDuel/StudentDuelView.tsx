@@ -15,6 +15,7 @@ import {
 import { DuelMatch, DuelTeam, LocalTeamSession } from '../../types/teamDuel';
 import { getPublicQuestionById } from '../../data/onlineQuestionsPublic';
 import { PublicMatchQuestion } from '../../types/onlineChallenge';
+import { validateTeamName } from '../../utils/teamNameModeration';
 import {
   Users,
   ArrowRight,
@@ -174,6 +175,19 @@ export const StudentDuelView: React.FC<StudentDuelViewProps> = () => {
     };
   }, [activeMatch?.id, step]);
 
+  // 2.5. Detección en tiempo real si el equipo del alumno fue eliminado por el docente en el lobby
+  useEffect(() => {
+    if (step === 'lobby' && currentSession?.team_id && teams.length > 0) {
+      const stillExists = teams.some(t => t.id === currentSession.team_id);
+      if (!stillExists) {
+        clearTeamSession();
+        setCurrentSession(null);
+        setStep('team_form');
+        setJoinError('Tu equipo fue eliminado por el docente. Elegí un nombre apropiado para volver a unirte.');
+      }
+    }
+  }, [teams, currentSession?.team_id, step]);
+
   // 3. Reinicio automático del estado de respuesta al cambiar de ronda
   useEffect(() => {
     if (!activeMatch?.current_round) return;
@@ -302,8 +316,9 @@ export const StudentDuelView: React.FC<StudentDuelViewProps> = () => {
       return;
     }
 
-    if (cleanName.length < 2) {
-      setJoinError('El nombre del equipo debe tener al menos 2 caracteres.');
+    const validation = validateTeamName(cleanName);
+    if (!validation.isValid) {
+      setJoinError(validation.error || 'Nombre de equipo no permitido.');
       return;
     }
 

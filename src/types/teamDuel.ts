@@ -240,3 +240,13 @@ export interface GetDuelUsedQuestionsSuccess {
   used_questions: DuelRoundQuestion[];
 }
 export type GetDuelUsedQuestionsResult = GetDuelUsedQuestionsSuccess | DuelRpcError;
+
+// RPC: delete_duel_team
+export interface DeleteDuelTeamSuccess {
+  success: true;
+  team_id: string;
+  team_name: string;
+  match_id: string;
+}
+export type DeleteDuelTeamResult = DeleteDuelTeamSuccess | DuelRpcError;
+

@@ -10,7 +10,8 @@ import {
   fetchDuelSettings,
   subscribeToDuelMatch,
   subscribeToDuelTeams,
-  fetchDuelUsedQuestions
+  fetchDuelUsedQuestions,
+  deleteDuelTeam
 } from '../../services/teamDuelService';
 import { DuelMatch, DuelTeam, DuelRoundQuestion, TeacherRoundSolution } from '../../types/teamDuel';
 import { ONLINE_QUESTIONS_PUBLIC_BANK, getPublicQuestionById } from '../../data/onlineQuestionsPublic';
@@ -34,7 +35,8 @@ import {
   RotateCcw,
   Loader2,
   Lock,
-  Volume2
+  Volume2,
+  Trash2
 } from 'lucide-react';
 
 interface TeacherDuelStageProps {
@@ -49,6 +51,8 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
   const [creatingMatch, setCreatingMatch] = useState<boolean>(false);
   const [processingAction, setProcessingAction] = useState<boolean>(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [teamToDelete, setTeamToDelete] = useState<DuelTeam | null>(null);
+  const [deletingTeam, setDeletingTeam] = useState<boolean>(false);
 
   // Selector de preguntas
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>('');
@@ -400,6 +404,29 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
     setRoundSolution(null);
     setSelectedQuestionId('');
     setActionError(null);
+    setTeamToDelete(null);
+  };
+
+  // Eliminar equipo del lobby por el docente
+  const handleConfirmDeleteTeam = async () => {
+    if (!match || !teamToDelete || deletingTeam) return;
+    setDeletingTeam(true);
+    setActionError(null);
+    try {
+      const res = await deleteDuelTeam(match.id, teamToDelete.id);
+      if (res.success) {
+        setTeams(prev => prev.filter(t => t.id !== teamToDelete.id));
+        setTeamToDelete(null);
+      } else {
+        setActionError(res.error || 'No fue posible eliminar el equipo.');
+        setTeamToDelete(null);
+      }
+    } catch (err: any) {
+      setActionError(err.message || 'Error de red al eliminar el equipo.');
+      setTeamToDelete(null);
+    } finally {
+      setDeletingTeam(false);
+    }
   };
 
   // ============================================================================
@@ -570,10 +597,19 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
               {teams.map((t, idx) => (
                 <div
                   key={t.id}
-                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center space-y-2 animate-fadeIn"
+                  className="relative group p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center space-y-2 animate-fadeIn"
                 >
-                  <span className="text-4xl">{t.avatar}</span>
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate max-w-full">
+                  <button
+                    type="button"
+                    onClick={() => setTeamToDelete(t)}
+                    title={`Eliminar equipo ${t.team_name}`}
+                    className="absolute top-2.5 right-2.5 p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/60 transition-all cursor-pointer opacity-70 hover:opacity-100"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+
+                  <span className="text-4xl pt-1">{t.avatar}</span>
+                  <strong className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate max-w-full px-1">
                     {t.team_name}
                   </strong>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
@@ -697,6 +733,60 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
             </button>
           </div>
         </div>
+
+        {/* Modal de Confirmación de Eliminación de Equipo */}
+        {teamToDelete && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-scaleUp">
+              <div className="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                <div className="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center flex-shrink-0">
+                  <Trash2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white">
+                    Eliminar equipo
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Administración de sala
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                ¿Estás seguro de que querés eliminar al equipo <strong className="text-slate-900 dark:text-white">"{teamToDelete.team_name}"</strong>? Esta acción liberará el cupo de la sala y desconectará al equipo de la partida.
+              </p>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  disabled={deletingTeam}
+                  onClick={() => setTeamToDelete(null)}
+                  className="py-2.5 px-4 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  disabled={deletingTeam}
+                  onClick={handleConfirmDeleteTeam}
+                  className="py-2.5 px-5 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-md shadow-rose-600/20 flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                >
+                  {deletingTeam ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Eliminando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Eliminar equipo</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

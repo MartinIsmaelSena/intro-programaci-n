@@ -15,7 +15,8 @@ import {
   ResolveDuelRoundResult,
   AdvanceDuelRoundResult,
   HeartbeatDuelTeamResult,
-  DuelRoundQuestion
+  DuelRoundQuestion,
+  DeleteDuelTeamResult
 } from '../types/teamDuel';
 
 /**
@@ -271,6 +272,38 @@ export async function advanceDuelRound(
     return data as AdvanceDuelRoundResult;
   } catch (err: any) {
     return { success: false, error: err.message || 'Error de conexión al avanzar de ronda.' };
+  }
+}
+
+/**
+ * RPC: delete_duel_team
+ * Permite al docente autorizado eliminar un equipo del lobby o sala de espera.
+ */
+export async function deleteDuelTeam(
+  matchId: string,
+  teamId: string
+): Promise<DeleteDuelTeamResult> {
+  if (!isSupabaseConfigured() || !supabase) {
+    return { success: false, error: 'Supabase no está configurado.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('delete_duel_team', {
+      p_match_id: matchId,
+      p_team_id: teamId
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    if (!data || typeof data !== 'object') {
+      return { success: false, error: 'Respuesta inválida del servidor al eliminar equipo.' };
+    }
+
+    return data as DeleteDuelTeamResult;
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Error de conexión al eliminar equipo.' };
   }
 }
 
