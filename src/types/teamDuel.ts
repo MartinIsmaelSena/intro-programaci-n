@@ -14,7 +14,7 @@ export type DuelMatchStatus =
   | 'round_review'
   | 'finished';
 
-export type DuelTeamStatus = 'connected' | 'disconnected';
+export type DuelTeamStatus = 'connected' | 'disconnected' | 'removed';
 
 // ==============================================================================
 // Modelos de Tablas de Supabase
@@ -240,6 +240,16 @@ export interface GetDuelUsedQuestionsSuccess {
   used_questions: DuelRoundQuestion[];
 }
 export type GetDuelUsedQuestionsResult = GetDuelUsedQuestionsSuccess | DuelRpcError;
+
+// RPC: eject_duel_team
+export interface EjectDuelTeamSuccess {
+  success: true;
+  action: 'ejected';
+  team_id: string;
+  team_name: string;
+  match_id: string;
+}
+export type EjectDuelTeamResult = EjectDuelTeamSuccess | DuelRpcError;
 
 // RPC: delete_duel_team
 export interface DeleteDuelTeamSuccess {

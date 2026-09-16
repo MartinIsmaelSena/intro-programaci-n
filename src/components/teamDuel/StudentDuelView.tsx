@@ -175,15 +175,15 @@ export const StudentDuelView: React.FC<StudentDuelViewProps> = () => {
     };
   }, [activeMatch?.id, step]);
 
-  // 2.5. Detección en tiempo real si el equipo del alumno fue eliminado por el docente en el lobby
+  // 2.5. Detección en tiempo real si el equipo del alumno fue retirado/sacado o eliminado por el docente
   useEffect(() => {
-    if (step === 'lobby' && currentSession?.team_id && teams.length > 0) {
-      const stillExists = teams.some(t => t.id === currentSession.team_id);
-      if (!stillExists) {
+    if (currentSession?.team_id && (step === 'lobby' || step === 'loading') && teams.length > 0) {
+      const myTeam = teams.find(t => t.id === currentSession.team_id);
+      if (!myTeam || myTeam.status === 'removed') {
         clearTeamSession();
         setCurrentSession(null);
         setStep('team_form');
-        setJoinError('Tu equipo fue eliminado por el docente. Elegí un nombre apropiado para volver a unirte.');
+        setJoinError('Tu equipo fue retirado de la partida por el docente.');
       }
     }
   }, [teams, currentSession?.team_id, step]);

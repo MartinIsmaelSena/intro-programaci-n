@@ -16,7 +16,8 @@ import {
   AdvanceDuelRoundResult,
   HeartbeatDuelTeamResult,
   DuelRoundQuestion,
-  DeleteDuelTeamResult
+  DeleteDuelTeamResult,
+  EjectDuelTeamResult
 } from '../types/teamDuel';
 
 /**
@@ -276,8 +277,42 @@ export async function advanceDuelRound(
 }
 
 /**
+ * RPC: eject_duel_team
+ * Permite al docente autorizado retirar/expulsar un equipo de la partida.
+ * Marca el estado como 'removed', destruye sus credenciales de sesión en duel_team_secrets
+ * y libera el cupo inmediatamente.
+ */
+export async function ejectDuelTeam(
+  matchId: string,
+  teamId: string
+): Promise<EjectDuelTeamResult> {
+  if (!isSupabaseConfigured() || !supabase) {
+    return { success: false, error: 'Supabase no está configurado.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('eject_duel_team', {
+      p_match_id: matchId,
+      p_team_id: teamId
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    if (!data || typeof data !== 'object') {
+      return { success: false, error: 'Respuesta inválida del servidor al expulsar equipo.' };
+    }
+
+    return data as EjectDuelTeamResult;
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Error de conexión al expulsar equipo.' };
+  }
+}
+
+/**
  * RPC: delete_duel_team
- * Permite al docente autorizado eliminar un equipo del lobby o sala de espera.
+ * Permite al docente autorizado eliminar permanentemente un equipo del lobby o sala de espera.
  */
 export async function deleteDuelTeam(
   matchId: string,
@@ -552,6 +587,7 @@ export async function fetchDuelTeams(matchId: string): Promise<DuelTeam[]> {
       .from('duel_teams')
       .select('*')
       .eq('match_id', matchId)
+      .neq('status', 'removed')
       .order('total_score', { ascending: false })
       .order('total_time_ms', { ascending: true });
 

@@ -11,7 +11,8 @@ import {
   subscribeToDuelMatch,
   subscribeToDuelTeams,
   fetchDuelUsedQuestions,
-  deleteDuelTeam
+  deleteDuelTeam,
+  ejectDuelTeam
 } from '../../services/teamDuelService';
 import { DuelMatch, DuelTeam, DuelRoundQuestion, TeacherRoundSolution } from '../../types/teamDuel';
 import { ONLINE_QUESTIONS_PUBLIC_BANK, getPublicQuestionById } from '../../data/onlineQuestionsPublic';
@@ -36,7 +37,8 @@ import {
   Loader2,
   Lock,
   Volume2,
-  Trash2
+  Trash2,
+  UserX
 } from 'lucide-react';
 
 interface TeacherDuelStageProps {
@@ -51,6 +53,8 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
   const [creatingMatch, setCreatingMatch] = useState<boolean>(false);
   const [processingAction, setProcessingAction] = useState<boolean>(false);
   const [actionError, setActionError] = useState<string | null>(null);
+  const [teamToEject, setTeamToEject] = useState<DuelTeam | null>(null);
+  const [ejectingTeam, setEjectingTeam] = useState<boolean>(false);
   const [teamToDelete, setTeamToDelete] = useState<DuelTeam | null>(null);
   const [deletingTeam, setDeletingTeam] = useState<boolean>(false);
 
@@ -404,10 +408,33 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
     setRoundSolution(null);
     setSelectedQuestionId('');
     setActionError(null);
+    setTeamToEject(null);
     setTeamToDelete(null);
   };
 
-  // Eliminar equipo del lobby por el docente
+  // Sacar/expulsar equipo de la partida por el docente (soft delete + invalidar credencial)
+  const handleConfirmEjectTeam = async () => {
+    if (!match || !teamToEject || ejectingTeam) return;
+    setEjectingTeam(true);
+    setActionError(null);
+    try {
+      const res = await ejectDuelTeam(match.id, teamToEject.id);
+      if (res.success) {
+        setTeams(prev => prev.filter(t => t.id !== teamToEject.id));
+        setTeamToEject(null);
+      } else {
+        setActionError(res.error || 'No fue posible sacar al equipo.');
+        setTeamToEject(null);
+      }
+    } catch (err: any) {
+      setActionError(err.message || 'Error de red al sacar al equipo.');
+      setTeamToEject(null);
+    } finally {
+      setEjectingTeam(false);
+    }
+  };
+
+  // Eliminar equipo permanentemente del lobby por el docente
   const handleConfirmDeleteTeam = async () => {
     if (!match || !teamToDelete || deletingTeam) return;
     setDeletingTeam(true);
@@ -597,24 +624,30 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
               {teams.map((t, idx) => (
                 <div
                   key={t.id}
-                  className="relative group p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center space-y-2 animate-fadeIn"
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center space-y-2.5 animate-fadeIn shadow-xs"
                 >
+                  <span className="text-4xl pt-1">{t.avatar}</span>
+                  <div className="w-full">
+                    <strong
+                      className="block text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate px-1"
+                      title={t.team_name}
+                    >
+                      {t.team_name}
+                    </strong>
+                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center justify-center gap-1 mt-0.5">
+                      <CheckCircle2 className="w-3 h-3" /> Equipo {idx + 1}
+                    </span>
+                  </div>
+
                   <button
                     type="button"
-                    onClick={() => setTeamToDelete(t)}
-                    title={`Eliminar equipo ${t.team_name}`}
-                    className="absolute top-2.5 right-2.5 p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/60 transition-all cursor-pointer opacity-70 hover:opacity-100"
+                    onClick={() => setTeamToEject(t)}
+                    title={`Sacar al equipo ${t.team_name} de la partida`}
+                    className="w-full mt-1 py-1.5 px-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/70 text-rose-700 dark:text-rose-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <UserX className="w-3.5 h-3.5" />
+                    <span>Sacar equipo</span>
                   </button>
-
-                  <span className="text-4xl pt-1">{t.avatar}</span>
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate max-w-full px-1">
-                    {t.team_name}
-                  </strong>
-                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3" /> Equipo {idx + 1}
-                  </span>
                 </div>
               ))}
             </div>
@@ -734,7 +767,66 @@ export const TeacherDuelStage: React.FC<TeacherDuelStageProps> = ({ onNavigate }
           </div>
         </div>
 
-        {/* Modal de Confirmación de Eliminación de Equipo */}
+        {/* Modal de Confirmación de Sacar Equipo */}
+        {teamToEject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-scaleUp">
+              <div className="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                <div className="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center flex-shrink-0">
+                  <UserX className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 dark:text-white">
+                    Sacar equipo
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Administración de sala
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed">
+                  ¿Querés sacar al equipo <strong className="text-rose-600 dark:text-rose-400">"{teamToEject.team_name}"</strong> de esta partida?
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  El equipo será retirado inmediatamente de la partida, su cupo quedará liberado en la sala y el alumno regresará a la pantalla inicial para poder volver a unirse con un nombre apropiado.
+                </p>
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  disabled={ejectingTeam}
+                  onClick={() => setTeamToEject(null)}
+                  className="py-2.5 px-4 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  disabled={ejectingTeam}
+                  onClick={handleConfirmEjectTeam}
+                  className="py-2.5 px-5 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-md shadow-rose-600/20 flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+                >
+                  {ejectingTeam ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Sacando equipo...</span>
+                    </>
+                  ) : (
+                    <>
+                      <UserX className="w-3.5 h-3.5" />
+                      <span>Sacar equipo</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal de Confirmación de Eliminación Permanente de Equipo */}
         {teamToDelete && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn">
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-scaleUp">
