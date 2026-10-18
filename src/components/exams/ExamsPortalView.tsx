@@ -351,44 +351,54 @@ export const ExamsPortalView: React.FC = () => {
       </div>
 
       {/* Selector de Pestañas: Exámenes vs Trabajos Prácticos */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-2 sm:gap-4">
-        <button
-          onClick={() => setCurrentTab('exams')}
-          className={`pb-3 px-3 sm:px-4 font-bold text-xs sm:text-sm flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
-            currentTab === 'exams'
-              ? 'border-python-blue text-python-blue dark:text-sky-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-          }`}
-        >
-          <FileText className="w-4 h-4" />
-          <span>Exámenes</span>
-          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
-            currentTab === 'exams'
-              ? 'bg-python-blue/10 text-python-blue dark:bg-sky-400/10 dark:text-sky-400'
-              : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
-          }`}>
-            5 Bloques
-          </span>
-        </button>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-2 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+          <button
+            type="button"
+            onClick={() => setCurrentTab('exams')}
+            className={`flex-1 sm:flex-initial py-2.5 px-5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              currentTab === 'exams'
+                ? 'bg-white dark:bg-slate-800 text-python-blue dark:text-sky-400 shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            <span>Exámenes Modulares</span>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+              currentTab === 'exams'
+                ? 'bg-python-blue/10 text-python-blue dark:bg-sky-400/20 dark:text-sky-300'
+                : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
+            }`}>
+              5 Bloques
+            </span>
+          </button>
 
-        <button
-          onClick={() => setCurrentTab('practical_works')}
-          className={`pb-3 px-3 sm:px-4 font-bold text-xs sm:text-sm flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
-            currentTab === 'practical_works'
-              ? 'border-python-blue text-python-blue dark:text-sky-400'
-              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-          }`}
-        >
-          <BookOpen className="w-4 h-4" />
-          <span>Trabajos Prácticos</span>
-          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
-            currentTab === 'practical_works'
-              ? 'bg-python-blue/10 text-python-blue dark:bg-sky-400/10 dark:text-sky-400'
-              : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
-          }`}>
-            Nuevo
-          </span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setCurrentTab('practical_works')}
+            className={`flex-1 sm:flex-initial py-2.5 px-5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              currentTab === 'practical_works'
+                ? 'bg-white dark:bg-slate-800 text-python-blue dark:text-sky-400 shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>Trabajos Prácticos</span>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+              currentTab === 'practical_works'
+                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
+                : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
+            }`}>
+              Nuevo
+            </span>
+          </button>
+        </div>
+
+        <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 px-3 hidden sm:block">
+          {currentTab === 'exams'
+            ? 'Evaluaciones automáticas con calificación inmediata'
+            : 'Instancia evaluatoria por institución y consignas'}
+        </div>
       </div>
 
       {/* Contenido Pestaña Exámenes */}
