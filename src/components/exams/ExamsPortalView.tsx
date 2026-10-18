@@ -24,6 +24,7 @@ import {
   subscribeToDuelSettings
 } from '../../services/teamDuelService';
 import { TeacherLoginModal } from './TeacherLoginModal';
+import { PracticalWorksSection } from './PracticalWorksSection';
 import {
   FileText,
   Lock,
@@ -41,13 +42,17 @@ import {
   RefreshCw,
   Loader2,
   AlertCircle,
-  Swords
+  Swords,
+  BookOpen
 } from 'lucide-react';
 
 export const ExamsPortalView: React.FC = () => {
   const { progress } = useProgress();
   const [activeExam, setActiveExam] = useState<Exam | null>(null);
   
+  // Pestaña activa: 'exams' (Exámenes Modulares) o 'practical_works' (Trabajos Prácticos)
+  const [currentTab, setCurrentTab] = useState<'exams' | 'practical_works'>('exams');
+
   // Disponibilidad Global autoritativa en Supabase (public.exam_settings)
   const [examSettings, setExamSettings] = useState<Record<string, boolean>>(DEFAULT_EXAM_SETTINGS);
   const [loadingSettings, setLoadingSettings] = useState(true);
@@ -253,19 +258,30 @@ export const ExamsPortalView: React.FC = () => {
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-python-blue text-white shadow-xl shadow-slate-950/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-xs font-bold uppercase tracking-wider text-sky-300">
-            <FileText className="w-3.5 h-3.5" />
-            <span>Ciclo de Aprendizaje Continuo</span>
+            {currentTab === 'exams' ? <FileText className="w-3.5 h-3.5" /> : <BookOpen className="w-3.5 h-3.5" />}
+            <span>{currentTab === 'exams' ? 'Ciclo de Aprendizaje Continuo' : 'Evaluaciones Formativas e Institucionales'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            📝 Exámenes Modulares por Bloques
+            {currentTab === 'exams' ? '📝 Exámenes Modulares por Bloques' : '📚 Trabajos Prácticos Evaluatorios'}
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            Los exámenes evalúan de forma integral los conocimientos adquiridos para acompañar tu progreso paso a paso:
-            <span className="block mt-1 font-semibold text-sky-300">
-              Aprender ➔ Practicar ➔ Evaluar ➔ Continuar aprendiendo
-            </span>
+            {currentTab === 'exams' ? (
+              <>
+                Los exámenes evalúan de forma integral los conocimientos adquiridos para acompañar tu progreso paso a paso:
+                <span className="block mt-1 font-semibold text-sky-300">
+                  Aprender ➔ Practicar ➔ Evaluar ➔ Continuar aprendiendo
+                </span>
+              </>
+            ) : (
+              <>
+                Espacio destinado a evaluaciones prácticas, consignas institucionales y proyectos de aplicación:
+                <span className="block mt-1 font-semibold text-sky-300">
+                  Consignas por colegio ➔ Desarrollo y entrega ➔ Devolución del docente
+                </span>
+              </>
+            )}
           </p>
         </div>
 
@@ -334,7 +350,51 @@ export const ExamsPortalView: React.FC = () => {
         </div>
       </div>
 
-      {/* Error alert if updating settings failed */}
+      {/* Selector de Pestañas: Exámenes vs Trabajos Prácticos */}
+      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-2 sm:gap-4">
+        <button
+          onClick={() => setCurrentTab('exams')}
+          className={`pb-3 px-3 sm:px-4 font-bold text-xs sm:text-sm flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+            currentTab === 'exams'
+              ? 'border-python-blue text-python-blue dark:text-sky-400'
+              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span>Exámenes</span>
+          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+            currentTab === 'exams'
+              ? 'bg-python-blue/10 text-python-blue dark:bg-sky-400/10 dark:text-sky-400'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+          }`}>
+            5 Bloques
+          </span>
+        </button>
+
+        <button
+          onClick={() => setCurrentTab('practical_works')}
+          className={`pb-3 px-3 sm:px-4 font-bold text-xs sm:text-sm flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+            currentTab === 'practical_works'
+              ? 'border-python-blue text-python-blue dark:text-sky-400'
+              : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          <span>Trabajos Prácticos</span>
+          <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+            currentTab === 'practical_works'
+              ? 'bg-python-blue/10 text-python-blue dark:bg-sky-400/10 dark:text-sky-400'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+          }`}>
+            Nuevo
+          </span>
+        </button>
+      </div>
+
+      {/* Contenido Pestaña Exámenes */}
+      {currentTab === 'exams' && (
+        <div className="space-y-8 animate-fadeIn">
+          {/* Error alert if updating settings failed */}
       {settingsError && (
         <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -599,6 +659,17 @@ export const ExamsPortalView: React.FC = () => {
           Evaluará una selección amplia de los módulos al completar todos los bloques. La plataforma ya cuenta con la arquitectura para integrarlo cuando esté listo.
         </p>
       </div>
+        </div>
+      )}
+
+      {/* Contenido Pestaña Trabajos Prácticos */}
+      {currentTab === 'practical_works' && (
+        <PracticalWorksSection
+          teacherAuth={teacherAuth}
+          onOpenTeacherLogin={() => setIsLoginModalOpen(true)}
+          onNavigateToExams={() => setCurrentTab('exams')}
+        />
+      )}
 
       {/* Modal de Resultados de Exámenes para Docentes */}
       {showTeacherResultsModal && (
