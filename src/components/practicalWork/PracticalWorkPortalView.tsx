@@ -14,6 +14,7 @@ import {
   gradeTPSession,
   saveTPAttemptToSupabase
 } from '../../services/practicalWorkRunnerService';
+import { sendPracticalWorkResultEmail } from '../../services/practicalWorkEmailService';
 import { runPythonCode } from '../../services/pythonRunner';
 import { validateExercise } from '../../services/testValidator';
 import { PythonEditor } from '../editor/PythonEditor';
@@ -56,6 +57,8 @@ import {
   Sparkles,
   HelpCircle,
   FileText,
+  Mail,
+  RefreshCw,
   Lock,
   Unlock,
   ShieldCheck,
@@ -142,6 +145,16 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
   const [loadingAvailability, setLoadingAvailability] = useState<boolean>(true);
   const [isTogglingAvailability, setIsTogglingAvailability] = useState<boolean>(false);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
+
+  // 7. Estados para el envío de resultados por correo electrónico
+  const [email1, setEmail1] = useState('');
+  const [email2, setEmail2] = useState('');
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [emailSending, setEmailSending] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<{
+    type: 'idle' | 'success' | 'error' | 'notConfigured';
+    message: string;
+  } | null>(null);
 
   // Carga inicial y sincronización Realtime de disponibilidad y estado docente
   useEffect(() => {
@@ -424,7 +437,74 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
     setEvaluationResult(null);
     setCurrentIndex(0);
     isSubmissionLockedRef.current = false;
+    setEmail1('');
+    setEmail2('');
+    setEmailError(null);
+    setEmailStatus(null);
     setStep('intro');
+  };
+
+  // Enviar copia del resultado y devoluciones pedagógicas por correo electrónico
+  const handleSendResultEmail = async () => {
+    if (!evaluationResult) return;
+    setEmailError(null);
+    setEmailStatus(null);
+
+    const clean1 = email1.trim();
+    const clean2 = email2.trim();
+
+    if (!clean1) {
+      setEmailError('Por favor, ingresá el correo electrónico del primer estudiante.');
+      return;
+    }
+    const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!EMAIL_REGEX.test(clean1)) {
+      setEmailError('El correo del primer estudiante no tiene un formato válido (ejemplo: alumno@escuela.edu.ar).');
+      return;
+    }
+    if (clean2) {
+      if (!EMAIL_REGEX.test(clean2)) {
+        setEmailError('El correo del segundo estudiante no tiene un formato válido.');
+        return;
+      }
+      if (clean1.toLowerCase() === clean2.toLowerCase()) {
+        setEmailError('Las dos casillas de correo son idénticas. Ingresá una casilla diferente para el segundo estudiante o dejala en blanco.');
+        return;
+      }
+    }
+
+    setEmailSending(true);
+    try {
+      const res = await sendPracticalWorkResultEmail({
+        evaluation: evaluationResult,
+        email1: clean1,
+        email2: clean2 || undefined,
+      });
+
+      if (res.success) {
+        setEmailStatus({
+          type: 'success',
+          message: res.message,
+        });
+      } else if (res.notConfigured) {
+        setEmailStatus({
+          type: 'notConfigured',
+          message: res.message,
+        });
+      } else {
+        setEmailStatus({
+          type: 'error',
+          message: res.message || 'No fue posible completar el envío por correo. Podés reintentar en unos instantes.',
+        });
+      }
+    } catch (err: any) {
+      setEmailStatus({
+        type: 'error',
+        message: 'Ocurrió un error inesperado al contactar con el servicio de correo. Verificá tu conexión a internet.',
+      });
+    } finally {
+      setEmailSending(false);
+    }
   };
 
   // ==========================================================================
@@ -457,7 +537,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
 
               <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-sky-200">
                 <Users className="w-4 h-4" />
-                <span>Modalidad: Individual (22 act.) o En Pareja (30 act.)</span>
+                <span>Modalidad: Individual (18 act.) o En Pareja (36 act.)</span>
               </div>
 
               <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-emerald-300">
@@ -681,7 +761,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
               <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
                 <div>
                   <strong className="block text-slate-900 dark:text-white">Parte A: Análisis, Código y Lógica (40%)</strong>
-                  <span className="text-slate-500 text-xs">Individual: 18 preguntas | En Pareja: 26 preguntas</span>
+                  <span className="text-slate-500 text-xs">Individual: 14 preguntas | En Pareja: 28 preguntas</span>
                 </div>
                 <span className="font-bold text-python-blue dark:text-sky-400 text-base">4.0 Pts</span>
               </div>
@@ -689,7 +769,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
               <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
                 <div>
                   <strong className="block text-slate-900 dark:text-white">Parte B: Programación Práctica (60%)</strong>
-                  <span className="text-slate-500 text-xs">4 programas Python (doble, triángulo, cuadrado y problema aplicado)</span>
+                  <span className="text-slate-500 text-xs">Individual: 4 programas | En Pareja: 8 programas</span>
                 </div>
                 <span className="font-bold text-emerald-600 dark:text-emerald-400 text-base">6.0 Pts</span>
               </div>
@@ -1209,7 +1289,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             <div className="flex justify-between">
               <span className="text-slate-500">Actividades a resolver:</span>
               <strong className="text-slate-900 dark:text-white font-bold">
-                {studentForm.modality === 'pareja' ? '30 actividades (26 de análisis y lógica + 4 de código)' : '22 actividades (18 de análisis y lógica + 4 de código)'}
+                {studentForm.modality === 'pareja' ? '36 actividades (28 de análisis y lógica + 8 de código)' : '18 actividades (14 de análisis y lógica + 4 de código)'}
               </strong>
             </div>
           </div>
@@ -1741,7 +1821,9 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
               <span className="text-2xl sm:text-3xl font-black">
                 {evaluationResult.practicalScore} <span className="text-sm font-semibold opacity-80">/ 6.0</span>
               </span>
-              <span className="text-[11px] block text-white/80 mt-1">4 programas Python</span>
+              <span className="text-[11px] block text-white/80 mt-1">
+                {evaluationResult.practicalBreakdown.length} programas Python
+              </span>
             </div>
           </div>
         </div>
@@ -1752,6 +1834,137 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
           <span>
             <strong>Resultado registrado:</strong> La nota y las devoluciones de este Trabajo Práctico han sido guardadas de forma segura en la tabla de calificaciones de Supabase.
           </span>
+        </div>
+
+        {/* Sección: Envío de Resultados por Correo Electrónico */}
+        <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-sky-100 dark:bg-sky-950/80 border border-sky-200 dark:border-sky-800 flex items-center justify-center text-python-blue dark:text-sky-400 flex-shrink-0">
+              <Mail className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white">
+                Enviar resultado y devoluciones por correo electrónico
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Recibí un reporte pedagógico detallado con la calificación, respuestas correctas y feedback de código.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            {/* Correo Estudiante 1 (Obligatorio) */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                Correo de {evaluationResult.student.student1.name} {evaluationResult.student.student1.lastName} <span className="text-rose-500">*</span>
+              </label>
+              <input
+                type="email"
+                disabled={emailSending}
+                value={email1}
+                onChange={e => {
+                  setEmail1(e.target.value);
+                  if (emailError) setEmailError(null);
+                }}
+                placeholder="estudiante1@escuela.edu.ar"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-python-blue disabled:opacity-50"
+              />
+            </div>
+
+            {/* Correo Estudiante 2 (Opcional, en modalidad pareja) */}
+            {evaluationResult.student.modality === 'pareja' && (
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                  Correo de {evaluationResult.student.student2 ? `${evaluationResult.student.student2.name} ${evaluationResult.student.student2.lastName}` : 'Estudiante 2'} <span className="text-slate-400 font-normal">(Opcional)</span>
+                </label>
+                <input
+                  type="email"
+                  disabled={emailSending}
+                  value={email2}
+                  onChange={e => {
+                    setEmail2(e.target.value);
+                    if (emailError) setEmailError(null);
+                  }}
+                  placeholder="estudiante2@escuela.edu.ar"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-python-blue disabled:opacity-50"
+                />
+              </div>
+            )}
+          </div>
+
+          {emailError && (
+            <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300 flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+              <span>{emailError}</span>
+            </div>
+          )}
+
+          {emailStatus && (
+            <div className={`p-4 rounded-2xl border text-xs flex items-start gap-3 ${
+              emailStatus.type === 'success'
+                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+                : emailStatus.type === 'notConfigured'
+                ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200'
+                : 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200'
+            }`}>
+              {emailStatus.type === 'success' ? (
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+              ) : emailStatus.type === 'notConfigured' ? (
+                <Info className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              ) : (
+                <AlertTriangle className="w-5 h-5 text-rose-600 dark:text-rose-400 flex-shrink-0 mt-0.5" />
+              )}
+              <div className="space-y-1 flex-1">
+                <strong className="block font-bold">
+                  {emailStatus.type === 'success'
+                    ? '¡Envío completado exitosamente!'
+                    : emailStatus.type === 'notConfigured'
+                    ? 'Servicio de correo en configuración:'
+                    : 'Error al enviar por correo:'}
+                </strong>
+                <p className="leading-relaxed">{emailStatus.message}</p>
+                {emailStatus.type === 'success' && (
+                  <p className="text-[11px] opacity-80 pt-0.5">
+                    Cada destinatario recibió su copia individualmente preservando la privacidad.
+                  </p>
+                )}
+                {emailStatus.type !== 'success' && (
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={handleSendResultEmail}
+                      disabled={emailSending}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>Reintentar envío</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center justify-end pt-1">
+            <button
+              type="button"
+              onClick={handleSendResultEmail}
+              disabled={emailSending}
+              className="w-full sm:w-auto py-2.5 px-5 rounded-xl bg-python-blue hover:bg-python-blue-light text-white text-xs font-bold shadow-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50 cursor-pointer"
+            >
+              {emailSending ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Enviando reporte...</span>
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  <span>Enviar resultado</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Botón para Desplegar Devolución Detallada */}
@@ -1829,7 +2042,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
               {/* Sección 2: Devoluciones Prácticas de Código */}
               <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                 <h4 className="text-xs font-black uppercase tracking-wider text-slate-400">
-                  Devolución de Ejercicios Prácticos (4 programas)
+                  Devolución de Ejercicios Prácticos ({evaluationResult.practicalBreakdown.length} programas)
                 </h4>
 
                 <div className="space-y-4">

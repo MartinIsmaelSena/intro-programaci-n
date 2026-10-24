@@ -5,21 +5,21 @@ import { TPModelType, TPModality } from '../../types/practicalWorkSession';
 // BANCO DE PREGUNTAS Y ACTIVIDADES PARA TRABAJO PRÁCTICO (3 MODELOS EQUIVALENTES)
 //
 // Distribución por Modalidad:
-// - INDIVIDUAL (22 actividades):
-//     * 8 Preguntas Conceptuales Fundamentales (Teoría)
+// - INDIVIDUAL (18 actividades):
+//     * 5 Preguntas Teóricas Conceptuales
 //     * 4 Preguntas de Interpretación de Código («¿Qué muestra / hace este código?»)
 //     * 3 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
-//     * 3 Preguntas de Expresiones Matemáticas y Lógicas (and, or, not, comparaciones)
+//     * 2 Preguntas de Expresiones Matemáticas y Lógicas (and, or, not, comparaciones)
 //     * 4 Ejercicios Prácticos de Programación en Python con Pyodide
-//     = 18 preguntas (4.0 pts) + 4 ejercicios de código (6.0 pts) = 10.0 pts.
+//     = 14 preguntas (4.0 pts) + 4 ejercicios de código (6.0 pts) = 10.0 pts.
 //
-// - EN PAREJA (30 actividades):
-//     * 12 Preguntas Conceptuales Fundamentales (Teoría)
-//     * 6 Preguntas de Interpretación de Código («¿Qué muestra / hace este código?»)
-//     * 4 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
+// - EN PAREJA (36 actividades):
+//     * 10 Preguntas Teóricas Conceptuales
+//     * 8 Preguntas de Interpretación de Código («¿Qué muestra / hace este código?»)
+//     * 6 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
 //     * 4 Preguntas de Expresiones Matemáticas y Lógicas (and, or, not, comparaciones)
-//     * 4 Ejercicios Prácticos de Programación en Python con Pyodide
-//     = 26 preguntas (4.0 pts) + 4 ejercicios de código (6.0 pts) = 10.0 pts.
+//     * 8 Ejercicios Prácticos de Programación en Python con Pyodide
+//     = 28 preguntas (4.0 pts) + 8 ejercicios de código (6.0 pts) = 10.0 pts.
 //
 // Contenidos Evaluados (estrictamente limitados a los módulos 3 al 10):
 // - Qué es Python y el intérprete (Módulo 3)
@@ -337,6 +337,40 @@ const MODEL_A_INTERPRETATION: ExamUnifiedQuestion[] = [
     correctAnswer: 1,
     explanation: '// calcula la división entera: 14 // 4 da 3 (porque 4 * 3 = 12, sobrando 2 que se descartan).',
     points: 0.5
+  },
+  {
+    id: 'tp_a_int_07',
+    type: 'tracing',
+    moduleId: 6,
+    topic: 'Interpretación de Código: Operaciones y variables',
+    question: '¿Qué resultado muestra en pantalla este código?',
+    codeSnippet: 'base = 8\naltura = 4\narea = (base * altura) // 2\nprint("Área:", area)',
+    options: [
+      'Área: 16',
+      'Área: 32',
+      'Área: 16.0',
+      'Área: 8'
+    ],
+    correctAnswer: 0,
+    explanation: 'Primero se calcula 8 * 4 = 32. Luego 32 // 2 da la división entera 16. Se imprime "Área: 16".',
+    points: 0.5
+  },
+  {
+    id: 'tp_a_int_08',
+    type: 'tracing',
+    moduleId: 9,
+    topic: 'Interpretación de Código: Concatenación y repetición',
+    question: '¿Qué muestra este programa al ejecutarse?',
+    codeSnippet: 'saludo = "Hola"\nseparador = "-" * 3\nprint(saludo + separador + "Python")',
+    options: [
+      'Hola---Python',
+      'Hola-3Python',
+      'Hola - Python',
+      'Error de sintaxis'
+    ],
+    correctAnswer: 0,
+    explanation: 'El operador * con texto repite la cadena: "-" * 3 genera "---". Al concatenar con + resulta "Hola---Python".',
+    points: 0.5
   }
 ];
 
@@ -409,6 +443,40 @@ const MODEL_A_ERROR_DETECTION: ExamUnifiedQuestion[] = [
     ],
     correctAnswer: 0,
     explanation: 'Python es sensible a mayúsculas y minúsculas (case-sensitive). nota y Nota son variables completamente distintas para el intérprete.',
+    points: 0.5
+  },
+  {
+    id: 'tp_a_err_05',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Espacios en nombres de variables',
+    question: '¿Qué problema presenta la primera línea de este código?',
+    codeSnippet: 'precio final = 250\nprint(precio final)',
+    options: [
+      'Los nombres de variables no pueden contener espacios en blanco; se debe usar guión bajo (precio_final).',
+      'No tiene ningún error; el programa imprime 250.',
+      'El número 250 debió escribirse obligatoriamente entre comillas.',
+      'Las variables no pueden tener más de 5 letras.'
+    ],
+    correctAnswer: 0,
+    explanation: 'En Python los nombres de variables deben ser un único identificador continuo sin espacios. Para separar palabras se usa guión bajo (snake_case).',
+    points: 0.5
+  },
+  {
+    id: 'tp_a_err_06',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Asignación invertida',
+    question: '¿Qué error de sintaxis ocurre al intentar ejecutar este código?',
+    codeSnippet: '100 = puntos\nprint(puntos)',
+    options: [
+      'Falla con SyntaxError porque a la izquierda del signo = siempre debe ir el nombre de una variable, no un valor literal.',
+      'El código es válido y muestra 100.',
+      'El error ocurre en print() porque no puede mostrar puntos.',
+      'Se debe usar doble igual (==) para crear variables.'
+    ],
+    correctAnswer: 0,
+    explanation: 'En la asignación (=), la variable receptora debe estar siempre a la izquierda y el valor o expresión a la derecha. Escribir 100 = puntos es sintácticamente inválido.',
     points: 0.5
   }
 ];
@@ -623,6 +691,150 @@ const MODEL_A_PRACTICAL: ExamUnifiedQuestion[] = [
         inputs: ['12', '3'],
         expectedOutputPattern: '(?:^|\\D)36(?:\\.0*)?(?:\\D|$)',
         description: 'Base: 12, Altura: 3 → Área esperada: 36'
+      }
+    ]
+  },
+  {
+    id: 'tp_a_pr_05',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Suma de dos enteros',
+    title: 'Ejercicio 5: Suma de dos números enteros',
+    question: 'Pedí dos números enteros al usuario mediante dos llamadas consecutivas a input(), convertilos con int(), calculá su suma y mostrá el resultado en pantalla con print().',
+    starterCode: '# Ejercicio 5: Suma de dos números enteros\n# Leé dos enteros con input(), sumalos y mostrá el resultado con print()\n\nnum1 = int(input("Primer número: "))\nnum2 = int(input("Segundo número: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Suma 10 + 25',
+        inputs: ['10', '25'],
+        expectedOutputPattern: '(?:^|\\D)35(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 10 y 25 → Suma esperada: 35'
+      },
+      {
+        name: 'Suma 7 + 3',
+        inputs: ['7', '3'],
+        expectedOutputPattern: '(?:^|\\D)10(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 7 y 3 → Suma esperada: 10'
+      },
+      {
+        name: 'Suma 100 + 250',
+        inputs: ['100', '250'],
+        expectedOutputPattern: '(?:^|\\D)350(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 100 y 250 → Suma esperada: 350'
+      },
+      {
+        name: 'Suma con cero 0 + 42',
+        inputs: ['0', '42'],
+        expectedOutputPattern: '(?:^|\\D)42(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 0 y 42 → Suma esperada: 42'
+      }
+    ]
+  },
+  {
+    id: 'tp_a_pr_06',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Superficie de un cuadrado con potencia',
+    title: 'Ejercicio 6: Superficie de un cuadrado',
+    question: 'Pedí la longitud del lado de un cuadrado mediante input(), calculá su superficie (área) elevando el lado al cuadrado utilizando el operador de potencia (** 2) y mostrá el resultado con print().',
+    starterCode: '# Ejercicio 6: Superficie de un cuadrado\n# Leé el lado con float(input()), calculá lado ** 2 y mostrá el resultado\n\nlado = float(input("Lado del cuadrado: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Lado 5',
+        inputs: ['5'],
+        expectedOutputPattern: '(?:^|\\D)25(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 5 → Área esperada: 25'
+      },
+      {
+        name: 'Lado 8',
+        inputs: ['8'],
+        expectedOutputPattern: '(?:^|\\D)64(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 8 → Área esperada: 64'
+      },
+      {
+        name: 'Lado 10',
+        inputs: ['10'],
+        expectedOutputPattern: '(?:^|\\D)100(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 10 → Área esperada: 100'
+      },
+      {
+        name: 'Lado 3',
+        inputs: ['3'],
+        expectedOutputPattern: '(?:^|\\D)9(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 3 → Área esperada: 9'
+      }
+    ]
+  },
+  {
+    id: 'tp_a_pr_07',
+    type: 'coding',
+    moduleId: 10,
+    topic: 'Programación Práctica: Corregir programa de resta',
+    title: 'Ejercicio 7: Corrección de resta de enteros',
+    question: 'El siguiente código intenta restar dos números ingresados por el usuario, pero produce un error porque no los convierte a números. Modificá el programa para que convierta ambas entradas con int() y muestre la resta (primer número menos segundo número) con print().',
+    starterCode: '# Ejercicio 7: Corregí el código para restar numéricamente dos enteros\na = input()\nb = input()\n# Corregí las líneas para convertir a int antes de restar:\nresultado = int(a) - int(b)\nprint(resultado)\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Resta 50 - 20',
+        inputs: ['50', '20'],
+        expectedOutputPattern: '(?:^|\\D)30(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 50 y 20 → Resta esperada: 30'
+      },
+      {
+        name: 'Resta 100 - 45',
+        inputs: ['100', '45'],
+        expectedOutputPattern: '(?:^|\\D)55(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 100 y 45 → Resta esperada: 55'
+      },
+      {
+        name: 'Resta 15 - 5',
+        inputs: ['15', '5'],
+        expectedOutputPattern: '(?:^|\\D)10(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 15 y 5 → Resta esperada: 10'
+      },
+      {
+        name: 'Resta 80 - 30',
+        inputs: ['80', '30'],
+        expectedOutputPattern: '(?:^|\\D)50(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 80 y 30 → Resta esperada: 50'
+      }
+    ]
+  },
+  {
+    id: 'tp_a_pr_08',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Promedio de tres notas',
+    title: 'Ejercicio 8: Promedio de tres calificaciones',
+    question: 'Pedí tres calificaciones numéricas al usuario mediante input(), calculá su promedio sumándolas y dividiendo el total por 3: (nota1 + nota2 + nota3) / 3, y mostrá el promedio obtenido en pantalla con print().',
+    starterCode: '# Ejercicio 8: Promedio de tres calificaciones\n# Leé tres notas con float(input()), calculá (n1 + n2 + n3) / 3 y mostrá el promedio\n\nn1 = float(input("Nota 1: "))\nn2 = float(input("Nota 2: "))\nn3 = float(input("Nota 3: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Notas 8, 9, 7',
+        inputs: ['8', '9', '7'],
+        expectedOutputPattern: '(?:^|\\D)8(?:\\.0*)?(?:\\D|$)',
+        description: 'Notas: 8, 9, 7 → Promedio esperado: 8'
+      },
+      {
+        name: 'Notas 10, 6, 8',
+        inputs: ['10', '6', '8'],
+        expectedOutputPattern: '(?:^|\\D)8(?:\\.0*)?(?:\\D|$)',
+        description: 'Notas: 10, 6, 8 → Promedio esperado: 8'
+      },
+      {
+        name: 'Notas 7, 7, 7',
+        inputs: ['7', '7', '7'],
+        expectedOutputPattern: '(?:^|\\D)7(?:\\.0*)?(?:\\D|$)',
+        description: 'Notas: 7, 7, 7 → Promedio esperado: 7'
+      },
+      {
+        name: 'Notas 4, 6, 5',
+        inputs: ['4', '6', '5'],
+        expectedOutputPattern: '(?:^|\\D)5(?:\\.0*)?(?:\\D|$)',
+        description: 'Notas: 4, 6, 5 → Promedio esperado: 5'
       }
     ]
   }
@@ -933,6 +1145,40 @@ const MODEL_B_INTERPRETATION: ExamUnifiedQuestion[] = [
     correctAnswer: 1,
     explanation: '21 // 5 calcula cuántas veces cabe 5 en 21 de forma entera: cabe 4 veces (4 * 5 = 20) y descarta el resto.',
     points: 0.5
+  },
+  {
+    id: 'tp_b_int_07',
+    type: 'tracing',
+    moduleId: 6,
+    topic: 'Interpretación de Código: División entera y resto',
+    question: '¿Qué muestra este código al ejecutarse para descomponer segundos?',
+    codeSnippet: 'segundos = 125\nminutos = segundos // 60\nresto = segundos % 60\nprint(minutos, "min y", resto, "seg")',
+    options: [
+      '2 min y 5 seg',
+      '2.08 min y 0 seg',
+      '1 min y 65 seg',
+      '2 min y 25 seg'
+    ],
+    correctAnswer: 0,
+    explanation: '125 // 60 da 2 (minutos enteros). 125 % 60 da 5 (segundos restantes). Se imprime "2 min y 5 seg".',
+    points: 0.5
+  },
+  {
+    id: 'tp_b_int_08',
+    type: 'tracing',
+    moduleId: 8,
+    topic: 'Interpretación de Código: Precedencia lógica',
+    question: '¿Qué valor imprime la siguiente combinación de operadores lógicos?',
+    codeSnippet: 'a = True\nb = False\nc = True\nresultado = a or (b and not c)\nprint(resultado)',
+    options: [
+      'True',
+      'False',
+      'None',
+      'Error de sintaxis'
+    ],
+    correctAnswer: 0,
+    explanation: 'not c es False. b and False es False. Finalmente True or False resulta True.',
+    points: 0.5
   }
 ];
 
@@ -1005,6 +1251,40 @@ const MODEL_B_ERROR_DETECTION: ExamUnifiedQuestion[] = [
     ],
     correctAnswer: 0,
     explanation: '== evalúa si puntos es igual a 20 (lo cual da False), pero no modifica el valor de la variable. Para modificarlo se debe usar puntos = 20.',
+    points: 0.5
+  },
+  {
+    id: 'tp_b_err_05',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Guión medio en variable',
+    question: '¿Qué error ocurre en este programa?',
+    codeSnippet: 'costo-envio = 300\nprint(costo-envio)',
+    options: [
+      'Ocurre un SyntaxError porque el guión medio (-) es el operador de resta en Python, no un caracter válido para nombres de variables.',
+      'El programa muestra 300 sin inconvenientes.',
+      'El error ocurre en print() por no usar comillas.',
+      'El número 300 debió escribirse como texto.'
+    ],
+    correctAnswer: 0,
+    explanation: 'Python interpreta costo-envio como la resta costo menos envio. Para nombres compuestos se debe usar guión bajo: costo_envio.',
+    points: 0.5
+  },
+  {
+    id: 'tp_b_err_06',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División por cero',
+    question: '¿Qué tipo de error se genera al ejecutar la tercera línea de este código?',
+    codeSnippet: 'dividendo = 50\ndivisor = 10 - 10\nresultado = dividendo / divisor\nprint(resultado)',
+    options: [
+      'ZeroDivisionError, porque la variable divisor vale 0 y matemáticamente no es posible dividir por cero.',
+      'TypeError porque divisor es un texto.',
+      'ValueError porque 50 es un número entero.',
+      'El programa muestra 0 en pantalla sin errores.'
+    ],
+    correctAnswer: 0,
+    explanation: '10 - 10 resulta en 0. Al intentar dividir 50 / 0, Python detiene la ejecución arrojando ZeroDivisionError: division by zero.',
     points: 0.5
   }
 ];
@@ -1207,6 +1487,150 @@ const MODEL_B_PRACTICAL: ExamUnifiedQuestion[] = [
         inputs: ['6', '8', '10'],
         expectedOutputPattern: '(?:^|\\D)8(?:\\.0*)?(?:\\D|$)',
         description: 'Notas: 6, 8, 10 → Promedio esperado: 8'
+      }
+    ]
+  },
+  {
+    id: 'tp_b_pr_05',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Perímetro de un rectángulo',
+    title: 'Ejercicio 5: Perímetro de un rectángulo',
+    question: 'Pedí la base y la altura de un rectángulo mediante input(), calculá su perímetro aplicando la fórmula P = 2 * (base + altura) y mostrá el resultado en pantalla con print().',
+    starterCode: '# Ejercicio 5: Perímetro de un rectángulo\n# Pedí base y altura con float(input()), calculá 2 * (base + altura) y mostrá el resultado\n\nbase = float(input("Base: "))\naltura = float(input("Altura: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Base 4, Altura 6',
+        inputs: ['4', '6'],
+        expectedOutputPattern: '(?:^|\\D)20(?:\\.0*)?(?:\\D|$)',
+        description: 'Base: 4, Altura: 6 → Perímetro esperado: 20'
+      },
+      {
+        name: 'Base 10, Altura 5',
+        inputs: ['10', '5'],
+        expectedOutputPattern: '(?:^|\\D)30(?:\\.0*)?(?:\\D|$)',
+        description: 'Base: 10, Altura: 5 → Perímetro esperado: 30'
+      },
+      {
+        name: 'Base 8, Altura 2',
+        inputs: ['8', '2'],
+        expectedOutputPattern: '(?:^|\\D)20(?:\\.0*)?(?:\\D|$)',
+        description: 'Base: 8, Altura: 2 → Perímetro esperado: 20'
+      },
+      {
+        name: 'Base 15, Altura 5',
+        inputs: ['15', '5'],
+        expectedOutputPattern: '(?:^|\\D)40(?:\\.0*)?(?:\\D|$)',
+        description: 'Base: 15, Altura: 5 → Perímetro esperado: 40'
+      }
+    ]
+  },
+  {
+    id: 'tp_b_pr_06',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Multiplicación de dos enteros',
+    title: 'Ejercicio 6: Multiplicación de dos números enteros',
+    question: 'Pedí dos números enteros mediante dos llamadas consecutivas a input(), convertilos con int(), calculá su producto (multiplicación) y mostrá el resultado con print().',
+    starterCode: '# Ejercicio 6: Multiplicación de dos enteros\n# Leé dos enteros con input(), multiplicalos y mostrá el resultado con print()\n\nn1 = int(input("Primer número: "))\nn2 = int(input("Segundo número: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Producto 6 * 7',
+        inputs: ['6', '7'],
+        expectedOutputPattern: '(?:^|\\D)42(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 6 y 7 → Producto esperado: 42'
+      },
+      {
+        name: 'Producto 9 * 5',
+        inputs: ['9', '5'],
+        expectedOutputPattern: '(?:^|\\D)45(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 9 y 5 → Producto esperado: 45'
+      },
+      {
+        name: 'Producto 8 * 4',
+        inputs: ['8', '4'],
+        expectedOutputPattern: '(?:^|\\D)32(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 8 y 4 → Producto esperado: 32'
+      },
+      {
+        name: 'Producto 10 * 10',
+        inputs: ['10', '10'],
+        expectedOutputPattern: '(?:^|\\D)100(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 10 y 10 → Producto esperado: 100'
+      }
+    ]
+  },
+  {
+    id: 'tp_b_pr_07',
+    type: 'coding',
+    moduleId: 10,
+    topic: 'Programación Práctica: Corregir concatenación accidental',
+    title: 'Ejercicio 7: Corrección de suma con conversión',
+    question: 'El siguiente código intenta sumar dos valores, pero al no convertirlos a int() los concatena como texto (ej: "15" + "25" da "1525"). Corregilo para que convierta los valores a enteros y muestre la suma matemática real.',
+    starterCode: '# Ejercicio 7: Corregí el código para que sume matemáticamente\nx = input()\ny = input()\n# Corregí para convertir x e y a int:\ntotal = int(x) + int(y)\nprint(total)\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Suma 15 + 25',
+        inputs: ['15', '25'],
+        expectedOutputPattern: '(?:^|\\D)40(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 15 y 25 → Suma esperada: 40'
+      },
+      {
+        name: 'Suma 30 + 70',
+        inputs: ['30', '70'],
+        expectedOutputPattern: '(?:^|\\D)100(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 30 y 70 → Suma esperada: 100'
+      },
+      {
+        name: 'Suma 50 + 50',
+        inputs: ['50', '50'],
+        expectedOutputPattern: '(?:^|\\D)100(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 50 y 50 → Suma esperada: 100'
+      },
+      {
+        name: 'Suma 12 + 8',
+        inputs: ['12', '8'],
+        expectedOutputPattern: '(?:^|\\D)20(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 12 y 8 → Suma esperada: 20'
+      }
+    ]
+  },
+  {
+    id: 'tp_b_pr_08',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Cálculo de vuelto',
+    title: 'Ejercicio 8: Cálculo de vuelto en una compra',
+    question: 'Pedí el costo total de una compra y el dinero entregado por el cliente mediante float(input()), calculá el vuelto restando lo entregado menos el costo: entregado - costo, y mostrá el valor del vuelto en pantalla con print().',
+    starterCode: '# Ejercicio 8: Cálculo de vuelto\n# Leé el costo y el dinero entregado con float(input()), calculá entregado - costo\n\ncosto = float(input("Costo de la compra: "))\nentregado = float(input("Dinero entregado: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Costo 150, Entregado 200',
+        inputs: ['150', '200'],
+        expectedOutputPattern: '(?:^|\\D)50(?:\\.0*)?(?:\\D|$)',
+        description: 'Costo: 150, Entregado: 200 → Vuelto: 50'
+      },
+      {
+        name: 'Costo 80, Entregado 100',
+        inputs: ['80', '100'],
+        expectedOutputPattern: '(?:^|\\D)20(?:\\.0*)?(?:\\D|$)',
+        description: 'Costo: 80, Entregado: 100 → Vuelto: 20'
+      },
+      {
+        name: 'Costo 35, Entregado 50',
+        inputs: ['35', '50'],
+        expectedOutputPattern: '(?:^|\\D)15(?:\\.0*)?(?:\\D|$)',
+        description: 'Costo: 35, Entregado: 50 → Vuelto: 15'
+      },
+      {
+        name: 'Costo 250, Entregado 500',
+        inputs: ['250', '500'],
+        expectedOutputPattern: '(?:^|\\D)250(?:\\.0*)?(?:\\D|$)',
+        description: 'Costo: 250, Entregado: 500 → Vuelto: 250'
       }
     ]
   }
@@ -1518,6 +1942,40 @@ const MODEL_C_INTERPRETATION: ExamUnifiedQuestion[] = [
     correctAnswer: 1,
     explanation: '50 // 24 calcula los días completos enteros: 24 * 2 = 48, por lo que el cociente entero es 2.',
     points: 0.5
+  },
+  {
+    id: 'tp_c_int_07',
+    type: 'tracing',
+    moduleId: 9,
+    topic: 'Interpretación de Código: Salto de línea',
+    question: '¿Cómo muestra print() en pantalla el siguiente texto con salto de línea?',
+    codeSnippet: 'texto1 = "Python"\ntexto2 = "Desde Cero"\nprint(texto1 + "\\n" + texto2)',
+    options: [
+      'Imprime Python en la primera línea y Desde Cero en la línea siguiente.',
+      'Imprime todo en una sola línea: Python\\nDesde Cero.',
+      'Genera un error porque \\n solo se puede usar con números.',
+      'Solo muestra la palabra Python.'
+    ],
+    correctAnswer: 0,
+    explanation: '\\n representa un salto de línea (escape sequence), por lo que print() muestra "Python" en una línea y "Desde Cero" en la siguiente.',
+    points: 0.5
+  },
+  {
+    id: 'tp_c_int_08',
+    type: 'tracing',
+    moduleId: 4,
+    topic: 'Interpretación de Código: Reasignación acumulativa',
+    question: '¿Qué valor final tiene la variable puntos al ejecutarse este programa?',
+    codeSnippet: 'puntos = 50\npuntos = puntos + 25\npuntos = puntos - 10\nprint(puntos)',
+    options: [
+      '65',
+      '75',
+      '50',
+      '40'
+    ],
+    correctAnswer: 0,
+    explanation: 'Primero vale 50. Luego 50 + 25 = 75. Finalmente 75 - 10 = 65. Se imprime 65.',
+    points: 0.5
   }
 ];
 
@@ -1590,6 +2048,40 @@ const MODEL_C_ERROR_DETECTION: ExamUnifiedQuestion[] = [
     ],
     correctAnswer: 0,
     explanation: 'En Python no se puede realizar una asignación (=) dentro de una expresión de comparación. Se debe usar el doble igual (puntos == 100).',
+    points: 0.5
+  },
+  {
+    id: 'tp_c_err_05',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Palabra reservada',
+    question: '¿Por qué no es válida la primera línea de este programa?',
+    codeSnippet: 'class = "Tercer Año"\nprint(class)',
+    options: [
+      'Porque class es una palabra reservada del lenguaje Python y no puede utilizarse como nombre de variable.',
+      'Porque el texto debió escribirse con comillas simples obligatoriamente.',
+      'Porque no se pueden crear variables de tipo texto.',
+      'El programa es perfectamente válido y muestra Tercer Año.'
+    ],
+    correctAnswer: 0,
+    explanation: 'class es una palabra clave reservada de la sintaxis de Python. Intentar usarla como identificador genera SyntaxError.',
+    points: 0.5
+  },
+  {
+    id: 'tp_c_err_06',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Conversión inválida',
+    question: '¿Qué error se produce al intentar ejecutar la segunda línea de este código?',
+    codeSnippet: 'palabra = "veinte"\nnumero = int(palabra)\nprint(numero * 2)',
+    options: [
+      'Falla con ValueError porque "veinte" contiene letras y la función int() solo puede convertir cadenas formadas por dígitos numéricos (como "20").',
+      'Python traduce automáticamente la palabra y numero pasa a valer 20.',
+      'numero se convierte en 0.',
+      'print() produce un error de memoria.'
+    ],
+    correctAnswer: 0,
+    explanation: 'int() solo puede convertir textos que contengan dígitos numéricos válidos (ej: "20"). Si se le pasa una palabra con letras genera ValueError: invalid literal for int().',
     points: 0.5
   }
 ];
@@ -1794,6 +2286,132 @@ const MODEL_C_PRACTICAL: ExamUnifiedQuestion[] = [
         description: 'Precio: 80, Descuento: 15 → Total esperado: 65'
       }
     ]
+  },
+  {
+    id: 'tp_c_pr_05',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Perímetro de un rombo',
+    title: 'Ejercicio 5: Perímetro de un rombo',
+    question: 'Un rombo tiene 4 lados de igual longitud. Pedí la longitud del lado mediante float(input()), calculá su perímetro con P = 4 * lado y mostrá el resultado en pantalla con print().',
+    starterCode: '# Ejercicio 5: Perímetro de un rombo\n# Pedí la longitud del lado con float(input()), calculá 4 * lado y mostrá el resultado\n\nlado = float(input("Longitud del lado: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Lado 8',
+        inputs: ['8'],
+        expectedOutputPattern: '(?:^|\\D)32(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 8 → Perímetro esperado: 32'
+      },
+      {
+        name: 'Lado 12',
+        inputs: ['12'],
+        expectedOutputPattern: '(?:^|\\D)48(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 12 → Perímetro esperado: 48'
+      },
+      {
+        name: 'Lado 5',
+        inputs: ['5'],
+        expectedOutputPattern: '(?:^|\\D)20(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 5 → Perímetro esperado: 20'
+      },
+      {
+        name: 'Lado 15',
+        inputs: ['15'],
+        expectedOutputPattern: '(?:^|\\D)60(?:\\.0*)?(?:\\D|$)',
+        description: 'Lado: 15 → Perímetro esperado: 60'
+      }
+    ]
+  },
+  {
+    id: 'tp_c_pr_06',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Cociente de división entera',
+    title: 'Ejercicio 6: Cociente de división entera',
+    question: 'Pedí dos números enteros a y b mediante dos llamadas a input(), calculá el cociente de la división entera mediante el operador // y mostrá el resultado con print().',
+    starterCode: '# Ejercicio 6: Cociente entero\n# Leé dos enteros a y b con int(input()), calculá a // b y mostrá el resultado\n\na = int(input("Dividendo a: "))\nb = int(input("Divisor b: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Cociente 27 // 4',
+        inputs: ['27', '4'],
+        expectedOutputPattern: '(?:^|\\D)6(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 27 y 4 → Cociente entero: 6'
+      },
+      {
+        name: 'Cociente 50 // 6',
+        inputs: ['50', '6'],
+        expectedOutputPattern: '(?:^|\\D)8(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 50 y 6 → Cociente entero: 8'
+      },
+      {
+        name: 'Cociente 100 // 10',
+        inputs: ['100', '10'],
+        expectedOutputPattern: '(?:^|\\D)10(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 100 y 10 → Cociente entero: 10'
+      },
+      {
+        name: 'Cociente 17 // 5',
+        inputs: ['17', '5'],
+        expectedOutputPattern: '(?:^|\\D)3(?:\\.0*)?(?:\\D|$)',
+        description: 'Entradas: 17 y 5 → Cociente entero: 3'
+      }
+    ]
+  },
+  {
+    id: 'tp_c_pr_07',
+    type: 'coding',
+    moduleId: 10,
+    topic: 'Programación Práctica: Corregir suma de variables',
+    title: 'Ejercicio 7: Corrección de variables inicializadas como texto',
+    question: 'En el siguiente programa las variables val1 y val2 están escritas entre comillas como texto ("35" y "15"), haciendo que val1 + val2 dé "3515". Modificá el código para que las variables almacenen números enteros y print() muestre la suma matemática correcta (50).',
+    starterCode: '# Ejercicio 7: Modificá las variables para que la suma sea matemática\nval1 = 35\nval2 = 15\nsuma = val1 + val2\nprint(suma)\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Suma matemática de 35 y 15',
+        inputs: [],
+        expectedOutputPattern: '(?:^|\\D)50(?:\\.0*)?(?:\\D|$)',
+        description: 'Salida esperada: 50'
+      }
+    ]
+  },
+  {
+    id: 'tp_c_pr_08',
+    type: 'coding',
+    moduleId: 6,
+    topic: 'Programación Práctica: Costo total por cantidad',
+    title: 'Ejercicio 8: Total de compra por cantidad',
+    question: 'Pedí el precio unitario de un artículo con float(input()) y la cantidad comprada con int(input()). Calculá el costo total multiplicando precio * cantidad y mostrá el valor total con print().',
+    starterCode: '# Ejercicio 8: Total de compra por cantidad\n# Leé precio con float(input()) y cantidad con int(input()), calculá precio * cantidad\n\nprecio = float(input("Precio unitario: "))\ncantidad = int(input("Cantidad: "))\n',
+    points: 0.75,
+    testCases: [
+      {
+        name: 'Precio 120, Cantidad 3',
+        inputs: ['120', '3'],
+        expectedOutputPattern: '(?:^|\\D)360(?:\\.0*)?(?:\\D|$)',
+        description: 'Precio: 120, Cantidad: 3 → Total: 360'
+      },
+      {
+        name: 'Precio 50, Cantidad 4',
+        inputs: ['50', '4'],
+        expectedOutputPattern: '(?:^|\\D)200(?:\\.0*)?(?:\\D|$)',
+        description: 'Precio: 50, Cantidad: 4 → Total: 200'
+      },
+      {
+        name: 'Precio 25, Cantidad 10',
+        inputs: ['25', '10'],
+        expectedOutputPattern: '(?:^|\\D)250(?:\\.0*)?(?:\\D|$)',
+        description: 'Precio: 25, Cantidad: 10 → Total: 250'
+      },
+      {
+        name: 'Precio 15, Cantidad 5',
+        inputs: ['15', '5'],
+        expectedOutputPattern: '(?:^|\\D)75(?:\\.0*)?(?:\\D|$)',
+        description: 'Precio: 15, Cantidad: 5 → Total: 75'
+      }
+    ]
   }
 ];
 
@@ -1803,8 +2421,8 @@ const MODEL_C_PRACTICAL: ExamUnifiedQuestion[] = [
 
 /**
  * Obtiene las preguntas del Trabajo Práctico adaptadas a la modalidad:
- * - Individual: 22 actividades (8 teoría + 4 interp. + 3 errores + 3 lógica + 4 código)
- * - En pareja: 30 actividades (12 teoría + 6 interp. + 4 errores + 4 lógica + 4 código)
+ * - Individual: 18 actividades (5 teoría + 4 interp. + 3 errores + 2 lógica + 4 código)
+ * - En pareja: 36 actividades (10 teoría + 8 interp. + 6 errores + 4 lógica + 8 código)
  */
 export function getPracticalWorkQuestions(
   model: TPModelType,
@@ -1842,23 +2460,25 @@ export function getPracticalWorkQuestions(
   }
 
   if (modality === 'pareja') {
-    // 30 actividades: 12 teoría + 6 interpretación + 4 errores + 4 lógica + 4 prácticas
+    // Exactamente 36 actividades evaluables:
+    // 10 teoría + 8 interpretación + 6 detección de errores + 4 expresiones matemáticas y lógicas + 8 ejercicios prácticos
     return [
-      ...theory,        // 12
-      ...interp,        // 6
-      ...errorDet,      // 4
-      ...mathLogic,     // 4
-      ...practical      // 4
+      ...theory.slice(0, 10),      // 10 preguntas teóricas
+      ...interp.slice(0, 8),       // 8 interpretación de código
+      ...errorDet.slice(0, 6),     // 6 detección de errores
+      ...mathLogic.slice(0, 4),    // 4 expresiones matemáticas y lógicas
+      ...practical.slice(0, 8)     // 8 ejercicios prácticos de programación
     ];
   }
 
-  // Modalidad individual: 22 actividades (8 teoría + 4 interpretación + 3 errores + 3 lógica + 4 prácticas)
+  // Modalidad individual: Exactamente 18 actividades:
+  // 5 teoría + 4 interpretación + 3 detección de errores + 2 expresiones matemáticas y lógicas + 4 ejercicios prácticos
   return [
-    ...theory.slice(0, 8),      // 8
-    ...interp.slice(0, 4),      // 4
-    ...errorDet.slice(0, 3),    // 3
-    ...mathLogic.slice(0, 3),   // 3
-    ...practical                // 4
+    ...theory.slice(0, 5),      // 5 preguntas teóricas
+    ...interp.slice(0, 4),      // 4 interpretación de código
+    ...errorDet.slice(0, 3),    // 3 detección de errores
+    ...mathLogic.slice(0, 2),   // 2 expresiones matemáticas y lógicas
+    ...practical.slice(0, 4)    // 4 ejercicios prácticos de programación
   ];
 }
 

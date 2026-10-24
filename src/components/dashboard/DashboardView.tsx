@@ -316,7 +316,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             📝 Trabajo Práctico de Python (Individual o Parejas)
           </h3>
           <p className="text-xs sm:text-sm text-emerald-100 max-w-xl">
-            Evaluación integral con corrección automática inmediata por Pyodide: 22 actividades (Individual) o 30 actividades (En Pareja) con temporizador de 80 minutos.
+            Evaluación integral con corrección automática inmediata por Pyodide: 18 actividades (Individual) o 36 actividades (En Pareja) con temporizador de 80 minutos.
           </p>
         </div>
 

@@ -111,9 +111,17 @@ export async function gradeTPSession(
 
   const theoryQuestions = session.questions.filter(q => q.type !== 'coding');
   const totalTheory = theoryQuestions.length;
-  // 4.0 puntos para teoría distribuidos equitativamente entre las preguntas del intento
-  // (Individual: 18 preguntas -> ~0.2222 pts c/u | En pareja: 26 preguntas -> ~0.1538 pts c/u)
+  // 4.0 puntos para teoría distribuidos equitativamente entre las preguntas del intento:
+  // - Individual: 14 preguntas teóricas y de lógica -> ~0.2857 pts c/u (Total: 4.0 pts)
+  // - En pareja: 28 preguntas teóricas y de lógica -> ~0.142857 pts c/u (Total: 4.0 pts)
   const theoryPointsPerQuestion = totalTheory > 0 ? (4.0 / totalTheory) : 0.5;
+
+  const practicalQuestions = session.questions.filter(q => q.type === 'coding');
+  const totalPractical = practicalQuestions.length;
+  // 6.0 puntos para práctica distribuidos equitativamente entre los ejercicios prácticos:
+  // - Individual: 4 ejercicios prácticos -> 1.5 pts c/u (Total: 6.0 pts)
+  // - En pareja: 8 ejercicios prácticos -> 0.75 pts c/u (Total: 6.0 pts)
+  const practicalPointsPerExercise = totalPractical > 0 ? (6.0 / totalPractical) : 1.5;
 
   for (const q of session.questions) {
     const userAns = session.answers[q.id];
@@ -173,10 +181,10 @@ export async function gradeTPSession(
         }));
       }
 
-      const exerciseMaxPoints = q.points ?? 1.5;
+      const exerciseMaxPoints = practicalPointsPerExercise;
       // Puntaje proporcional según casos de prueba superados
       const earnedExercisePoints = totalCount > 0
-        ? Math.round((passedCount / totalCount) * exerciseMaxPoints * 10) / 10
+        ? Math.round((passedCount / totalCount) * exerciseMaxPoints * 100) / 100
         : 0;
 
       if (allPassed) {
