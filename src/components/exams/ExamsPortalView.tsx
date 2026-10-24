@@ -25,6 +25,7 @@ import {
 } from '../../services/teamDuelService';
 import { TeacherLoginModal } from './TeacherLoginModal';
 import { PracticalWorksSection } from './PracticalWorksSection';
+import { PracticalWorkPortalView } from '../practicalWork/PracticalWorkPortalView';
 import {
   FileText,
   Lock,
@@ -383,13 +384,13 @@ export const ExamsPortalView: React.FC = () => {
             }`}
           >
             <BookOpen className="w-4 h-4" />
-            <span>Trabajos Prácticos</span>
+            <span>Trabajo Práctico</span>
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
               currentTab === 'practical_works'
                 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
                 : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
             }`}>
-              Nuevo
+              80 min
             </span>
           </button>
         </div>
@@ -397,7 +398,7 @@ export const ExamsPortalView: React.FC = () => {
         <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 px-3 hidden sm:block">
           {currentTab === 'exams'
             ? 'Evaluaciones automáticas con calificación inmediata'
-            : 'Instancia evaluatoria por institución y consignas'}
+            : 'Evaluación integral autocorregible de 80 minutos con Pyodide'}
         </div>
       </div>
 
@@ -674,10 +675,8 @@ export const ExamsPortalView: React.FC = () => {
 
       {/* Contenido Pestaña Trabajos Prácticos */}
       {currentTab === 'practical_works' && (
-        <PracticalWorksSection
-          teacherAuth={teacherAuth}
-          onOpenTeacherLogin={() => setIsLoginModalOpen(true)}
-          onNavigateToExams={() => setCurrentTab('exams')}
+        <PracticalWorkPortalView
+          onBackToPortal={() => setCurrentTab('exams')}
         />
       )}
 

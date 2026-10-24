@@ -425,7 +425,17 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
         </div>
 
         {/* Botón de Comienzo */}
-        <div className="pt-2 flex justify-center">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+          {onBackToPortal && (
+            <button
+              onClick={onBackToPortal}
+              className="w-full sm:w-auto py-4 px-6 rounded-2xl border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Volver</span>
+            </button>
+          )}
+
           <button
             onClick={() => setStep('student_form')}
             className="w-full sm:w-auto py-4 px-10 rounded-2xl bg-python-blue hover:bg-python-blue-light text-white font-black text-sm sm:text-base shadow-xl flex items-center justify-center gap-3 transition-all transform active:scale-98 cursor-pointer"
