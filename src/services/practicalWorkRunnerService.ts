@@ -61,7 +61,7 @@ export function generateTPSession(
   forcedModel?: TPModelType
 ): ActiveTPSession {
   const model = forcedModel || getRandomTPModel();
-  const questions = getPracticalWorkQuestions(model);
+  const questions = getPracticalWorkQuestions(model, studentData.modality);
 
   const initialAnswers: Record<string, number | string> = {};
   questions.forEach(q => {
@@ -109,13 +109,19 @@ export async function gradeTPSession(
   let theoryPoints = 0;
   let practicalPoints = 0;
 
+  const theoryQuestions = session.questions.filter(q => q.type !== 'coding');
+  const totalTheory = theoryQuestions.length;
+  // 4.0 puntos para teoría distribuidos equitativamente entre las preguntas del intento
+  // (Individual: 18 preguntas -> ~0.2222 pts c/u | En pareja: 26 preguntas -> ~0.1538 pts c/u)
+  const theoryPointsPerQuestion = totalTheory > 0 ? (4.0 / totalTheory) : 0.5;
+
   for (const q of session.questions) {
     const userAns = session.answers[q.id];
 
     if (q.type === 'multiple_choice' || q.type === 'tracing') {
       const selectedIndex = typeof userAns === 'number' ? userAns : undefined;
       const isCorrect = selectedIndex !== undefined && selectedIndex === q.correctAnswer;
-      const points = isCorrect ? (q.points ?? 0.5) : 0;
+      const points = isCorrect ? theoryPointsPerQuestion : 0;
 
       if (isCorrect) {
         correctCount++;
@@ -131,8 +137,8 @@ export async function gradeTPSession(
         correctAnswerText: q.options && q.correctAnswer !== undefined ? q.options[q.correctAnswer] : '',
         userAnswerText: q.options && selectedIndex !== undefined ? q.options[selectedIndex] : 'Sin responder',
         isCorrect,
-        pointsObtained: points,
-        maxPoints: q.points ?? 0.5,
+        pointsObtained: Math.round(points * 100) / 100,
+        maxPoints: Math.round(theoryPointsPerQuestion * 100) / 100,
         explanation: q.explanation || 'Respuesta conceptual verificada.'
       });
     } else if (q.type === 'coding') {

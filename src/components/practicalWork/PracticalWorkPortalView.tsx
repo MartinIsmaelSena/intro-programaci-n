@@ -338,7 +338,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
 
             <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-sky-200">
               <Users className="w-4 h-4" />
-              <span>Modalidad: Individual o Parejas</span>
+              <span>Modalidad: Individual (22 act.) o En Pareja (30 act.)</span>
             </div>
 
             <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-emerald-300">
@@ -359,7 +359,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             <ul className="space-y-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-python-blue mt-2 flex-shrink-0" />
-                <span><strong>Introducción a Python:</strong> propósito, aplicaciones y características de lenguaje interpretado.</span>
+                <span><strong>Introducción y filosofía:</strong> qué es Python y funcionamiento del intérprete línea por línea.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-python-blue mt-2 flex-shrink-0" />
@@ -367,15 +367,19 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-python-blue mt-2 flex-shrink-0" />
-                <span><strong>Variables y asignación:</strong> operador <code className="font-mono text-xs">=</code>, reasignación, reglas de nombres válidos.</span>
+                <span><strong>Variables y asignación:</strong> operador <code className="font-mono text-xs">=</code>, reasignación y reglas de nombres válidos.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-python-blue mt-2 flex-shrink-0" />
-                <span><strong>Salida de datos:</strong> función <code className="font-mono text-xs">print()</code>, cálculos internos y saltos de línea con <code className="font-mono text-xs">\n</code>.</span>
+                <span><strong>Operaciones y precedencia:</strong> operadores aritméticos (<code className="font-mono text-xs">+</code>, <code className="font-mono text-xs">-</code>, <code className="font-mono text-xs">*</code>, <code className="font-mono text-xs">/</code>, <code className="font-mono text-xs">//</code>, <code className="font-mono text-xs">%</code>, <code className="font-mono text-xs">**</code>) y uso de paréntesis.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-python-blue mt-2 flex-shrink-0" />
-                <span><strong>Entrada de datos y conversión:</strong> función <code className="font-mono text-xs">input()</code> y conversión de tipos con <code className="font-mono text-xs">int()</code> y <code className="font-mono text-xs">float()</code>.</span>
+                <span><strong>Comparaciones y lógica:</strong> operadores relacionales (<code className="font-mono text-xs">==</code>, <code className="font-mono text-xs">!=</code>, <code className="font-mono text-xs">&gt;</code>, <code className="font-mono text-xs">&lt;</code>, <code className="font-mono text-xs">&gt;=</code>, <code className="font-mono text-xs">&lt;=</code>) y operadores lógicos (<code className="font-mono text-xs">and</code>, <code className="font-mono text-xs">or</code>, <code className="font-mono text-xs">not</code>).</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-python-blue mt-2 flex-shrink-0" />
+                <span><strong>Salida y entrada:</strong> función <code className="font-mono text-xs">print()</code> con saltos <code className="font-mono text-xs">\n</code> y <code className="font-mono text-xs">input()</code> con conversión obligatoria <code className="font-mono text-xs">int()</code> y <code className="font-mono text-xs">float()</code>.</span>
               </li>
             </ul>
           </div>
@@ -389,22 +393,22 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             <div className="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
               <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
                 <div>
-                  <strong className="block text-slate-900 dark:text-white">8 Preguntas Teóricas (40%)</strong>
-                  <span className="text-slate-500 text-xs">Opción múltiple e interpretación de código</span>
+                  <strong className="block text-slate-900 dark:text-white">Parte A: Análisis, Código y Lógica (40%)</strong>
+                  <span className="text-slate-500 text-xs">Individual: 18 preguntas | En Pareja: 26 preguntas</span>
                 </div>
                 <span className="font-bold text-python-blue dark:text-sky-400 text-base">4.0 Pts</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
                 <div>
-                  <strong className="block text-slate-900 dark:text-white">4 Ejercicios de Programación (60%)</strong>
-                  <span className="text-slate-500 text-xs">Doble, triángulo, cuadrado y problema integrador</span>
+                  <strong className="block text-slate-900 dark:text-white">Parte B: Programación Práctica (60%)</strong>
+                  <span className="text-slate-500 text-xs">4 programas Python (doble, triángulo, cuadrado y problema aplicado)</span>
                 </div>
                 <span className="font-bold text-emerald-600 dark:text-emerald-400 text-base">6.0 Pts</span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 text-xs leading-relaxed">
-                <strong>Modelos aleatorios:</strong> Se asignará aleatoriamente uno de los tres modelos equivalentes (Modelo A, B o C) al comenzar.
+                <strong>Modelos aleatorios:</strong> Se asignará aleatoriamente uno de los tres modelos equivalentes (Modelo A, B o C) garantizando la misma dificultad.
               </div>
             </div>
           </div>
@@ -748,13 +752,20 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             </div>
 
             {studentForm.modality === 'pareja' && studentForm.student2 && (
-              <div className="flex justify-between">
+              <div className="flex justify-between border-b border-slate-200/60 dark:border-slate-700/60 pb-2">
                 <span className="text-slate-500">Estudiante 2:</span>
                 <strong className="text-slate-900 dark:text-white font-bold">
                   {studentForm.student2.name} {studentForm.student2.lastName}
                 </strong>
               </div>
             )}
+
+            <div className="flex justify-between">
+              <span className="text-slate-500">Actividades a resolver:</span>
+              <strong className="text-slate-900 dark:text-white font-bold">
+                {studentForm.modality === 'pareja' ? '30 actividades (26 de análisis y lógica + 4 de código)' : '22 actividades (18 de análisis y lógica + 4 de código)'}
+              </strong>
+            </div>
           </div>
 
           {/* Aviso reglamentario exacto del requerimiento */}
@@ -875,7 +886,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             <span className="text-[11px] hidden sm:inline">Seleccioná un casillero para navegar</span>
           </div>
 
-          <div className="grid grid-cols-6 sm:grid-cols-12 gap-1.5">
+          <div className="flex flex-wrap gap-1.5">
             {session.questions.map((q, idx) => {
               const isAnswered =
                 q.type === 'coding'
@@ -891,7 +902,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
                 <button
                   key={q.id}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`h-10 rounded-xl font-bold text-xs transition-all flex flex-col items-center justify-center border cursor-pointer ${
+                  className={`w-10 sm:w-11 h-10 rounded-xl font-bold text-xs transition-all flex flex-col items-center justify-center border cursor-pointer ${
                     isCurrent
                       ? 'ring-2 ring-python-blue ring-offset-1 border-python-blue bg-python-blue text-white shadow-md'
                       : isAnswered
@@ -914,7 +925,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3 text-xs">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-1 rounded-xl bg-python-blue/10 text-python-blue dark:text-sky-400 font-bold uppercase tracking-wider">
-                {currentQ.type === 'coding' ? '💻 Ejercicio Práctico' : '📖 Pregunta Teórica'}
+                {currentQ.type === 'coding' ? '💻 Ejercicio Práctico' : '📖 Pregunta de Análisis y Lógica'}
               </span>
               <span className="text-slate-400">•</span>
               <span className="font-semibold text-slate-600 dark:text-slate-300">
@@ -925,7 +936,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             </div>
 
             <div className="font-bold text-python-blue dark:text-sky-400">
-              Valor: {currentQ.points ?? (currentQ.type === 'coding' ? 1.5 : 0.5)} puntos
+              Valor: {currentQ.points !== undefined ? currentQ.points : (currentQ.type === 'coding' ? '1.5' : (4.0 / (session.questions.length - 4)).toFixed(2))} puntos
             </div>
           </div>
 
@@ -1270,11 +1281,13 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             </div>
 
             <div className="bg-white/15 backdrop-blur-sm p-4 rounded-2xl border border-white/20 text-center">
-              <span className="text-[11px] font-bold text-white/80 uppercase block">Parte A: Teoría (40%)</span>
+              <span className="text-[11px] font-bold text-white/80 uppercase block">Parte A: Análisis y Lógica (40%)</span>
               <span className="text-2xl sm:text-3xl font-black">
                 {evaluationResult.theoryScore} <span className="text-sm font-semibold opacity-80">/ 4.0</span>
               </span>
-              <span className="text-[11px] block text-white/80 mt-1">8 preguntas conceptuales</span>
+              <span className="text-[11px] block text-white/80 mt-1">
+                {evaluationResult.theoryBreakdown.length} preguntas de análisis y lógica
+              </span>
             </div>
 
             <div className="bg-white/15 backdrop-blur-sm p-4 rounded-2xl border border-white/20 text-center">
@@ -1311,10 +1324,10 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
           {showDetailedReview && (
             <div className="space-y-6 pt-4 border-t border-slate-100 dark:border-slate-800">
               
-              {/* Sección 1: Devoluciones Teóricas */}
+              {/* Sección 1: Devoluciones de Análisis y Lógica */}
               <div className="space-y-3">
                 <h4 className="text-xs font-black uppercase tracking-wider text-slate-400">
-                  Devolución de Preguntas Teóricas (8 preguntas)
+                  Devolución de Preguntas de Análisis y Lógica ({evaluationResult.theoryBreakdown.length} preguntas)
                 </h4>
 
                 <div className="space-y-3">
