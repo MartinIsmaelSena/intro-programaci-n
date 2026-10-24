@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useProgress } from '../../context/ProgressContext';
 import { ALL_MODULES, isModuleUnlocked } from '../../data/modulesList';
 import { calculateLevel, ALL_BADGES } from '../../data/badges';
+import {
+  fetchPracticalWorkSetting,
+  subscribeToPracticalWorkSetting
+} from '../../services/examSettingsService';
 import {
   BookOpen,
   CheckCircle,
@@ -55,6 +59,32 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   // Pick quote based on day or random
   const quote = MOTIVATIONAL_QUOTES[progress.streakDays % MOTIVATIONAL_QUOTES.length];
+
+  // Disponibilidad de Trabajo Práctico desde Supabase
+  const [tpEnabled, setTpEnabled] = useState<boolean>(false);
+  const [tpLoading, setTpLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    let mounted = true;
+    fetchPracticalWorkSetting().then(enabled => {
+      if (mounted) {
+        setTpEnabled(enabled);
+        setTpLoading(false);
+      }
+    });
+
+    const unsubscribe = subscribeToPracticalWorkSetting(fresh => {
+      if (mounted) {
+        setTpEnabled(fresh);
+        setTpLoading(false);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="space-y-8 animate-fadeIn pb-12">
@@ -265,15 +295,28 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Trabajo Práctico Callout Banner */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-cyan-900 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-bold uppercase tracking-wider text-emerald-300">
-            <ClipboardCheck className="w-3.5 h-3.5" />
-            <span>Evaluación Oficial · 80 Minutos</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-bold uppercase tracking-wider text-emerald-300">
+              <ClipboardCheck className="w-3.5 h-3.5" />
+              <span>Evaluación Oficial · 80 Minutos</span>
+            </div>
+
+            {!tpLoading && (
+              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
+                tpEnabled
+                  ? 'bg-emerald-500/20 text-emerald-200 border-emerald-400/40'
+                  : 'bg-amber-500/20 text-amber-200 border-amber-400/40'
+              }`}>
+                {tpEnabled ? '🟢 Habilitado' : '🔒 Deshabilitado temporalmente'}
+              </span>
+            )}
           </div>
+
           <h3 className="text-lg sm:text-xl font-extrabold text-white">
             📝 Trabajo Práctico de Python (Individual o Parejas)
           </h3>
           <p className="text-xs sm:text-sm text-emerald-100 max-w-xl">
-            Evaluación completa con corrección automática inmediata por Pyodide: 8 preguntas conceptuales y 4 ejercicios prácticos de programación.
+            Evaluación integral con corrección automática inmediata por Pyodide: 22 actividades (Individual) o 30 actividades (En Pareja) con temporizador de 80 minutos.
           </p>
         </div>
 
@@ -281,7 +324,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           onClick={() => onNavigate('practical-work')}
           className="py-3 px-5 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition-all flex-shrink-0 self-start sm:self-auto cursor-pointer"
         >
-          <span>Rendir Trabajo Práctico</span>
+          <span>{tpEnabled ? 'Rendir Trabajo Práctico' : 'Ver Trabajo Práctico'}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

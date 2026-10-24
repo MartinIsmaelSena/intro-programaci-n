@@ -24,8 +24,6 @@ import {
   subscribeToDuelSettings
 } from '../../services/teamDuelService';
 import { TeacherLoginModal } from './TeacherLoginModal';
-import { PracticalWorksSection } from './PracticalWorksSection';
-import { PracticalWorkPortalView } from '../practicalWork/PracticalWorkPortalView';
 import {
   FileText,
   Lock,
@@ -50,9 +48,6 @@ import {
 export const ExamsPortalView: React.FC = () => {
   const { progress } = useProgress();
   const [activeExam, setActiveExam] = useState<Exam | null>(null);
-  
-  // Pestaña activa: 'exams' (Exámenes Modulares) o 'practical_works' (Trabajos Prácticos)
-  const [currentTab, setCurrentTab] = useState<'exams' | 'practical_works'>('exams');
 
   // Disponibilidad Global autoritativa en Supabase (public.exam_settings)
   const [examSettings, setExamSettings] = useState<Record<string, boolean>>(DEFAULT_EXAM_SETTINGS);
@@ -259,30 +254,19 @@ export const ExamsPortalView: React.FC = () => {
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-python-blue text-white shadow-xl shadow-slate-950/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-xs font-bold uppercase tracking-wider text-sky-300">
-            {currentTab === 'exams' ? <FileText className="w-3.5 h-3.5" /> : <BookOpen className="w-3.5 h-3.5" />}
-            <span>{currentTab === 'exams' ? 'Ciclo de Aprendizaje Continuo' : 'Evaluaciones Formativas e Institucionales'}</span>
+            <FileText className="w-3.5 h-3.5" />
+            <span>Ciclo de Aprendizaje Continuo</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            {currentTab === 'exams' ? '📝 Exámenes Modulares por Bloques' : '📚 Trabajos Prácticos Evaluatorios'}
+            📝 Exámenes Modulares por Bloques
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            {currentTab === 'exams' ? (
-              <>
-                Los exámenes evalúan de forma integral los conocimientos adquiridos para acompañar tu progreso paso a paso:
-                <span className="block mt-1 font-semibold text-sky-300">
-                  Aprender ➔ Practicar ➔ Evaluar ➔ Continuar aprendiendo
-                </span>
-              </>
-            ) : (
-              <>
-                Espacio destinado a evaluaciones prácticas, consignas institucionales y proyectos de aplicación:
-                <span className="block mt-1 font-semibold text-sky-300">
-                  Consignas por colegio ➔ Desarrollo y entrega ➔ Devolución del docente
-                </span>
-              </>
-            )}
+            Los exámenes evalúan de forma integral los conocimientos adquiridos para acompañar tu progreso paso a paso:
+            <span className="block mt-1 font-semibold text-sky-300">
+              Aprender ➔ Practicar ➔ Evaluar ➔ Continuar aprendiendo
+            </span>
           </p>
         </div>
 
@@ -351,61 +335,7 @@ export const ExamsPortalView: React.FC = () => {
         </div>
       </div>
 
-      {/* Selector de Pestañas: Exámenes vs Trabajos Prácticos */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-2 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div className="flex items-center gap-2 flex-1 sm:flex-initial">
-          <button
-            type="button"
-            onClick={() => setCurrentTab('exams')}
-            className={`flex-1 sm:flex-initial py-2.5 px-5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-              currentTab === 'exams'
-                ? 'bg-white dark:bg-slate-800 text-python-blue dark:text-sky-400 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <FileText className="w-4 h-4" />
-            <span>Exámenes Modulares</span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-              currentTab === 'exams'
-                ? 'bg-python-blue/10 text-python-blue dark:bg-sky-400/20 dark:text-sky-300'
-                : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
-            }`}>
-              5 Bloques
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setCurrentTab('practical_works')}
-            className={`flex-1 sm:flex-initial py-2.5 px-5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-              currentTab === 'practical_works'
-                ? 'bg-white dark:bg-slate-800 text-python-blue dark:text-sky-400 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>Trabajo Práctico</span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-              currentTab === 'practical_works'
-                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
-                : 'bg-slate-200 dark:bg-slate-800 text-slate-500'
-            }`}>
-              80 min
-            </span>
-          </button>
-        </div>
-
-        <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 px-3 hidden sm:block">
-          {currentTab === 'exams'
-            ? 'Evaluaciones automáticas con calificación inmediata'
-            : 'Evaluación integral autocorregible de 80 minutos con Pyodide'}
-        </div>
-      </div>
-
-      {/* Contenido Pestaña Exámenes */}
-      {currentTab === 'exams' && (
-        <div className="space-y-8 animate-fadeIn">
-          {/* Error alert if updating settings failed */}
+      {/* Error alert if updating settings failed */}
       {settingsError && (
         <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -670,15 +600,6 @@ export const ExamsPortalView: React.FC = () => {
           Evaluará una selección amplia de los módulos al completar todos los bloques. La plataforma ya cuenta con la arquitectura para integrarlo cuando esté listo.
         </p>
       </div>
-        </div>
-      )}
-
-      {/* Contenido Pestaña Trabajos Prácticos */}
-      {currentTab === 'practical_works' && (
-        <PracticalWorkPortalView
-          onBackToPortal={() => setCurrentTab('exams')}
-        />
-      )}
 
       {/* Modal de Resultados de Exámenes para Docentes */}
       {showTeacherResultsModal && (

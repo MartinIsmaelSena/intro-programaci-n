@@ -8,13 +8,16 @@ export interface ExamSettingRecord {
   updated_by: string | null;
 }
 
+export const PRACTICAL_WORK_SETTING_ID = 'practical-work';
+
 // Configuración por defecto si la base de datos está offline o no configurada
 export const DEFAULT_EXAM_SETTINGS: Record<string, boolean> = {
   'exam-1': true,
   'exam-2': false,
   'exam-3': false,
   'exam-4': false,
-  'exam-5': false
+  'exam-5': false,
+  [PRACTICAL_WORK_SETTING_ID]: false
 };
 
 /**
@@ -116,3 +119,33 @@ export function subscribeToExamSettings(
     return () => {};
   }
 }
+
+/**
+ * Consulta en Supabase si el Trabajo Práctico de Python está habilitado para los alumnos.
+ */
+export async function fetchPracticalWorkSetting(): Promise<boolean> {
+  const settings = await fetchExamSettings();
+  return Boolean(settings[PRACTICAL_WORK_SETTING_ID]);
+}
+
+/**
+ * Actualiza en Supabase la disponibilidad del Trabajo Práctico de Python.
+ * Protegido por RLS: solo tendrá éxito si el usuario autenticado es el docente autorizado.
+ */
+export async function updatePracticalWorkSetting(
+  isEnabled: boolean
+): Promise<{ success: boolean; error?: string }> {
+  return updateExamSetting(PRACTICAL_WORK_SETTING_ID, isEnabled);
+}
+
+/**
+ * Suscripción Realtime específica para cambios de disponibilidad del Trabajo Práctico.
+ */
+export function subscribeToPracticalWorkSetting(
+  onUpdate: (isEnabled: boolean) => void
+): () => void {
+  return subscribeToExamSettings(settings => {
+    onUpdate(Boolean(settings[PRACTICAL_WORK_SETTING_ID]));
+  });
+}
+

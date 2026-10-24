@@ -19,6 +19,20 @@ import { validateExercise } from '../../services/testValidator';
 import { PythonEditor } from '../editor/PythonEditor';
 import { InteractiveConsole } from '../editor/InteractiveConsole';
 import { ExecutionResult } from '../../types/course';
+import { ExamAttemptRecord } from '../../types/exam';
+import {
+  getTeacherAuthState,
+  logoutTeacher,
+  TeacherAuthState,
+  AUTHORIZED_TEACHER_EMAIL,
+  fetchRemoteExamAttempts
+} from '../../services/teacherAuthService';
+import {
+  fetchPracticalWorkSetting,
+  updatePracticalWorkSetting,
+  subscribeToPracticalWorkSetting
+} from '../../services/examSettingsService';
+import { TeacherLoginModal } from '../exams/TeacherLoginModal';
 import {
   Clock,
   AlertTriangle,
@@ -41,7 +55,13 @@ import {
   Loader2,
   Sparkles,
   HelpCircle,
-  FileText
+  FileText,
+  Lock,
+  Unlock,
+  ShieldCheck,
+  LogOut,
+  Database,
+  X
 } from 'lucide-react';
 
 type TPStep = 'intro' | 'student_form' | 'confirm_summary' | 'runner' | 'result';
@@ -104,6 +124,89 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
   const [runningSection, setRunningSection] = useState<string | null>(null);
   const [validationStatuses, setValidationStatuses] = useState<Record<string, boolean>>({});
   const [showDetailedReview, setShowDetailedReview] = useState(false);
+
+  // 6. Estado autenticado del docente (Supabase Auth) y Control de Disponibilidad
+  const [teacherAuth, setTeacherAuth] = useState<TeacherAuthState>({
+    isAuthenticated: false,
+    email: null,
+    loading: true
+  });
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [showTeacherResultsModal, setShowTeacherResultsModal] = useState(false);
+  const [remoteAttempts, setRemoteAttempts] = useState<ExamAttemptRecord[]>([]);
+  const [loadingRemote, setLoadingRemote] = useState(false);
+  const [remoteError, setRemoteError] = useState<string | null>(null);
+
+  // Disponibilidad Global en Supabase (public.exam_settings: 'practical-work')
+  const [isTPEnabled, setIsTPEnabled] = useState<boolean>(false);
+  const [loadingAvailability, setLoadingAvailability] = useState<boolean>(true);
+  const [isTogglingAvailability, setIsTogglingAvailability] = useState<boolean>(false);
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
+
+  // Carga inicial y sincronización Realtime de disponibilidad y estado docente
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadAuthAndSettings() {
+      setLoadingAvailability(true);
+      try {
+        const auth = await getTeacherAuthState();
+        if (mounted) setTeacherAuth(auth);
+
+        const enabled = await fetchPracticalWorkSetting();
+        if (mounted) {
+          setIsTPEnabled(enabled);
+          setLoadingAvailability(false);
+        }
+      } catch (err) {
+        if (mounted) setLoadingAvailability(false);
+      }
+    }
+
+    loadAuthAndSettings();
+
+    // Suscripción Realtime a cambios en Supabase (public.exam_settings)
+    const unsubscribe = subscribeToPracticalWorkSetting(freshStatus => {
+      if (mounted) {
+        setIsTPEnabled(freshStatus);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
+  }, []);
+
+  // Manejo de cambio de disponibilidad (solo docente autorizado)
+  const handleToggleTPAvailability = async () => {
+    if (!teacherAuth.isAuthenticated || isTogglingAvailability) return;
+
+    setIsTogglingAvailability(true);
+    setAvailabilityError(null);
+    const nextStatus = !isTPEnabled;
+
+    const res = await updatePracticalWorkSetting(nextStatus);
+    if (res.success) {
+      setIsTPEnabled(nextStatus);
+    } else {
+      setAvailabilityError(res.error || 'No se pudo actualizar la disponibilidad en Supabase.');
+    }
+    setIsTogglingAvailability(false);
+  };
+
+  // Carga de intentos remotos para el panel docente
+  const loadRemoteAttempts = async () => {
+    setLoadingRemote(true);
+    setRemoteError(null);
+    const res = await fetchRemoteExamAttempts();
+    if (res.success) {
+      setRemoteAttempts(res.data);
+    } else {
+      setRemoteError(res.error || 'No se pudieron consultar los resultados remotos.');
+    }
+    setLoadingRemote(false);
+  };
 
   // Lock para evitar ejecuciones duplicadas de entrega
   const isSubmissionLockedRef = useRef(false);
@@ -211,6 +314,14 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
   // Manejo de validación de formulario de alumnos
   const handleValidateForm = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Bloquear avance si el trabajo práctico fue deshabilitado y no es el docente
+    if (!isTPEnabled && !teacherAuth.isAuthenticated) {
+      alert('El Trabajo Práctico ha sido deshabilitado por el docente y no admite nuevos intentos en este momento.');
+      setStep('intro');
+      return;
+    }
+
     const errors: Record<string, string> = {};
 
     if (!studentForm.school.trim()) {
@@ -247,6 +358,13 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
 
   // Inicio efectivo de la evaluación (comienza el cronómetro)
   const handleStartEvaluation = () => {
+    // Bloquear inicio si el trabajo práctico fue deshabilitado y no es el docente
+    if (!isTPEnabled && !teacherAuth.isAuthenticated) {
+      alert('El Trabajo Práctico ha sido deshabilitado por el docente y no admite nuevos intentos en este momento.');
+      setStep('intro');
+      return;
+    }
+
     isSubmissionLockedRef.current = false;
     const newSession = generateTPSession(studentForm);
     setSession(newSession);
@@ -315,38 +433,207 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
   if (step === 'intro') {
     return (
       <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn py-6 px-4 pb-16">
-        {/* Banner Superior */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-python-blue text-white shadow-2xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-bold uppercase tracking-wider text-sky-300">
-            <FileCheck className="w-4 h-4" />
-            <span>Evaluación Oficial Autocorregible</span>
+        {/* Banner Superior con Panel de Disponibilidad Docente */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-python-blue text-white shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-4 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-bold uppercase tracking-wider text-sky-300">
+              <FileCheck className="w-4 h-4" />
+              <span>Evaluación Oficial Autocorregible</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
+              📝 Trabajo Práctico de Python
+            </h1>
+
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+              Evaluación integral de fundamentos de programación en Python con corrección automática y guardado institucional en Supabase.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-amber-300">
+                <Clock className="w-4 h-4" />
+                <span>Duración: 80 minutos</span>
+              </div>
+
+              <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-sky-200">
+                <Users className="w-4 h-4" />
+                <span>Modalidad: Individual (22 act.) o En Pareja (30 act.)</span>
+              </div>
+
+              <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-emerald-300">
+                <Trophy className="w-4 h-4" />
+                <span>Escala: 0 a 10 (Aprobación: 6.0)</span>
+              </div>
+            </div>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight">
-            📝 Trabajo Práctico de Python
-          </h1>
+          {/* Teacher Mode Control Widget */}
+          <div className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 flex flex-col items-center gap-2 flex-shrink-0 text-center min-w-[200px] self-start md:self-center">
+            <span className="text-xs font-semibold text-slate-300">
+              Panel de Disponibilidad
+            </span>
 
-          <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-            Evaluación integral de fundamentos de programación en Python con corrección automática y guardado institucional en Supabase.
-          </p>
+            {teacherAuth.loading ? (
+              <div className="flex items-center gap-2 py-2 text-xs text-slate-300">
+                <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                <span>Verificando permisos...</span>
+              </div>
+            ) : teacherAuth.isAuthenticated ? (
+              <div className="space-y-2 w-full">
+                <div className="px-3 py-1.5 rounded-xl bg-amber-400 text-slate-950 text-xs font-bold flex items-center justify-center gap-1.5 shadow-md">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-800" />
+                  <span>Docente Verificado</span>
+                </div>
 
-          <div className="flex flex-wrap items-center gap-3 pt-2">
-            <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-amber-300">
-              <Clock className="w-4 h-4" />
-              <span>Duración: 80 minutos</span>
-            </div>
+                <div className="text-[10px] font-mono text-sky-200 truncate max-w-[180px] mx-auto" title={teacherAuth.email || ''}>
+                  {teacherAuth.email}
+                </div>
 
-            <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-sky-200">
-              <Users className="w-4 h-4" />
-              <span>Modalidad: Individual (22 act.) o En Pareja (30 act.)</span>
-            </div>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <button
+                    onClick={async () => {
+                      setShowTeacherResultsModal(true);
+                      await loadRemoteAttempts();
+                    }}
+                    className="flex-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                  >
+                    <Users className="w-3.5 h-3.5 text-python-blue" />
+                    <span>Resultados</span>
+                  </button>
 
-            <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-emerald-300">
-              <Trophy className="w-4 h-4" />
-              <span>Escala: 0 a 10 (Aprobación: 6.0)</span>
-            </div>
+                  <button
+                    onClick={async () => {
+                      await logoutTeacher();
+                      const freshAuth = await getTeacherAuthState();
+                      setTeacherAuth(freshAuth);
+                    }}
+                    title="Cerrar sesión de Docente"
+                    className="p-1.5 rounded-xl bg-white/10 hover:bg-rose-500/30 text-slate-300 hover:text-white border border-white/20 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <span className="text-[10px] text-amber-200/80 block">
+                  Disponibilidad en Supabase
+                </span>
+              </div>
+            ) : (
+              <div className="space-y-2 w-full">
+                <button
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="w-full px-3.5 py-2 rounded-xl text-xs font-bold bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center gap-2 transition-all transform active:scale-95 cursor-pointer"
+                >
+                  <Lock className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Acceso Docente</span>
+                </button>
+                
+                <span className="text-[10px] text-slate-400 block">
+                  Protegido por Supabase Auth
+                </span>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Panel Docente de Control de Habilitación */}
+        {teacherAuth.isAuthenticated && (
+          <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-slate-900 border-2 border-amber-400/80 dark:border-amber-500/60 shadow-lg shadow-amber-500/5 space-y-4 animate-fadeIn">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold inline-flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                    <span>Control de Habilitación Docente</span>
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">
+                    public.exam_settings
+                  </span>
+                </div>
+                <h2 className="text-xl font-black text-slate-900 dark:text-white">
+                  Trabajo Práctico de Python
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl leading-relaxed">
+                  Habilitá o deshabilitá el inicio de la evaluación en tiempo real para todos los alumnos.
+                  Los intentos que ya estén en curso no se interrumpirán y podrán finalizar normalmente.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:items-end gap-2.5 flex-shrink-0">
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="font-semibold text-slate-500">Estado:</span>
+                  {loadingAvailability ? (
+                    <span className="inline-flex items-center gap-1 text-slate-400">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-amber-500" />
+                      <span>Consultando Supabase...</span>
+                    </span>
+                  ) : isTPEnabled ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-300 dark:border-emerald-800 text-xs">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span>🟢 Habilitado</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 font-bold border border-rose-300 dark:border-rose-800 text-xs">
+                      <span className="w-2 h-2 rounded-full bg-rose-500" />
+                      <span>🔒 Deshabilitado</span>
+                    </span>
+                  )}
+                </div>
+
+                <button
+                  disabled={isTogglingAvailability || loadingAvailability}
+                  onClick={handleToggleTPAvailability}
+                  className={`py-2.5 px-5 rounded-2xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer disabled:opacity-50 ${
+                    isTPEnabled
+                      ? 'bg-rose-600 hover:bg-rose-700 text-white'
+                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                  }`}
+                >
+                  {isTogglingAvailability ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Actualizando Supabase...</span>
+                    </>
+                  ) : isTPEnabled ? (
+                    <>
+                      <Lock className="w-4 h-4" />
+                      <span>Deshabilitar Trabajo Práctico</span>
+                    </>
+                  ) : (
+                    <>
+                      <Unlock className="w-4 h-4" />
+                      <span>Habilitar Trabajo Práctico</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {availabilityError && (
+              <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-xs text-rose-700 dark:text-rose-300 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                <span>{availabilityError}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Notificación de Actividad Deshabilitada para Alumnos */}
+        {!isTPEnabled && !teacherAuth.isAuthenticated && (
+          <div className="p-6 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-300 dark:border-amber-800/80 text-amber-900 dark:text-amber-200 flex items-start gap-4 animate-fadeIn">
+            <div className="w-10 h-10 rounded-2xl bg-amber-200/80 dark:bg-amber-900/60 flex items-center justify-center text-amber-800 dark:text-amber-300 flex-shrink-0 mt-0.5">
+              <Lock className="w-5 h-5" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-extrabold text-sm sm:text-base text-amber-950 dark:text-amber-100">
+                Trabajo Práctico deshabilitado por el Docente
+              </h3>
+              <p className="text-xs sm:text-sm leading-relaxed text-amber-800 dark:text-amber-300">
+                El docente ha deshabilitado el inicio de nuevos intentos en este momento. Por favor, aguardá a que tu profesor habilite la actividad para poder comenzar.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Ficha de Contenidos Evaluados */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -440,14 +727,173 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             </button>
           )}
 
-          <button
-            onClick={() => setStep('student_form')}
-            className="w-full sm:w-auto py-4 px-10 rounded-2xl bg-python-blue hover:bg-python-blue-light text-white font-black text-sm sm:text-base shadow-xl flex items-center justify-center gap-3 transition-all transform active:scale-98 cursor-pointer"
-          >
-            <span>COMENZAR TRABAJO PRÁCTICO</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
+          {loadingAvailability ? (
+            <button
+              disabled
+              className="w-full sm:w-auto py-4 px-10 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold text-sm sm:text-base cursor-not-allowed flex items-center justify-center gap-3 shadow-none"
+            >
+              <Loader2 className="w-5 h-5 animate-spin text-python-blue" />
+              <span>Consultando disponibilidad...</span>
+            </button>
+          ) : isTPEnabled || teacherAuth.isAuthenticated ? (
+            <button
+              onClick={() => setStep('student_form')}
+              className="w-full sm:w-auto py-4 px-10 rounded-2xl bg-python-blue hover:bg-python-blue-light text-white font-black text-sm sm:text-base shadow-xl flex items-center justify-center gap-3 transition-all transform active:scale-98 cursor-pointer"
+            >
+              <span>COMENZAR TRABAJO PRÁCTICO</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          ) : (
+            <button
+              disabled
+              className="w-full sm:w-auto py-4 px-10 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 font-bold text-sm sm:text-base cursor-not-allowed flex items-center justify-center gap-3 shadow-none"
+            >
+              <Lock className="w-5 h-5" />
+              <span>EVALUACIÓN DESHABILITADA POR EL DOCENTE</span>
+            </button>
+          )}
         </div>
+
+        {/* Modal de Inicio de Sesión Docente */}
+        <TeacherLoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          onLoginSuccess={async () => {
+            const freshAuth = await getTeacherAuthState();
+            setTeacherAuth(freshAuth);
+          }}
+        />
+
+        {/* Modal de Resultados Institucionales para Docente */}
+        {showTeacherResultsModal && (
+          <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-fadeIn">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-5xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
+              
+              {/* Header */}
+              <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/50">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-python-blue/10 dark:bg-sky-500/20 text-python-blue dark:text-sky-400 flex items-center justify-center">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                      Resultados del Trabajo Práctico — Panel Docente
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Docente autenticado: <strong className="font-mono text-slate-700 dark:text-slate-300">{AUTHORIZED_TEACHER_EMAIL}</strong>
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setShowTeacherResultsModal(false)}
+                  className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  aria-label="Cerrar modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Content Body */}
+              <div className="p-6 overflow-y-auto space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                    <Database className="w-4 h-4 text-python-blue" />
+                    <span>Intentos registrados en Supabase (public.exam_attempts)</span>
+                  </span>
+                  <button
+                    onClick={loadRemoteAttempts}
+                    disabled={loadingRemote}
+                    className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className={`w-3.5 h-3.5 ${loadingRemote ? 'animate-spin' : ''}`} />
+                    <span>Actualizar</span>
+                  </button>
+                </div>
+
+                {loadingRemote ? (
+                  <div className="p-12 flex flex-col items-center justify-center gap-3 text-slate-500 dark:text-slate-400 text-xs">
+                    <Loader2 className="w-6 h-6 animate-spin text-python-blue" />
+                    <span>Consultando intentos en Supabase...</span>
+                  </div>
+                ) : remoteError ? (
+                  <div className="p-6 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-3">
+                    <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="block font-bold">Error al consultar datos remotos:</strong>
+                      <p>{remoteError}</p>
+                    </div>
+                  </div>
+                ) : remoteAttempts.length === 0 ? (
+                  <div className="p-12 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 text-center text-slate-400 dark:text-slate-500 text-xs">
+                    No hay registros remotos de trabajos prácticos o exámenes en Supabase todavía.
+                  </div>
+                ) : (
+                  <div className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-x-auto">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-200 dark:border-slate-800">
+                        <tr>
+                          <th className="p-3">Alumno(s)</th>
+                          <th className="p-3">Colegio / Curso</th>
+                          <th className="p-3">Actividad</th>
+                          <th className="p-3 text-center">Nota</th>
+                          <th className="p-3 text-center">Aciertos</th>
+                          <th className="p-3 text-center">Tiempo</th>
+                          <th className="p-3">Fecha y Hora</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                        {remoteAttempts.map((att, idx) => (
+                          <tr key={att.id || idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30">
+                            <td className="p-3 font-bold text-slate-900 dark:text-white">
+                              {att.student_last_name}, {att.student_name}
+                            </td>
+                            <td className="p-3">
+                              <div>{att.school}</div>
+                              <div className="text-[11px] text-slate-400">{att.course}</div>
+                            </td>
+                            <td className="p-3">
+                              <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-[11px] font-mono">
+                                {att.exam_id}
+                              </span>
+                            </td>
+                            <td className="p-3 text-center font-bold">
+                              <span className={att.percentage >= 60 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}>
+                                {att.score} / 10 ({att.percentage}%)
+                              </span>
+                            </td>
+                            <td className="p-3 text-center">
+                              {att.correct_answers} de {att.total_questions}
+                            </td>
+                            <td className="p-3 text-center">
+                              {Math.floor(att.duration_seconds / 60)} min
+                            </td>
+                            <td className="p-3 text-slate-500 whitespace-nowrap">
+                              {new Date(att.completed_at).toLocaleString('es-AR', {
+                                dateStyle: 'short',
+                                timeStyle: 'short'
+                              })}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/50 flex justify-end">
+                <button
+                  onClick={() => setShowTeacherResultsModal(false)}
+                  className="px-5 py-2 rounded-xl text-xs font-bold bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
