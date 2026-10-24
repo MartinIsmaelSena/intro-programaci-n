@@ -20,6 +20,7 @@ import { ProgressView } from './components/progress/ProgressView';
 import { ReviewView } from './components/review/ReviewView';
 import { ResourcesView } from './components/resources/ResourcesView';
 import { ExamsPortalView } from './components/exams/ExamsPortalView';
+import { PracticalWorkPortalView } from './components/practicalWork/PracticalWorkPortalView';
 import { ChallengesPortalView } from './components/challenges/ChallengesPortalView';
 import { OnlineChallengesPortalView } from './components/onlineChallenges/OnlineChallengesPortalView';
 import { TeamDuelPortalView } from './components/teamDuel/TeamDuelPortalView';
@@ -132,6 +133,12 @@ const MainApp: React.FC = () => {
 
           {currentView === 'exams' && (
             <ExamsPortalView />
+          )}
+
+          {currentView === 'practical-work' && (
+            <PracticalWorkPortalView
+              onBackToPortal={() => handleNavigate('dashboard')}
+            />
           )}
 
           {currentView === 'challenges' && (

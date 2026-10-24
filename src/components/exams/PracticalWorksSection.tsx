@@ -33,8 +33,10 @@ import {
   Sparkles,
   FileCheck,
   ShieldCheck,
+  ClipboardCheck,
   X
 } from 'lucide-react';
+import { PracticalWorkPortalView } from '../practicalWork/PracticalWorkPortalView';
 
 interface PracticalWorksSectionProps {
   teacherAuth: TeacherAuthState;
@@ -52,6 +54,7 @@ export const PracticalWorksSection: React.FC<PracticalWorksSectionProps> = ({
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isTakingEvaluation, setIsTakingEvaluation] = useState(false);
 
   // Estados del modal de creación / edición
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -213,6 +216,14 @@ export const PracticalWorksSection: React.FC<PracticalWorksSectionProps> = ({
     setTimeout(() => setSuccessMessage(null), 4000);
   };
 
+  if (isTakingEvaluation) {
+    return (
+      <PracticalWorkPortalView
+        onBackToPortal={() => setIsTakingEvaluation(false)}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Alertas informativas / mensajes */}
@@ -245,6 +256,48 @@ export const PracticalWorksSection: React.FC<PracticalWorksSectionProps> = ({
           </button>
         </div>
       )}
+
+      {/* Evaluación Autocorregible Oficial de 80 minutos */}
+      <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-900 text-white border-2 border-emerald-500/40 shadow-xl shadow-emerald-950/20 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-2.5 max-w-2xl">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
+              <ClipboardCheck className="w-3.5 h-3.5" />
+              <span>Evaluación Autocorregible Activa</span>
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-white text-xs font-semibold flex items-center gap-1">
+              <Clock className="w-3 h-3 text-emerald-400" />
+              <span>80 Minutos</span>
+            </span>
+            <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200 text-xs font-semibold flex items-center gap-1">
+              <Users className="w-3 h-3" />
+              <span>Individual o en Pareja</span>
+            </span>
+          </div>
+
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            📝 Trabajo Práctico de Python — Evaluación Oficial
+          </h2>
+
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Evaluación integral de 8 preguntas teóricas (4.0 pts) y 4 ejercicios prácticos de código (6.0 pts) con corrección automática inmediata por Pyodide y registro directo en el sistema de calificaciones.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-emerald-200">
+            <span>• 3 modelos equivalentes asignados aleatoriamente</span>
+            <span>• Contador con tiempo límite estricto de 80 minutos</span>
+            <span>• Devolución pedagógica al finalizar</span>
+          </div>
+        </div>
+
+        <button
+          onClick={() => setIsTakingEvaluation(true)}
+          className="py-3.5 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-lg shadow-emerald-500/30 flex items-center justify-center gap-2 transition-all transform active:scale-95 flex-shrink-0 cursor-pointer"
+        >
+          <ClipboardCheck className="w-4 h-4" />
+          <span>Comenzar Evaluación (80 min)</span>
+        </button>
+      </div>
 
       {/* Modo Docente: Panel de Administración */}
       {teacherAuth.isAuthenticated ? (
@@ -310,6 +363,14 @@ export const PracticalWorksSection: React.FC<PracticalWorksSectionProps> = ({
           </div>
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => setIsTakingEvaluation(true)}
+              className="py-2.5 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <ClipboardCheck className="w-3.5 h-3.5" />
+              <span>Rendir Trabajo Práctico Oficial (80 min)</span>
+            </button>
+
             {onNavigateToExams && (
               <button
                 onClick={onNavigateToExams}

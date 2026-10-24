@@ -18,7 +18,8 @@ import {
   Rocket,
   Trophy,
   Swords,
-  Brain
+  Brain,
+  ClipboardCheck
 } from 'lucide-react';
 
 interface DashboardViewProps {
@@ -257,6 +258,30 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           className="py-3 px-5 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition-all flex-shrink-0 self-start sm:self-auto"
         >
           <span>Ir a Exámenes</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Trabajo Práctico Callout Banner */}
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-cyan-900 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-[11px] font-bold uppercase tracking-wider text-emerald-300">
+            <ClipboardCheck className="w-3.5 h-3.5" />
+            <span>Evaluación Oficial · 80 Minutos</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-extrabold text-white">
+            📝 Trabajo Práctico de Python (Individual o Parejas)
+          </h3>
+          <p className="text-xs sm:text-sm text-emerald-100 max-w-xl">
+            Evaluación completa con corrección automática inmediata por Pyodide: 8 preguntas conceptuales y 4 ejercicios prácticos de programación.
+          </p>
+        </div>
+
+        <button
+          onClick={() => onNavigate('practical-work')}
+          className="py-3 px-5 rounded-2xl bg-white hover:bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 transition-all flex-shrink-0 self-start sm:self-auto cursor-pointer"
+        >
+          <span>Rendir Trabajo Práctico</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

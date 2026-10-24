@@ -15,10 +15,11 @@ import {
   Swords,
   Brain,
   X,
-  Users
+  Users,
+  ClipboardCheck
 } from 'lucide-react';
 
-export type ViewType = 'dashboard' | 'roadmap' | 'courses' | 'module' | 'exams' | 'challenges' | 'online-challenges' | 'team-duel' | 'logic-arena' | 'ranking' | 'badges' | 'progress' | 'review' | 'resources' | 'settings';
+export type ViewType = 'dashboard' | 'roadmap' | 'courses' | 'module' | 'exams' | 'practical-work' | 'challenges' | 'online-challenges' | 'team-duel' | 'logic-arena' | 'ranking' | 'badges' | 'progress' | 'review' | 'resources' | 'settings';
 
 interface SidebarProps {
   currentView: ViewType;
@@ -40,6 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'roadmap' as ViewType, label: 'Mi camino', icon: Map, badge: 'Ruta' },
     { id: 'courses' as ViewType, label: 'Curso', icon: BookOpen, badge: '15 Módulos' },
     { id: 'exams' as ViewType, label: 'Exámenes', icon: FileText, badge: '5 Bloques' },
+    { id: 'practical-work' as ViewType, label: 'Trabajo Práctico', icon: ClipboardCheck, badge: '80 min' },
     { id: 'challenges' as ViewType, label: 'Desafíos', icon: Rocket, badge: 'Nuevo' },
     { id: 'online-challenges' as ViewType, label: 'Desafíos en línea', icon: Swords, badge: '⚔️ 1v1' },
     { id: 'team-duel' as ViewType, label: 'Duelo de Equipos', icon: Users, badge: '🏆 Equipos' },
