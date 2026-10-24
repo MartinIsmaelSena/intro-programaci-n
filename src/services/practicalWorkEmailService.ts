@@ -107,6 +107,7 @@ export async function sendPracticalWorkResultEmail(
 
   const payload = {
     evaluationType: 'trabajo_practico',
+    email: validation.recipients[0],
     emails: validation.recipients,
     attemptId: evaluation.id,
     model: evaluation.model,
@@ -162,10 +163,30 @@ export async function sendPracticalWorkResultEmail(
 
     if (error) {
       console.warn('[TPEmailService] Error de invocación en Edge Function:', error);
+      let serverErrorMsg = '';
+
+      // Extraer mensaje real desde el cuerpo devuelto por la Edge Function
+      if ((error as any).context && typeof (error as any).context.json === 'function') {
+        try {
+          const errBody = await (error as any).context.json();
+          if (errBody?.error) {
+            serverErrorMsg = errBody.error;
+          }
+        } catch {
+          // fallback
+        }
+      }
+
+      if (!serverErrorMsg && error.message) {
+        serverErrorMsg = error.message;
+      }
+
+      const isConfigIssue = serverErrorMsg.includes('RESEND_API_KEY') || serverErrorMsg.includes('secretos');
+
       return {
         success: false,
-        notConfigured: true,
-        message: 'La función de envío en Supabase aún requiere desplegarse o configurarse con su clave de API de correo.'
+        notConfigured: isConfigIssue,
+        message: serverErrorMsg || 'No fue posible completar el envío por correo. Podés reintentar en unos instantes.'
       };
     }
 

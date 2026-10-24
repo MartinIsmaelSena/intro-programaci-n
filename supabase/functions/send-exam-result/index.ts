@@ -39,6 +39,20 @@ serve(async (req) => {
       );
     }
 
+    if (recipients.length > 2) {
+      return new Response(
+        JSON.stringify({ error: 'Se permite un máximo de 2 destinatarios por evaluación.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    if (isTP && (payload.score === undefined || !payload.student1?.name)) {
+      return new Response(
+        JSON.stringify({ error: 'El reporte del Trabajo Práctico no cuenta con los datos o calificación necesarios.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
     const FROM_EMAIL = Deno.env.get('FROM_EMAIL') || 'onboarding@resend.dev';
 
@@ -265,7 +279,14 @@ serve(async (req) => {
       const resendData = await resendResponse.json();
 
       if (!resendResponse.ok) {
-        throw new Error(resendData.message || `Fallo al despachar email a ${recipient}`);
+        let errorMsg = resendData.message || `Fallo al despachar email a ${recipient}`;
+        if (errorMsg.includes('testing emails to your own email address')) {
+          errorMsg = `Resend se encuentra en modo de pruebas (remitente: ${FROM_EMAIL}). Solo permite enviar a casillas autorizadas (${errorMsg.match(/\(([^)]+)\)/)?.[1] || 'cuenta del administrador'}) o delivered@resend.dev. Para enviar a cualquier alumno (@escuela, @gmail, etc.), es necesario verificar un dominio propio en https://resend.com/domains y configurar la variable FROM_EMAIL en Supabase Secrets.`;
+        }
+        return new Response(
+          JSON.stringify({ error: errorMsg, code: 'PROVIDER_REJECTED' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
 
       dispatchResults.push({ recipient, id: resendData.id });
