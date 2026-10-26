@@ -53,14 +53,33 @@ serve(async (req) => {
       );
     }
 
+    // 1. Obtener configuración de proveedores (Google Apps Script prioritario, Resend como respaldo)
+    let gasUrl = Deno.env.get('GOOGLE_APPS_SCRIPT_URL');
+    let gasSecret = Deno.env.get('GOOGLE_APPS_SCRIPT_SECRET');
+
+    // Detección de respaldo en caso de que el secreto se haya guardado con la URL como nombre de variable
+    if (!gasUrl || !gasSecret) {
+      try {
+        const allEnv = Deno.env.toObject();
+        for (const [k, v] of Object.entries(allEnv)) {
+          if (k.startsWith('https://script.google.com/')) {
+            gasUrl = gasUrl || k;
+            gasSecret = gasSecret || v;
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+
     const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
     const FROM_EMAIL = Deno.env.get('FROM_EMAIL') || 'onboarding@resend.dev';
 
-    if (!RESEND_API_KEY) {
+    if ((!gasUrl || !gasSecret) && !RESEND_API_KEY) {
       return new Response(
         JSON.stringify({
           configured: false,
-          message: 'El servicio de correo de Supabase aún no tiene configurada la variable RESEND_API_KEY en los secretos del proyecto.',
+          message: 'El servicio de correo de Supabase aún no tiene configuradas las variables de Google Apps Script (GOOGLE_APPS_SCRIPT_URL y GOOGLE_APPS_SCRIPT_SECRET) ni RESEND_API_KEY en los secretos del proyecto.',
         }),
         { status: 501, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
@@ -69,12 +88,13 @@ serve(async (req) => {
     let emailSubject = '';
     let emailHtml = '';
 
+    const s1 = payload.student1 || { name: payload.studentName || 'Estudiante', lastName: payload.studentLastName || '', dni: '' };
+    const s2 = payload.student2 || null;
+
     if (isTP) {
       // ----------------------------------------------------------------------
       // Formato para TRABAJO PRÁCTICO
       // ----------------------------------------------------------------------
-      const s1 = payload.student1 || { name: 'Estudiante', lastName: '', dni: '' };
-      const s2 = payload.student2;
       const studentTitle = s2
         ? `${s1.name} ${s1.lastName} y ${s2.name} ${s2.lastName}`
         : `${s1.name} ${s1.lastName}`;
@@ -259,7 +279,116 @@ serve(async (req) => {
       `;
     }
 
-    // 2. Despachar email individual por separado para cada destinatario para preservar la privacidad
+    // Construcción del cuerpo en texto plano complementario
+    let textBody = '';
+    if (isTP) {
+      textBody = `
+Python desde Cero - Reporte Oficial de Trabajo Práctico
+======================================================
+Evaluación: Trabajo Práctico (Modelo ${payload.model || 'A'})
+Modalidad: ${payload.modality === 'pareja' ? 'En Pareja' : 'Individual'}
+Estudiante 1: ${s1.name} ${s1.lastName}${s1.dni ? ` (DNI: ${s1.dni})` : ''}
+${s2 ? `Estudiante 2: ${s2.name} ${s2.lastName}${s2.dni ? ` (DNI: ${s2.dni})` : ''}\n` : ''}Institución educativa: ${payload.school || '-'}
+Curso y División: ${payload.course || '-'} ${payload.division || ''} (Turno: ${payload.shift || '-'})
+Fecha: ${payload.dateFormatted || '-'}
+Tiempo empleado: ${payload.durationFormatted || '-'}
+
+CALIFICACIÓN OBTENIDA:
+Nota Final: ${payload.score} / ${payload.maxScore || 10} (${payload.passed ? 'Aprobado' : 'No alcanzado'}) - ${payload.percentage || Math.round((payload.score / 10) * 100)}%
+Parte A (Análisis y Lógica 40%): ${payload.theoryScore} / ${payload.theoryMaxScore || 4.0} pts
+Parte B (Programación 60%): ${payload.practicalScore} / ${payload.practicalMaxScore || 6.0} pts
+
+El informe pedagógico completo con las respuestas analizadas, correcciones y sugerencias se incluye en el cuerpo HTML de este mensaje.
+Plataforma educativa: Python desde Cero.
+`.trim();
+    } else {
+      textBody = `
+Python desde Cero - Reporte Oficial de Evaluación
+=================================================
+Examen: ${payload.examTitle || 'Examen Modular'}
+Alumno/a: ${payload.studentName} ${payload.studentLastName}
+Colegio / Escuela: ${payload.school || '-'}
+Curso / Año: ${payload.course || '-'}
+Fecha: ${payload.dateFormatted || '-'}
+Tiempo utilizado: ${payload.durationFormatted || '-'}
+
+Calificación Final: ${payload.score} / 10 (${payload.percentage}%)
+Respuestas correctas: ${payload.correctAnswers} de ${payload.totalQuestions}
+
+Copia informativa automática generada por la plataforma educativa "Python desde Cero".
+`.trim();
+    }
+
+    // ------------------------------------------------------------------------
+    // 2. DESPACHO DE CORREOS: GOOGLE APPS SCRIPT (Prioritario) o RESEND (Respaldo)
+    // ------------------------------------------------------------------------
+    if (gasUrl && gasSecret) {
+      // Despacho vía Google Apps Script (Gmail) con redirect: 'follow'
+      const gasResponse = await fetch(gasUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        body: JSON.stringify({
+          secret: gasSecret,
+          recipients,
+          subject: emailSubject,
+          textBody,
+          htmlBody: emailHtml,
+        }),
+      });
+
+      if (!gasResponse.ok) {
+        throw new Error(`Google Apps Script respondió con código HTTP ${gasResponse.status}`);
+      }
+
+      let gasData: any;
+      try {
+        gasData = await gasResponse.json();
+      } catch (_jsonErr) {
+        throw new Error('La respuesta de Google Apps Script no es un JSON válido.');
+      }
+
+      // Validar que la respuesta confirme el despacho exitoso a todos los destinatarios
+      if (!gasData || gasData.success !== true) {
+        const rawError = gasData?.error || gasData?.message || 'Google Apps Script no confirmó el despacho.';
+        let userFriendlyMsg = rawError;
+
+        if (rawError === 'UNAUTHORIZED' || rawError.includes('UNAUTHORIZED')) {
+          userFriendlyMsg = 'Google Apps Script rechazó la clave secreta de autorización (GOOGLE_APPS_SCRIPT_SECRET no coincide con la configurada en el script).';
+        } else if (rawError.includes('Service invoked too many times') || rawError.includes('quota') || rawError.includes('cuota') || rawError.includes('limit')) {
+          userFriendlyMsg = 'Se ha alcanzado el límite diario de envíos de correo de la cuenta de Google / Gmail. Por favor, reintentá más tarde.';
+        } else if (rawError.includes('Invalid email') || rawError.includes('recipient')) {
+          userFriendlyMsg = `Google Apps Script no pudo enviar a los destinatarios especificados (${rawError}).`;
+        }
+
+        return new Response(
+          JSON.stringify({
+            error: userFriendlyMsg,
+            code: 'GAS_ERROR',
+            provider: 'google_apps_script',
+            details: gasData
+          }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          provider: 'google_apps_script',
+          count: recipients.length,
+          recipients,
+          details: gasData
+        }),
+        { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // ------------------------------------------------------------------------
+    // Despacho de respaldo vía Resend (si no está configurado Google Apps Script)
+    // ------------------------------------------------------------------------
     const dispatchResults: any[] = [];
     for (const recipient of recipients) {
       const resendResponse = await fetch('https://api.resend.com/emails', {
@@ -281,10 +410,11 @@ serve(async (req) => {
       if (!resendResponse.ok) {
         let errorMsg = resendData.message || `Fallo al despachar email a ${recipient}`;
         if (errorMsg.includes('testing emails to your own email address')) {
-          errorMsg = `Resend se encuentra en modo de pruebas (remitente: ${FROM_EMAIL}). Solo permite enviar a casillas autorizadas (${errorMsg.match(/\(([^)]+)\)/)?.[1] || 'cuenta del administrador'}) o delivered@resend.dev. Para enviar a cualquier alumno (@escuela, @gmail, etc.), es necesario verificar un dominio propio en https://resend.com/domains y configurar la variable FROM_EMAIL en Supabase Secrets.`;
+          const registeredEmail = errorMsg.match(/\(([^)]+)\)/)?.[1] || 'la cuenta registrada en Resend';
+          errorMsg = `El proveedor de correo (Resend) está configurado en modo inicial de prueba (remitente: ${FROM_EMAIL}) y por política de seguridad únicamente permite enviar a la casilla del propietario de la cuenta (${registeredEmail}) o casillas de prueba autorizadas. Para enviar a ${recipient} (Outlook, Gmail u otros), es necesario verificar un dominio propio en https://resend.com/domains y configurar la variable FROM_EMAIL en Supabase Secrets, o bien cambiar la casilla principal de la cuenta en https://resend.com/settings por ${recipient}.`;
         }
         return new Response(
-          JSON.stringify({ error: errorMsg, code: 'PROVIDER_REJECTED' }),
+          JSON.stringify({ error: errorMsg, code: 'PROVIDER_REJECTED', recipient }),
           { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
@@ -293,7 +423,7 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, count: dispatchResults.length, results: dispatchResults }),
+      JSON.stringify({ success: true, provider: 'resend', count: dispatchResults.length, results: dispatchResults }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (err: any) {

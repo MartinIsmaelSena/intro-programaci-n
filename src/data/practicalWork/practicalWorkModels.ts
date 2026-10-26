@@ -5,21 +5,21 @@ import { TPModelType, TPModality } from '../../types/practicalWorkSession';
 // BANCO DE PREGUNTAS Y ACTIVIDADES PARA TRABAJO PRÁCTICO (3 MODELOS EQUIVALENTES)
 //
 // Distribución por Modalidad:
-// - INDIVIDUAL (18 actividades):
-//     * 5 Preguntas Teóricas Conceptuales
+// - INDIVIDUAL (20 actividades):
+//     * 6 Preguntas Teóricas Conceptuales
 //     * 4 Preguntas de Interpretación de Código («¿Qué muestra / hace este código?»)
-//     * 3 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
+//     * 4 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
 //     * 2 Preguntas de Expresiones Matemáticas y Lógicas (and, or, not, comparaciones)
 //     * 4 Ejercicios Prácticos de Programación en Python con Pyodide
-//     = 14 preguntas (4.0 pts) + 4 ejercicios de código (6.0 pts) = 10.0 pts.
+//     = 16 preguntas (4.0 pts) + 4 ejercicios de código (6.0 pts) = 10.0 pts.
 //
-// - EN PAREJA (36 actividades):
-//     * 10 Preguntas Teóricas Conceptuales
+// - EN PAREJA (40 actividades):
+//     * 12 Preguntas Teóricas Conceptuales
 //     * 8 Preguntas de Interpretación de Código («¿Qué muestra / hace este código?»)
-//     * 6 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
+//     * 8 Preguntas de Detección de Errores («¿Qué problema tiene este código?»)
 //     * 4 Preguntas de Expresiones Matemáticas y Lógicas (and, or, not, comparaciones)
 //     * 8 Ejercicios Prácticos de Programación en Python con Pyodide
-//     = 28 preguntas (4.0 pts) + 8 ejercicios de código (6.0 pts) = 10.0 pts.
+//     = 32 preguntas (4.0 pts) + 8 ejercicios de código (6.0 pts) = 10.0 pts.
 //
 // Contenidos Evaluados (estrictamente limitados a los módulos 3 al 10):
 // - Qué es Python y el intérprete (Módulo 3)
@@ -477,6 +477,330 @@ const MODEL_A_ERROR_DETECTION: ExamUnifiedQuestion[] = [
     ],
     correctAnswer: 0,
     explanation: 'En la asignación (=), la variable receptora debe estar siempre a la izquierda y el valor o expresión a la derecha. Escribir 100 = puntos es sintácticamente inválido.',
+    points: 0.5
+  },
+  // --- NUEVOS MODELOS DE DETECCIÓN DE ERRORES Y ANÁLISIS (MODELOS 1 AL 7) ---
+  {
+    id: 'tp_a_m1_q1',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: '¿Por qué Python repite el texto en lugar de multiplicar los puntos como un número?',
+    codeSnippet: "nombre = input(\"Ingresa tu nombre: \")\npuntos_nivel_1 = input(\"¿Cuántos puntos hiciste en el nivel 1?: \")\n\npuntos_totales = puntos_nivel_1 * 3\n\nprint(\"Jugador:\", nombre)\nprint(\"Tus puntos triplicados son:\", puntos_totales)",
+    options: [
+      "Porque input() devuelve un texto (str), aunque el usuario escriba números.",
+      "Porque Python no permite multiplicar números por 3.",
+      "Porque print() convierte todos los números en texto antes de calcularlos.",
+      "Porque las variables deben escribirse con mayúsculas."
+    ],
+    correctAnswer: 0,
+    explanation: "input() siempre devuelve el valor ingresado como una cadena de texto (str). Multiplicar un texto por un número entero repite la cadena en lugar de realizar una multiplicación matemática.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m1_q2',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: '¿Cómo se corrige el código para multiplicar los puntos numéricamente?',
+    codeSnippet: "nombre = input(\"Ingresa tu nombre: \")\npuntos_nivel_1 = input(\"¿Cuántos puntos hiciste en el nivel 1?: \")\n\npuntos_totales = puntos_nivel_1 * 3\n\nprint(\"Jugador:\", nombre)\nprint(\"Tus puntos triplicados son:\", puntos_totales)",
+    options: [
+      "puntos_totales = str(puntos_nivel_1) * 3",
+      "puntos_totales = int(puntos_nivel_1) * 3",
+      "puntos_totales = print(puntos_nivel_1 * 3)",
+      "puntos_totales = input(puntos_nivel_1 * 3)"
+    ],
+    correctAnswer: 1,
+    explanation: "Para realizar una multiplicación matemática, se debe convertir la entrada de texto a número entero utilizando la función int().",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m1_q3',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: 'Si el jugador ingresa 15, ¿qué resultado produce el código original en puntos_totales?',
+    codeSnippet: "nombre = input(\"Ingresa tu nombre: \")\npuntos_nivel_1 = input(\"¿Cuántos puntos hiciste en el nivel 1?: \")\n\npuntos_totales = puntos_nivel_1 * 3\n\nprint(\"Jugador:\", nombre)\nprint(\"Tus puntos triplicados son:\", puntos_totales)",
+    options: [
+      "45",
+      "151515",
+      "18",
+      "Se produce necesariamente un error porque no se puede multiplicar un texto."
+    ],
+    correctAnswer: 1,
+    explanation: "Al ser puntos_nivel_1 una cadena (\"15\"), la operación \"15\" * 3 repite el texto tres veces, produciendo \"151515\".",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m2_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Jerarquía de Operaciones: Promedio de notas',
+    question: 'Si las notas ingresadas son 6, 8 y 9, ¿qué resultado obtiene el código original?',
+    codeSnippet: "estudiante = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "Aproximadamente 7.67",
+      "17.0",
+      "14.0",
+      "23.0"
+    ],
+    correctAnswer: 1,
+    explanation: "Por precedencia de operadores, la división nota3 / 3 se resuelve primero (9 / 3 = 3.0). Luego se suman: 6 + 8 + 3.0 = 17.0.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m2_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Jerarquía de Operaciones: Promedio de notas',
+    question: '¿Cómo se corrige la línea del promedio para que calcule la media aritmética correctamente?',
+    codeSnippet: "estudiante = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "promedio = nota1 + nota2 + nota3 / 3",
+      "promedio = (nota1 + nota2 + nota3) / 3",
+      "promedio = (nota1 + nota2) / nota3",
+      "promedio = nota1 * nota2 * nota3"
+    ],
+    correctAnswer: 1,
+    explanation: "Los paréntesis tienen la mayor precedencia en Python y obligan a sumar las tres notas antes de dividir el total por 3.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m2_q3',
+    type: 'multiple_choice',
+    moduleId: 5,
+    topic: 'Conversión de Tipos: Decimales y int()',
+    question: 'Si un alumno ingresa la nota 7.5, ¿qué sucede al intentar convertirla directamente con int()?',
+    codeSnippet: "estudiante = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "Python conserva automáticamente el valor 7.5.",
+      "Se produce un error al intentar convertir directamente el texto \"7.5\" a entero.",
+      "Python convierte el valor a 75.",
+      "Python lo redondea automáticamente a 8."
+    ],
+    correctAnswer: 1,
+    explanation: "int(\"7.5\") produce un ValueError porque la función int() sobre un texto con punto decimal no puede convertirlo directamente a entero.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m2_q4',
+    type: 'multiple_choice',
+    moduleId: 5,
+    topic: 'Conversión de Tipos: Uso de float()',
+    question: '¿Qué función conviene utilizar para aceptar notas que contengan decimales?',
+    codeSnippet: "estudiante = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "str()",
+      "print()",
+      "float()",
+      "input() por sí sola convierte el texto a decimal."
+    ],
+    correctAnswer: 2,
+    explanation: "La función float() convierte cadenas de texto con decimales (como \"7.5\") a números de coma flotante válidos.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m3_q1',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Suma de precios',
+    question: 'Si los precios ingresados son 100 y 50, ¿qué muestra el código original?',
+    codeSnippet: "producto1 = input(\"Precio del primer producto: \")\nproducto2 = input(\"Precio del segundo producto: \")\n\ntotal = producto1 + producto2\n\nprint(\"Total a pagar:\", total)",
+    options: [
+      "150",
+      "10050",
+      "100 + 50",
+      "Un error obligatorio."
+    ],
+    correctAnswer: 1,
+    explanation: "Como input() devuelve texto, producto1 (\"100\") y producto2 (\"50\") se concatenan con el signo +, formando \"10050\".",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m3_q2',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Suma de precios',
+    question: '¿Qué cambio permite sumar los precios como números enteros?',
+    codeSnippet: "producto1 = input(\"Precio del primer producto: \")\nproducto2 = input(\"Precio del segundo producto: \")\n\ntotal = producto1 + producto2\n\nprint(\"Total a pagar:\", total)",
+    options: [
+      "total = str(producto1) + str(producto2)",
+      "total = int(producto1) + int(producto2)",
+      "total = input(producto1) + input(producto2)",
+      "total = print(producto1 + producto2)"
+    ],
+    correctAnswer: 1,
+    explanation: "Convertir ambas variables con int() permite que el operador + actúe como suma matemática en lugar de concatenar texto.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m3_q3',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Precios con decimales',
+    question: 'Si los productos tienen precios con decimales (por ejemplo 12.50 y 5.25), ¿qué función de conversión se debe utilizar para sumarlos correctamente?',
+    codeSnippet: "producto1 = input(\"Precio del primer producto: \")\nproducto2 = input(\"Precio del segundo producto: \")\n\ntotal = producto1 + producto2\n\nprint(\"Total a pagar:\", total)",
+    options: [
+      "str()",
+      "float()",
+      "print()",
+      "input()"
+    ],
+    correctAnswer: 1,
+    explanation: "Para operar con valores monetarios que incluyen centavos o números con punto decimal, se debe utilizar float() para convertirlos.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m4_q1',
+    type: 'multiple_choice',
+    moduleId: 7,
+    topic: 'Detección de Errores: Condición if',
+    question: '¿Qué sucede si el estudiante ingresa una nota igual a 6, cuando se aprueba con 6 o más?',
+    codeSnippet: "nota = int(input(\"Ingresá tu nota: \"))\n\nif nota > 6:\n    print(\"Aprobaste\")\nelse:\n    print(\"No aprobaste\")",
+    options: [
+      "Muestra \"Aprobaste\".",
+      "Muestra \"No aprobaste\", aunque debería aprobar.",
+      "No muestra ningún mensaje.",
+      "Python produce un error de sintaxis."
+    ],
+    correctAnswer: 1,
+    explanation: "La condición nota > 6 solo es verdadera para notas estrictamente mayores a 6. Para 6 es falsa y ejecuta else (\"No aprobaste\").",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m4_q2',
+    type: 'multiple_choice',
+    moduleId: 7,
+    topic: 'Detección de Errores: Condición if',
+    question: '¿Cómo se corrige la condición para incluir la nota 6 como aprobada?',
+    codeSnippet: "nota = int(input(\"Ingresá tu nota: \"))\n\nif nota > 6:\n    print(\"Aprobaste\")\nelse:\n    print(\"No aprobaste\")",
+    options: [
+      "if nota = 6:",
+      "if nota <= 6:",
+      "if nota >= 6:",
+      "if nota == 0:"
+    ],
+    correctAnswer: 2,
+    explanation: "El operador >= significa \"mayor o igual que\", por lo que nota >= 6 incluye la nota 6 además de las mayores.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m5_q1',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Nombre de variable',
+    question: '¿Cuál es el error del programa?',
+    codeSnippet: "numero = int(input(\"Ingresá un número: \"))\n\ndoble = numero * 2\n\nprint(\"El doble es:\", dobles)",
+    options: [
+      "input() no puede utilizarse con números.",
+      "Se calcula la variable doble, pero se intenta mostrar dobles, que no fue definida.",
+      "El operador * no sirve para multiplicar.",
+      "Falta convertir numero a texto antes de multiplicar."
+    ],
+    correctAnswer: 1,
+    explanation: "Se calculó la variable doble, pero en print() se escribió dobles con s final, generando NameError porque no existe.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m5_q2',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Nombre de variable',
+    question: '¿Qué línea permite corregir el error?',
+    codeSnippet: "numero = int(input(\"Ingresá un número: \"))\n\ndoble = numero * 2\n\nprint(\"El doble es:\", dobles)",
+    options: [
+      "print(\"El doble es:\", doble)",
+      "print(\"El doble es:\", numero)",
+      "doble = input(numero)",
+      "print(\"El doble es:\", doble * doble)"
+    ],
+    correctAnswer: 0,
+    explanation: "El nombre en print debe coincidir con la variable calculada: doble.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m6_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División entera',
+    question: '¿Qué muestra el programa original al ejecutarse?',
+    codeSnippet: "lapices = 17\npor_grupo = 5\n\ngrupos = lapices / por_grupo\n\nprint(\"Grupos completos:\", grupos)",
+    options: [
+      "3",
+      "3.4",
+      "4",
+      "2"
+    ],
+    correctAnswer: 1,
+    explanation: "La división simple / produce un número decimal (float): 17 / 5 = 3.4.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m6_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División entera',
+    question: '¿Qué operador permite obtener únicamente la cantidad de grupos completos (cociente entero)?',
+    codeSnippet: "lapices = 17\npor_grupo = 5\n\ngrupos = lapices / por_grupo\n\nprint(\"Grupos completos:\", grupos)",
+    options: [
+      "%",
+      "*",
+      "//",
+      "+"
+    ],
+    correctAnswer: 2,
+    explanation: "El operador // calcula la división entera, devolviendo solo los grupos completos (17 // 5 = 3).",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m7_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Cálculo de descuento',
+    question: '¿Qué error tiene el cálculo del descuento del 10 %?',
+    codeSnippet: "precio = float(input(\"Precio del producto: \"))\n\ndescuento = precio * 10\n\nprint(\"Descuento aplicado:\", descuento)",
+    options: [
+      "Multiplica el precio por 10 en lugar de calcular el 10 %.",
+      "float() no acepta precios.",
+      "print() no puede mostrar decimales.",
+      "El descuento debe calcularse con input()."
+    ],
+    correctAnswer: 0,
+    explanation: "Multiplica por 10 decuplicando el valor en vez de calcular el 10 %. El 10 % se representa matemáticamente como 0.10.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m7_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Cálculo de descuento',
+    question: '¿Qué fórmula calcula correctamente el importe del descuento del 10 %?',
+    codeSnippet: "precio = float(input(\"Precio del producto: \"))\n\ndescuento = precio * 10\n\nprint(\"Descuento aplicado:\", descuento)",
+    options: [
+      "descuento = precio + 0.10",
+      "descuento = precio * 0.10",
+      "descuento = precio * 10",
+      "descuento = precio / 10 * 100"
+    ],
+    correctAnswer: 1,
+    explanation: "Multiplicar por 0.10 calcula el 10 % de descuento del producto.",
+    points: 0.5
+  },
+  {
+    id: 'tp_a_m7_q3',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Descuento vs Precio final',
+    question: 'En el cálculo comercial de un descuento, ¿qué diferencia existe entre la variable descuento y el precio final a abonar?',
+    codeSnippet: "precio = float(input(\"Precio del producto: \"))\n\ndescuento = precio * 0.10\n\nprint(\"Descuento aplicado:\", descuento)",
+    options: [
+      "La variable descuento contiene solo el monto que se descuenta; el precio final se calcula restando precio - descuento.",
+      "La variable descuento ya es el precio total final que debe pagar el cliente.",
+      "No existe ninguna diferencia; ambas variables representan el mismo número.",
+      "descuento almacena el precio con un recargo del 10 %."
+    ],
+    correctAnswer: 0,
+    explanation: "La variable descuento almacena el monto de la rebaja. Para obtener lo que debe pagar el cliente, se debe restar: precio - descuento.",
     points: 0.5
   }
 ];
@@ -1286,6 +1610,330 @@ const MODEL_B_ERROR_DETECTION: ExamUnifiedQuestion[] = [
     correctAnswer: 0,
     explanation: '10 - 10 resulta en 0. Al intentar dividir 50 / 0, Python detiene la ejecución arrojando ZeroDivisionError: division by zero.',
     points: 0.5
+  },
+  // --- NUEVAS VARIANTES DE DETECCIÓN DE ERRORES Y ANÁLISIS (MODELOS 1 AL 7) ---
+  {
+    id: 'tp_b_m1_q1',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: '¿Por qué en este programa se repite el texto en lugar de multiplicar las vidas numéricamente?',
+    codeSnippet: "jugador = input(\"Nombre del jugador: \")\nvidas_iniciales = input(\"¿Cuántas vidas iniciales tenés?: \")\n\nvidas_totales = vidas_iniciales * 4\n\nprint(\"Jugador:\", jugador)\nprint(\"Tus vidas cuadruplicadas son:\", vidas_totales)",
+    options: [
+      "Porque input() siempre devuelve una cadena de texto (str), aunque se ingresen dígitos numéricos.",
+      "Porque Python solo puede multiplicar por números impares.",
+      "Porque la función print() concatena automáticamente todas las operaciones.",
+      "Porque falta una variable auxiliar obligatoria."
+    ],
+    correctAnswer: 0,
+    explanation: "input() devuelve siempre un dato tipo str. Al multiplicar una cadena por un entero, Python repite el texto en vez de calcular una multiplicación aritmética.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m1_q2',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: '¿Cómo se corrige la línea de cálculo para multiplicar las vidas como número?',
+    codeSnippet: "jugador = input(\"Nombre del jugador: \")\nvidas_iniciales = input(\"¿Cuántas vidas iniciales tenés?: \")\n\nvidas_totales = vidas_iniciales * 4\n\nprint(\"Jugador:\", jugador)\nprint(\"Tus vidas cuadruplicadas son:\", vidas_totales)",
+    options: [
+      "vidas_totales = str(vidas_iniciales) * 4",
+      "vidas_totales = int(vidas_iniciales) * 4",
+      "vidas_totales = float(input(4))",
+      "vidas_totales = print(vidas_iniciales * 4)"
+    ],
+    correctAnswer: 1,
+    explanation: "Convertir la variable con int(vidas_iniciales) permite que el operador * realice una multiplicación aritmética por 4.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m1_q3',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: 'Si el jugador ingresa 20, ¿qué valor almacena vidas_totales en el código original sin corregir?',
+    codeSnippet: "jugador = input(\"Nombre del jugador: \")\nvidas_iniciales = input(\"¿Cuántas vidas iniciales tenés?: \")\n\nvidas_totales = vidas_iniciales * 4\n\nprint(\"Jugador:\", jugador)\nprint(\"Tus vidas cuadruplicadas son:\", vidas_totales)",
+    options: [
+      "80",
+      "20202020",
+      "24",
+      "Se interrumpe el programa con un error de sintaxis."
+    ],
+    correctAnswer: 1,
+    explanation: "\"20\" * 4 repite la cadena de texto 4 veces dando como resultado \"20202020\".",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m2_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Jerarquía de Operaciones: Promedio de notas',
+    question: 'Si las tres notas ingresadas son 7, 7 y 6, ¿qué resultado calcula el código original?',
+    codeSnippet: "alumno = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Alumno:\", alumno)\nprint(\"Promedio obtenido:\", promedio)",
+    options: [
+      "Aproximadamente 6.67",
+      "16.0",
+      "14.0",
+      "20.0"
+    ],
+    correctAnswer: 1,
+    explanation: "Python ejecuta primero la división nota3 / 3 (6 / 3 = 2.0) y después suma 7 + 7 + 2.0 = 16.0.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m2_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Jerarquía de Operaciones: Promedio de notas',
+    question: '¿Qué modificación debe realizarse en la fórmula para obtener el promedio real?',
+    codeSnippet: "alumno = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Alumno:\", alumno)\nprint(\"Promedio obtenido:\", promedio)",
+    options: [
+      "promedio = nota1 + nota2 + (nota3 / 3)",
+      "promedio = (nota1 + nota2 + nota3) / 3",
+      "promedio = nota1 + nota2 + nota3 // 3",
+      "promedio = (nota1 + nota2) / (nota3 * 3)"
+    ],
+    correctAnswer: 1,
+    explanation: "Encerrar la suma entre paréntesis (nota1 + nota2 + nota3) garantiza que se sumen todas las notas antes de dividir entre 3.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m2_q3',
+    type: 'multiple_choice',
+    moduleId: 5,
+    topic: 'Conversión de Tipos: Decimales y int()',
+    question: '¿Qué ocurre si el usuario ingresa "8.5" en nota1 = int(input("Nota 1: "))?',
+    codeSnippet: "alumno = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Alumno:\", alumno)\nprint(\"Promedio obtenido:\", promedio)",
+    options: [
+      "Python guarda el valor 8 descartando el decimal.",
+      "Ocurre un error ValueError porque int() no puede convertir un texto decimal directamente.",
+      "Python redondea automáticamente a 9.",
+      "El programa continúa normalmente convirtiéndolo a float."
+    ],
+    correctAnswer: 1,
+    explanation: "int(\"8.5\") lanza ValueError porque no admite cadenas con punto flotante.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m2_q4',
+    type: 'multiple_choice',
+    moduleId: 5,
+    topic: 'Conversión de Tipos: Uso de float()',
+    question: '¿Cómo debe solicitarse la nota para permitir calificaciones con coma o punto decimal?',
+    codeSnippet: "alumno = input(\"Nombre del alumno: \")\nnota1 = int(input(\"Nota 1: \"))\nnota2 = int(input(\"Nota 2: \"))\nnota3 = int(input(\"Nota 3: \"))\n\npromedio = nota1 + nota2 + nota3 / 3\n\nprint(\"Alumno:\", alumno)\nprint(\"Promedio obtenido:\", promedio)",
+    options: [
+      "nota1 = str(input(\"Nota 1: \"))",
+      "nota1 = bool(input(\"Nota 1: \"))",
+      "nota1 = float(input(\"Nota 1: \"))",
+      "nota1 = round(input(\"Nota 1: \"))"
+    ],
+    correctAnswer: 2,
+    explanation: "float(input(...)) convierte el texto ingresado en un número con decimales.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m3_q1',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Suma de precios',
+    question: 'Si los precios ingresados son 200 y 80, ¿qué resultado imprime el programa?',
+    codeSnippet: "articulo1 = input(\"Precio del artículo 1: \")\narticulo2 = input(\"Precio del artículo 2: \")\n\ntotal = articulo1 + articulo2\n\nprint(\"Total a abonar:\", total)",
+    options: [
+      "280",
+      "20080",
+      "200 + 80",
+      "None"
+    ],
+    correctAnswer: 1,
+    explanation: "Al no convertir las cadenas de input(), el operador + concatena los dos textos: \"200\" + \"80\" = \"20080\".",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m3_q2',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Suma de precios',
+    question: '¿Cómo se modifica el código para que realice la suma numérica de los importes?',
+    codeSnippet: "articulo1 = input(\"Precio del artículo 1: \")\narticulo2 = input(\"Precio del artículo 2: \")\n\ntotal = articulo1 + articulo2\n\nprint(\"Total a abonar:\", total)",
+    options: [
+      "total = str(articulo1) + str(articulo2)",
+      "total = int(articulo1) + int(articulo2)",
+      "total = input(articulo1 + articulo2)",
+      "total = print(articulo1, articulo2)"
+    ],
+    correctAnswer: 1,
+    explanation: "Usar int() convierte ambas cadenas en números enteros permitiendo la suma aritmética.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m3_q3',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Precios con decimales',
+    question: 'Si los artículos tienen centavos (por ejemplo 199.99 y 49.50), ¿qué función debe utilizarse para sumarlos?',
+    codeSnippet: "articulo1 = input(\"Precio del artículo 1: \")\narticulo2 = input(\"Precio del artículo 2: \")\n\ntotal = articulo1 + articulo2\n\nprint(\"Total a abonar:\", total)",
+    options: [
+      "int()",
+      "float()",
+      "str()",
+      "type()"
+    ],
+    correctAnswer: 1,
+    explanation: "float() permite procesar valores numéricos con parte fraccionaria o decimal.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m4_q1',
+    type: 'multiple_choice',
+    moduleId: 7,
+    topic: 'Detección de Errores: Condición if',
+    question: 'Si un estudiante obtiene exactamente 70 puntos y la regla dice que con 70 o más se promueve, ¿qué muestra el código?',
+    codeSnippet: "puntaje = int(input(\"Ingresá tu puntaje: \"))\n\nif puntaje > 70:\n    print(\"Promovido\")\nelse:\n    print(\"No promovido\")",
+    options: [
+      "Promovido",
+      "No promovido, debido a que > 70 excluye al número 70.",
+      "Da error en la línea del if.",
+      "Muestra ambos mensajes."
+    ],
+    correctAnswer: 1,
+    explanation: "> 70 solo incluye valores estrictamente mayores a 70. Para 70 es falso y entra al else.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m4_q2',
+    type: 'multiple_choice',
+    moduleId: 7,
+    topic: 'Detección de Errores: Condición if',
+    question: '¿Qué operador relacional debe usarse para incluir el 70 en la promoción?',
+    codeSnippet: "puntaje = int(input(\"Ingresá tu puntaje: \"))\n\nif puntaje > 70:\n    print(\"Promovido\")\nelse:\n    print(\"No promovido\")",
+    options: [
+      "if puntaje = 70:",
+      "if puntaje < 70:",
+      "if puntaje >= 70:",
+      "if puntaje == 0:"
+    ],
+    correctAnswer: 2,
+    explanation: ">= significa \"mayor o igual que\", incluyendo el 70 como aprobado.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m5_q1',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Nombre de variable',
+    question: '¿Qué problema de ejecución presenta este fragmento de código?',
+    codeSnippet: "cantidad = int(input(\"Ingresá una cantidad: \"))\n\ntriple = cantidad * 3\n\nprint(\"El triple es:\", triples)",
+    options: [
+      "cantidad no puede multiplicarse por 3.",
+      "Se definió la variable triple pero en print() se solicita triples, causando un NameError.",
+      "El texto dentro de print() tiene demasiadas palabras.",
+      "input() requiere obligatoriamente float."
+    ],
+    correctAnswer: 1,
+    explanation: "Python no encuentra triples porque fue definida como triple.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m5_q2',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Nombre de variable',
+    question: '¿Cuál es la corrección correspondiente para imprimir el resultado calculado?',
+    codeSnippet: "cantidad = int(input(\"Ingresá una cantidad: \"))\n\ntriple = cantidad * 3\n\nprint(\"El triple es:\", triples)",
+    options: [
+      "print(\"El triple es:\", triple)",
+      "print(\"El triple es:\", cantidad)",
+      "triple = str(triples)",
+      "print(\"El triple es:\", 3 * 3)"
+    ],
+    correctAnswer: 0,
+    explanation: "Debe llamarse a la variable exacta: triple.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m6_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División entera',
+    question: '¿Qué valor muestra en pantalla el programa original?',
+    codeSnippet: "caramelos = 23\npor_bolsa = 4\n\nbolsas = caramelos / por_bolsa\n\nprint(\"Bolsas completas:\", bolsas)",
+    options: [
+      "5",
+      "5.75",
+      "6",
+      "3"
+    ],
+    correctAnswer: 1,
+    explanation: "23 / 4 produce un float: 5.75.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m6_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División entera',
+    question: '¿Qué operador de Python calcula exactamente cuántas bolsas completas (5) se pueden armar?',
+    codeSnippet: "caramelos = 23\npor_bolsa = 4\n\nbolsas = caramelos / por_bolsa\n\nprint(\"Bolsas completas:\", bolsas)",
+    options: [
+      "%",
+      "*",
+      "//",
+      "**"
+    ],
+    correctAnswer: 2,
+    explanation: "El operador de división entera // descarta los decimales y devuelve 5.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m7_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Cálculo de descuento',
+    question: '¿Qué fallo lógico comete este programa si el objetivo es calcular un descuento del 15 %?',
+    codeSnippet: "precio = float(input(\"Precio del producto: \"))\n\ndescuento = precio * 15\n\nprint(\"Descuento aplicado:\", descuento)",
+    options: [
+      "Multiplica por 15 en lugar de multiplicar por 0.15 (15 %).",
+      "float() solo funciona con valores enteros.",
+      "print() no puede concatenar texto con la variable descuento.",
+      "Falta importar una librería de finanzas."
+    ],
+    correctAnswer: 0,
+    explanation: "Multiplicar por 15 agranda el precio 15 veces. El 15 % es precio * 0.15.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m7_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Cálculo de descuento',
+    question: '¿Cuál es la expresión correcta para calcular el monto del 15 % de descuento?',
+    codeSnippet: "precio = float(input(\"Precio del producto: \"))\n\ndescuento = precio * 15\n\nprint(\"Descuento aplicado:\", descuento)",
+    options: [
+      "descuento = precio - 15",
+      "descuento = precio * 0.15",
+      "descuento = precio / 15",
+      "descuento = precio + 0.15"
+    ],
+    correctAnswer: 1,
+    explanation: "precio * 0.15 calcula el 15 % del valor original.",
+    points: 0.5
+  },
+  {
+    id: 'tp_b_m7_q3',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Descuento vs Precio final',
+    question: '¿Cómo se calcula el total final a pagar luego de aplicar el descuento?',
+    codeSnippet: "precio = float(input(\"Precio: \"))\ndescuento = precio * 0.15\ntotal_pagar = precio - descuento\nprint(\"Total:\", total_pagar)",
+    options: [
+      "Restando el descuento al precio original (precio - descuento).",
+      "Sumando el precio con el descuento (precio + descuento).",
+      "Multiplicando precio * descuento.",
+      "El total a pagar es directamente la variable descuento."
+    ],
+    correctAnswer: 0,
+    explanation: "El importe final resulta de restar el descuento obtenido al precio base del producto.",
+    points: 0.5
   }
 ];
 
@@ -2083,6 +2731,330 @@ const MODEL_C_ERROR_DETECTION: ExamUnifiedQuestion[] = [
     correctAnswer: 0,
     explanation: 'int() solo puede convertir textos que contengan dígitos numéricos válidos (ej: "20"). Si se le pasa una palabra con letras genera ValueError: invalid literal for int().',
     points: 0.5
+  },
+  // --- NUEVAS VARIANTES DE DETECCIÓN DE ERRORES Y ANÁLISIS (MODELOS 1 AL 7) ---
+  {
+    id: 'tp_c_m1_q1',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: '¿Por qué Python repite el valor ingresado en lugar de multiplicarlo numéricamente por 3?',
+    codeSnippet: "usuario = input(\"Tu apodo: \")\nmonedas_cofre = input(\"Monedas encontradas en el cofre: \")\n\nmonedas_finales = monedas_cofre * 3\n\nprint(\"Usuario:\", usuario)\nprint(\"Monedas triplicadas:\", monedas_finales)",
+    options: [
+      "Porque la función input() siempre retorna un dato de tipo cadena (str).",
+      "Porque el operador * solo sirve para repetir texto y no para multiplicar números.",
+      "Porque la variable usuario no fue convertida a número.",
+      "Porque print() transforma internamente los enteros en texto antes de operar."
+    ],
+    correctAnswer: 0,
+    explanation: "input() siempre devuelve un dato str; al multiplicarlo por un entero se produce repetición del texto.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m1_q2',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: '¿Cuál es la forma correcta de modificar el cálculo para obtener el triple matemático?',
+    codeSnippet: "usuario = input(\"Tu apodo: \")\nmonedas_cofre = input(\"Monedas encontradas en el cofre: \")\n\nmonedas_finales = monedas_cofre * 3\n\nprint(\"Usuario:\", usuario)\nprint(\"Monedas triplicadas:\", monedas_finales)",
+    options: [
+      "monedas_finales = str(monedas_cofre) * 3",
+      "monedas_finales = int(monedas_cofre) * 3",
+      "monedas_finales = input(monedas_cofre * 3)",
+      "monedas_finales = print(monedas_cofre * 3)"
+    ],
+    correctAnswer: 1,
+    explanation: "int(monedas_cofre) convierte el texto en número entero permitiendo triplicar su valor numérico.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m1_q3',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Multiplicación de texto',
+    question: 'Si el usuario ingresa 12, ¿qué resultado se muestra en pantalla con el código original?',
+    codeSnippet: "usuario = input(\"Tu apodo: \")\nmonedas_cofre = input(\"Monedas encontradas en el cofre: \")\n\nmonedas_finales = monedas_cofre * 3\n\nprint(\"Usuario:\", usuario)\nprint(\"Monedas triplicadas:\", monedas_finales)",
+    options: [
+      "36",
+      "121212",
+      "15",
+      "Un error ValueError de Python."
+    ],
+    correctAnswer: 1,
+    explanation: "\"12\" * 3 repite la cadena tres veces produciendo \"121212\".",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m2_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Jerarquía de Operaciones: Promedio de notas',
+    question: 'Si las notas son 8, 4 y 6, ¿qué promedio calcula el código original?',
+    codeSnippet: "estudiante = input(\"Nombre: \")\nn1 = int(input(\"Nota 1: \"))\nn2 = int(input(\"Nota 2: \"))\nn3 = int(input(\"Nota 3: \"))\n\npromedio = n1 + n2 + n3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "6.0",
+      "14.0",
+      "18.0",
+      "12.0"
+    ],
+    correctAnswer: 1,
+    explanation: "La división n3 / 3 tiene prioridad y da 2.0. Luego 8 + 4 + 2.0 da 14.0.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m2_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Jerarquía de Operaciones: Promedio de notas',
+    question: '¿Cuál es la corrección correcta para que el promedio sume las tres notas antes de dividir?',
+    codeSnippet: "estudiante = input(\"Nombre: \")\nn1 = int(input(\"Nota 1: \"))\nn2 = int(input(\"Nota 2: \"))\nn3 = int(input(\"Nota 3: \"))\n\npromedio = n1 + n2 + n3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "promedio = n1 + (n2 + n3) / 3",
+      "promedio = (n1 + n2 + n3) / 3",
+      "promedio = (n1 + n2) / n3",
+      "promedio = n1 * n2 * n3 / 3"
+    ],
+    correctAnswer: 1,
+    explanation: "Los paréntesis fuerzan a realizar primero la suma de las tres notas antes de la división.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m2_q3',
+    type: 'multiple_choice',
+    moduleId: 5,
+    topic: 'Conversión de Tipos: Decimales y int()',
+    question: '¿Por qué se interrumpe el programa si se ingresa "6.5" en int(input(...))?',
+    codeSnippet: "estudiante = input(\"Nombre: \")\nn1 = int(input(\"Nota 1: \"))\nn2 = int(input(\"Nota 2: \"))\nn3 = int(input(\"Nota 3: \"))\n\npromedio = n1 + n2 + n3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "Porque 6.5 es un número negativo.",
+      "Porque int() no acepta una cadena con punto decimal (\"6.5\") para convertirla directamente a entero.",
+      "Porque input() solo admite números menores a 5.",
+      "Porque print() no puede recibir texto."
+    ],
+    correctAnswer: 1,
+    explanation: "int(\"6.5\") arroja ValueError ya que la cadena contiene un punto decimal.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m2_q4',
+    type: 'multiple_choice',
+    moduleId: 5,
+    topic: 'Conversión de Tipos: Uso de float()',
+    question: '¿Qué función de conversión resuelve este inconveniente para admitir decimales?',
+    codeSnippet: "estudiante = input(\"Nombre: \")\nn1 = int(input(\"Nota 1: \"))\nn2 = int(input(\"Nota 2: \"))\nn3 = int(input(\"Nota 3: \"))\n\npromedio = n1 + n2 + n3 / 3\n\nprint(\"Estudiante:\", estudiante)\nprint(\"Promedio final:\", promedio)",
+    options: [
+      "int()",
+      "str()",
+      "float()",
+      "len()"
+    ],
+    correctAnswer: 2,
+    explanation: "float() es la función adecuada para convertir cadenas con números decimales.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m3_q1',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Suma de precios',
+    question: 'Si se ingresan los valores 300 y 75, ¿cuál es la salida en pantalla del código original?',
+    codeSnippet: "precio_item1 = input(\"Precio primer ítem: \")\nprecio_item2 = input(\"Precio segundo ítem: \")\n\ntotal_compra = precio_item1 + precio_item2\n\nprint(\"Total:\", total_compra)",
+    options: [
+      "375",
+      "30075",
+      "300",
+      "Un mensaje de error de sintaxis."
+    ],
+    correctAnswer: 1,
+    explanation: "\"300\" y \"75\" son cadenas y se concatenan como \"30075\".",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m3_q2',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Suma de precios',
+    question: '¿Cuál es la forma correcta de sumar ambos precios como números?',
+    codeSnippet: "precio_item1 = input(\"Precio primer ítem: \")\nprecio_item2 = input(\"Precio segundo ítem: \")\n\ntotal_compra = precio_item1 + precio_item2\n\nprint(\"Total:\", total_compra)",
+    options: [
+      "total_compra = text(precio_item1) + text(precio_item2)",
+      "total_compra = int(precio_item1) + int(precio_item2)",
+      "total_compra = input(precio_item1 + precio_item2)",
+      "total_compra = bool(precio_item1) + bool(precio_item2)"
+    ],
+    correctAnswer: 1,
+    explanation: "int(precio_item1) + int(precio_item2) realiza la suma aritmética de ambos enteros.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m3_q3',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Detección de Errores: Precios con decimales',
+    question: 'Para permitir precios con centavos (como 250.75), ¿qué función se debe utilizar?',
+    codeSnippet: "precio_item1 = input(\"Precio primer ítem: \")\nprecio_item2 = input(\"Precio segundo ítem: \")\n\ntotal_compra = precio_item1 + precio_item2\n\nprint(\"Total:\", total_compra)",
+    options: [
+      "int()",
+      "float()",
+      "str()",
+      "tuple()"
+    ],
+    correctAnswer: 1,
+    explanation: "float() es la función requerida para números con decimales.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m4_q1',
+    type: 'multiple_choice',
+    moduleId: 7,
+    topic: 'Detección de Errores: Condición if',
+    question: 'Si una persona tiene exactamente 18 años y la regla permite el ingreso desde los 18 años cumplidos, ¿qué imprime el programa?',
+    codeSnippet: "edad = int(input(\"Ingresá tu edad: \"))\n\nif edad > 18:\n    print(\"Acceso permitido\")\nelse:\n    print(\"Acceso denegado\")",
+    options: [
+      "Acceso permitido",
+      "Acceso denegado, porque > no incluye el valor 18.",
+      "Un error NameError.",
+      "No imprime nada en pantalla."
+    ],
+    correctAnswer: 1,
+    explanation: "> 18 excluye al 18, por lo que entra al bloque else.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m4_q2',
+    type: 'multiple_choice',
+    moduleId: 7,
+    topic: 'Detección de Errores: Condición if',
+    question: '¿Cómo se corrige la condición para admitir a las personas con 18 años o más?',
+    codeSnippet: "edad = int(input(\"Ingresá tu edad: \"))\n\nif edad > 18:\n    print(\"Acceso permitido\")\nelse:\n    print(\"Acceso denegado\")",
+    options: [
+      "if edad = 18:",
+      "if edad != 18:",
+      "if edad >= 18:",
+      "if edad < 18:"
+    ],
+    correctAnswer: 2,
+    explanation: ">= es el operador relacional para mayor o igual que.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m5_q1',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Nombre de variable',
+    question: '¿Por qué Python detiene el programa en la última línea con NameError?',
+    codeSnippet: "valor = int(input(\"Ingresá un valor: \"))\n\nresultado = valor * valor\n\nprint(\"El resultado es:\", resultados)",
+    options: [
+      "Porque multiplicar valor * valor no es válido en Python.",
+      "Porque la variable calculada se llama resultado y print intenta imprimir resultados, que no existe.",
+      "Porque int() no acepta variables llamadas valor.",
+      "Porque print() solo admite una única variable sin texto."
+    ],
+    correctAnswer: 1,
+    explanation: "La variable definida es resultado (en singular) mientras que en print() se invocó resultados (en plural).",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m5_q2',
+    type: 'multiple_choice',
+    moduleId: 4,
+    topic: 'Detección de Errores: Nombre de variable',
+    question: '¿Qué línea soluciona el fallo en la salida?',
+    codeSnippet: "valor = int(input(\"Ingresá un valor: \"))\n\nresultado = valor * valor\n\nprint(\"El resultado es:\", resultados)",
+    options: [
+      "print(\"El resultado es:\", resultado)",
+      "print(\"El resultado es:\", valor)",
+      "resultados = input(valor)",
+      "print(resultado = valor)"
+    ],
+    correctAnswer: 0,
+    explanation: "Se debe imprimir la variable con el nombre exacto asignado: resultado.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m6_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División entera',
+    question: '¿Qué resultado produce la variable equipos con el código original?',
+    codeSnippet: "alumnos = 29\npor_equipo = 6\n\nequipos = alumnos / por_equipo\n\nprint(\"Equipos completos:\", equipos)",
+    options: [
+      "4",
+      "Aproximadamente 4.8333",
+      "5",
+      "24"
+    ],
+    correctAnswer: 1,
+    explanation: "29 / 6 produce un resultado float aproximado a 4.8333.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m6_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: División entera',
+    question: '¿Qué operador se debe utilizar para obtener los 4 equipos completos?',
+    codeSnippet: "alumnos = 29\npor_equipo = 6\n\nequipos = alumnos / por_equipo\n\nprint(\"Equipos completos:\", equipos)",
+    options: [
+      "%",
+      "//",
+      "**",
+      "/"
+    ],
+    correctAnswer: 1,
+    explanation: "// realiza la división entera sin decimales (29 // 6 = 4).",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m7_q1',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Cálculo de descuento',
+    question: '¿Cuál es el problema con la fórmula utilizada para calcular el 20 % de descuento?',
+    codeSnippet: "monto = float(input(\"Monto de compra: \"))\n\ndescuento = monto * 20\n\nprint(\"Descuento:\", descuento)",
+    options: [
+      "Multiplica por 20 agrandando el valor 20 veces en lugar de obtener el 20 % (multiplicar por 0.20).",
+      "monto no puede ser tipo float.",
+      "descuento es una palabra reservada en Python.",
+      "input() no admite el signo de porcentaje."
+    ],
+    correctAnswer: 0,
+    explanation: "El 20 % de un monto se obtiene multiplicando por 0.20, no por 20.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m7_q2',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Cálculo de descuento',
+    question: '¿Qué instrucción calcula correctamente el descuento del 20 %?',
+    codeSnippet: "monto = float(input(\"Monto de compra: \"))\n\ndescuento = monto * 20\n\nprint(\"Descuento:\", descuento)",
+    options: [
+      "descuento = monto * 0.20",
+      "descuento = monto / 20",
+      "descuento = monto - 20",
+      "descuento = monto + 0.20"
+    ],
+    correctAnswer: 0,
+    explanation: "monto * 0.20 es la expresión que calcula el 20 % de descuento.",
+    points: 0.5
+  },
+  {
+    id: 'tp_c_m7_q3',
+    type: 'multiple_choice',
+    moduleId: 6,
+    topic: 'Detección de Errores: Descuento vs Precio final',
+    question: '¿Cómo se obtiene el importe neto que debe pagar el cliente tras deducir el descuento?',
+    codeSnippet: "monto = float(input(\"Monto: \"))\ndescuento = monto * 0.20\nimporte_neto = monto - descuento\nprint(\"Neto:\", importe_neto)",
+    options: [
+      "Calculando importe_neto = monto - descuento.",
+      "Calculando importe_neto = monto + descuento.",
+      "El importe neto es igual a la variable descuento sin cambios.",
+      "Dividiendo monto entre descuento."
+    ],
+    correctAnswer: 0,
+    explanation: "El valor neto final se obtiene restando el descuento al precio bruto.",
+    points: 0.5
   }
 ];
 
@@ -2424,9 +3396,31 @@ const MODEL_C_PRACTICAL: ExamUnifiedQuestion[] = [
  * - Individual: 18 actividades (5 teoría + 4 interp. + 3 errores + 2 lógica + 4 código)
  * - En pareja: 36 actividades (10 teoría + 8 interp. + 6 errores + 4 lógica + 8 código)
  */
+/**
+ * Realiza un muestreo aleatorio sin reemplazo de un array (Fisher-Yates).
+ * Si randomize es false, devuelve los primeros count elementos sin mezclar.
+ */
+function sampleWithoutReplacement<T>(arr: T[], count: number, randomize = true): T[] {
+  if (!randomize) {
+    return arr.slice(0, count);
+  }
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, count);
+}
+
+/**
+ * Obtiene las preguntas del Trabajo Práctico adaptadas a la modalidad:
+ * - Individual: exactamente 20 actividades (6 teoría + 4 interp. + 4 errores + 2 lógica + 4 código)
+ * - En pareja: exactamente 40 actividades (12 teoría + 8 interp. + 8 errores + 4 lógica + 8 código)
+ */
 export function getPracticalWorkQuestions(
   model: TPModelType,
-  modality: TPModality = 'individual'
+  modality: TPModality = 'individual',
+  randomize = true
 ): ExamUnifiedQuestion[] {
   let theory: ExamUnifiedQuestion[];
   let interp: ExamUnifiedQuestion[];
@@ -2460,25 +3454,25 @@ export function getPracticalWorkQuestions(
   }
 
   if (modality === 'pareja') {
-    // Exactamente 36 actividades evaluables:
-    // 10 teoría + 8 interpretación + 6 detección de errores + 4 expresiones matemáticas y lógicas + 8 ejercicios prácticos
+    // Exactamente 40 actividades evaluables en evaluación compartida:
+    // 12 teoría + 8 interpretación + 8 detección de errores + 4 expresiones matemáticas y lógicas + 8 ejercicios prácticos
     return [
-      ...theory.slice(0, 10),      // 10 preguntas teóricas
-      ...interp.slice(0, 8),       // 8 interpretación de código
-      ...errorDet.slice(0, 6),     // 6 detección de errores
-      ...mathLogic.slice(0, 4),    // 4 expresiones matemáticas y lógicas
-      ...practical.slice(0, 8)     // 8 ejercicios prácticos de programación
+      ...sampleWithoutReplacement(theory, 12, randomize),      // 12 preguntas teóricas
+      ...sampleWithoutReplacement(interp, 8, randomize),       // 8 interpretación de código
+      ...sampleWithoutReplacement(errorDet, 8, randomize),     // 8 detección de errores (incluye los nuevos modelos)
+      ...sampleWithoutReplacement(mathLogic, 4, randomize),    // 4 expresiones matemáticas y lógicas
+      ...sampleWithoutReplacement(practical, 8, randomize)     // 8 ejercicios prácticos de programación
     ];
   }
 
-  // Modalidad individual: Exactamente 18 actividades:
-  // 5 teoría + 4 interpretación + 3 detección de errores + 2 expresiones matemáticas y lógicas + 4 ejercicios prácticos
+  // Modalidad individual: Exactamente 20 actividades evaluables:
+  // 6 teoría + 4 interpretación + 4 detección de errores + 2 expresiones matemáticas y lógicas + 4 ejercicios prácticos
   return [
-    ...theory.slice(0, 5),      // 5 preguntas teóricas
-    ...interp.slice(0, 4),      // 4 interpretación de código
-    ...errorDet.slice(0, 3),    // 3 detección de errores
-    ...mathLogic.slice(0, 2),   // 2 expresiones matemáticas y lógicas
-    ...practical.slice(0, 4)    // 4 ejercicios prácticos de programación
+    ...sampleWithoutReplacement(theory, 6, randomize),       // 6 preguntas teóricas
+    ...sampleWithoutReplacement(interp, 4, randomize),        // 4 interpretación de código
+    ...sampleWithoutReplacement(errorDet, 4, randomize),      // 4 detección de errores (incluye los nuevos modelos)
+    ...sampleWithoutReplacement(mathLogic, 2, randomize),     // 2 expresiones matemáticas y lógicas
+    ...sampleWithoutReplacement(practical, 4, randomize)      // 4 ejercicios prácticos de programación
   ];
 }
 

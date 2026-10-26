@@ -152,7 +152,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
   const [emailError, setEmailError] = useState<string | null>(null);
   const [emailSending, setEmailSending] = useState(false);
   const [emailStatus, setEmailStatus] = useState<{
-    type: 'idle' | 'success' | 'error' | 'notConfigured';
+    type: 'idle' | 'success' | 'error' | 'notConfigured' | 'provider_restriction';
     message: string;
   } | null>(null);
 
@@ -486,6 +486,11 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
           type: 'success',
           message: res.message,
         });
+      } else if (res.providerRestricted) {
+        setEmailStatus({
+          type: 'provider_restriction',
+          message: res.message,
+        });
       } else if (res.notConfigured) {
         setEmailStatus({
           type: 'notConfigured',
@@ -537,7 +542,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
 
               <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-sky-200">
                 <Users className="w-4 h-4" />
-                <span>Modalidad: Individual (18 act.) o En Pareja (36 act.)</span>
+                <span>Modalidad: Individual (20 act.) o En Pareja (40 act.)</span>
               </div>
 
               <div className="px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/20 text-xs font-bold flex items-center gap-2 text-emerald-300">
@@ -761,7 +766,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
               <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
                 <div>
                   <strong className="block text-slate-900 dark:text-white">Parte A: Análisis, Código y Lógica (40%)</strong>
-                  <span className="text-slate-500 text-xs">Individual: 14 preguntas | En Pareja: 28 preguntas</span>
+                  <span className="text-slate-500 text-xs">Individual: 16 preguntas | En Pareja: 32 preguntas</span>
                 </div>
                 <span className="font-bold text-python-blue dark:text-sky-400 text-base">4.0 Pts</span>
               </div>
@@ -1289,7 +1294,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             <div className="flex justify-between">
               <span className="text-slate-500">Actividades a resolver:</span>
               <strong className="text-slate-900 dark:text-white font-bold">
-                {studentForm.modality === 'pareja' ? '36 actividades (28 de análisis y lógica + 8 de código)' : '18 actividades (14 de análisis y lógica + 4 de código)'}
+                {studentForm.modality === 'pareja' ? '40 actividades (32 de análisis y lógica + 8 de código)' : '20 actividades (16 de análisis y lógica + 4 de código)'}
               </strong>
             </div>
           </div>
@@ -1903,12 +1908,16 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             <div className={`p-4 rounded-2xl border text-xs flex items-start gap-3 ${
               emailStatus.type === 'success'
                 ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+                : emailStatus.type === 'provider_restriction'
+                ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-200'
                 : emailStatus.type === 'notConfigured'
                 ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200'
                 : 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200'
             }`}>
               {emailStatus.type === 'success' ? (
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
+              ) : emailStatus.type === 'provider_restriction' ? (
+                <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
               ) : emailStatus.type === 'notConfigured' ? (
                 <Info className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
               ) : (
@@ -1918,6 +1927,8 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
                 <strong className="block font-bold">
                   {emailStatus.type === 'success'
                     ? '¡Envío completado exitosamente!'
+                    : emailStatus.type === 'provider_restriction'
+                    ? 'Restricción del modo de prueba del proveedor (Resend):'
                     : emailStatus.type === 'notConfigured'
                     ? 'Servicio de correo en configuración:'
                     : 'Error al enviar por correo:'}

@@ -112,8 +112,8 @@ export async function gradeTPSession(
   const theoryQuestions = session.questions.filter(q => q.type !== 'coding');
   const totalTheory = theoryQuestions.length;
   // 4.0 puntos para teoría distribuidos equitativamente entre las preguntas del intento:
-  // - Individual: 14 preguntas teóricas y de lógica -> ~0.2857 pts c/u (Total: 4.0 pts)
-  // - En pareja: 28 preguntas teóricas y de lógica -> ~0.142857 pts c/u (Total: 4.0 pts)
+  // - Individual: 16 preguntas teóricas y de lógica -> 0.25 pts c/u (Total: 4.0 pts)
+  // - En pareja: 32 preguntas teóricas y de lógica -> 0.125 pts c/u (Total: 4.0 pts)
   const theoryPointsPerQuestion = totalTheory > 0 ? (4.0 / totalTheory) : 0.5;
 
   const practicalQuestions = session.questions.filter(q => q.type === 'coding');

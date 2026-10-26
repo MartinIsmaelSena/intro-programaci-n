@@ -5,6 +5,7 @@ export interface TPEmailSendResult {
   success: boolean;
   message: string;
   notConfigured?: boolean;
+  providerRestricted?: boolean;
   recipients?: string[];
 }
 
@@ -181,11 +182,23 @@ export async function sendPracticalWorkResultEmail(
         serverErrorMsg = error.message;
       }
 
-      const isConfigIssue = serverErrorMsg.includes('RESEND_API_KEY') || serverErrorMsg.includes('secretos');
+      const isConfigIssue =
+        serverErrorMsg.includes('no tiene configurada la variable RESEND_API_KEY') ||
+        serverErrorMsg.includes('GOOGLE_APPS_SCRIPT_URL') ||
+        serverErrorMsg.includes('GOOGLE_APPS_SCRIPT_SECRET') ||
+        serverErrorMsg.includes('no tiene configuradas las variables de Google Apps Script');
+      const isProviderRestriction =
+        serverErrorMsg.includes('onboarding@resend.dev') ||
+        serverErrorMsg.includes('modo inicial de prueba') ||
+        serverErrorMsg.includes('modo de pruebas') ||
+        serverErrorMsg.includes('testing emails') ||
+        serverErrorMsg.includes('resend.com/domains') ||
+        serverErrorMsg.includes('proveedor de correo (Resend)');
 
       return {
         success: false,
         notConfigured: isConfigIssue,
+        providerRestricted: isProviderRestriction,
         message: serverErrorMsg || 'No fue posible completar el envío por correo. Podés reintentar en unos instantes.'
       };
     }
@@ -194,7 +207,7 @@ export async function sendPracticalWorkResultEmail(
       return {
         success: false,
         notConfigured: true,
-        message: data.message || 'El servicio de correo de Supabase requiere configurar la variable RESEND_API_KEY en los secretos del proyecto.'
+        message: data.message || 'El servicio de correo de Supabase requiere configurar las variables de envío en los secretos del proyecto.'
       };
     }
 
