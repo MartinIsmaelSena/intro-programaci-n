@@ -8,14 +8,14 @@ import {
 } from '../../types/exam';
 import { useProgress } from '../../context/ProgressContext';
 import {
-  generateExam01Session,
-  getStoredExam01Session,
-  clearStoredExam01Session,
+  generateExamSession,
+  getStoredExamSession,
+  saveStoredExamSession,
+  clearStoredExamSession,
   getStudentCompletedAttemptsCount,
   recordCompletedAttempt,
-  hasExceededAttempts,
-  EXAM01_STORAGE_KEY
-} from '../../data/exams/exam01_block1';
+  hasExceededAttempts
+} from '../../services/examSessionService';
 import {
   gradeActiveExamSession,
   saveExamAttemptToSupabase
@@ -54,9 +54,9 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
   const { saveExamResult } = useProgress();
 
   // 1. Sesión activa del examen y datos del alumno inicializados desde almacenamiento
-  const [session, setSession] = useState<ActiveExamSession | null>(() => getStoredExam01Session());
+  const [session, setSession] = useState<ActiveExamSession | null>(() => getStoredExamSession(exam.id));
   const [studentData, setStudentData] = useState<ExamStudentData>(() => {
-    const existing = getStoredExam01Session();
+    const existing = getStoredExamSession(exam.id);
     return existing ? existing.student : {
       studentName: '',
       studentLastName: '',
@@ -67,12 +67,12 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const [evaluationResult, setEvaluationResult] = useState<ExamEvaluationResult | null>(() => {
-    const existing = getStoredExam01Session();
+    const existing = getStoredExamSession(exam.id);
     return (existing?.submitted && existing.result) ? existing.result : null;
   });
 
   const [step, setStep] = useState<RunnerStep>(() => {
-    const existing = getStoredExam01Session();
+    const existing = getStoredExamSession(exam.id);
     if (!existing) return 'register';
     if (existing.submitted && existing.result) return 'result';
     return 'exam';
@@ -82,7 +82,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
   // 3. Temporizador real (40 minutos)
   const totalDurationSeconds = (exam.durationMinutes || 40) * 60;
   const [secondsRemaining, setSecondsRemaining] = useState<number>(() => {
-    const existing = getStoredExam01Session();
+    const existing = getStoredExamSession(exam.id);
     if (existing && !existing.submitted) {
       const elapsed = Math.floor((Date.now() - existing.startTimestamp) / 1000);
       return Math.max(0, existing.durationMinutes * 60 - elapsed);
@@ -126,9 +126,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
           result: evaluation
         };
         setSession(updatedSession);
-        try {
-          localStorage.setItem(EXAM01_STORAGE_KEY, JSON.stringify(updatedSession));
-        } catch {}
+        saveStoredExamSession(updatedSession);
 
         // Registrar en historial de intentos locales
         recordCompletedAttempt(evaluation);
@@ -142,10 +140,10 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
           timeSpentSeconds: evaluation.durationSeconds,
           sectionScores: [
             {
-              name: `Modelo de Examen N.º 1 (Intento ${evaluation.attemptNumber} de 3)`,
+              name: `${exam.title} (Intento ${evaluation.attemptNumber} de 3)`,
               maxPoints: 10,
               obtainedPoints: evaluation.score,
-              feedback: `${evaluation.correctAnswersCount} de 20 preguntas correctas (${evaluation.percentage}%). Nota: ${evaluation.score}/10.`
+              feedback: `${evaluation.correctAnswersCount} de ${evaluation.totalQuestions} preguntas correctas (${evaluation.percentage}%). Nota: ${evaluation.score}/10.`
             }
           ]
         });
@@ -174,7 +172,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
         setIsSubmitting(false);
       }
     },
-    [exam.id, saveExamResult]
+    [exam.id, exam.title, saveExamResult]
   );
 
   const triggerAutoSubmit = useCallback(
@@ -187,7 +185,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
 
   // Si la sesión activa ya expiró antes de abrir la página, entregar automáticamente
   useEffect(() => {
-    const existing = getStoredExam01Session();
+    const existing = getStoredExamSession(exam.id);
     if (existing && !existing.submitted && !existing.result) {
       const elapsed = Math.floor((Date.now() - existing.startTimestamp) / 1000);
       const remaining = existing.durationMinutes * 60 - elapsed;
@@ -198,7 +196,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
         return () => clearTimeout(timeoutId);
       }
     }
-  }, [triggerAutoSubmit]);
+  }, [exam.id, triggerAutoSubmit]);
 
   // Temporizador sincronizado con el reloj real del sistema
   useEffect(() => {
@@ -225,12 +223,12 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
     if (!studentData.studentName || !studentData.studentLastName || !studentData.school || !studentData.course) {
       return 0;
     }
-    return getStudentCompletedAttemptsCount(studentData);
-  }, [studentData]);
+    return getStudentCompletedAttemptsCount(exam.id, studentData);
+  }, [exam.id, studentData]);
 
   const attemptsExceeded = useMemo(() => {
-    return completedAttempts >= 3;
-  }, [completedAttempts]);
+    return completedAttempts >= (exam.config?.maxAttempts || 3);
+  }, [completedAttempts, exam.config?.maxAttempts]);
 
   // Manejo del formulario de inscripción
   const handleValidateStudentForm = (e: React.FormEvent) => {
@@ -253,7 +251,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      if (hasExceededAttempts(studentData)) {
+      if (hasExceededAttempts(exam.id, studentData, exam.config?.maxAttempts || 3)) {
         errors.course = 'Ya has alcanzado el límite de 3 intentos permitidos para este examen.';
         setFormErrors(errors);
         return;
@@ -265,7 +263,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
   // Inicio efectivo del examen tras presionar Comenzar Examen
   const handleStartExam = () => {
     const nextAttempt = completedAttempts + 1;
-    const newSession = generateExam01Session(studentData, nextAttempt);
+    const newSession = generateExamSession(exam, studentData, nextAttempt);
     setSession(newSession);
     setSecondsRemaining(newSession.durationMinutes * 60);
     setCurrentIndex(0);
@@ -287,9 +285,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
     };
 
     setSession(updatedSession);
-    try {
-      localStorage.setItem(EXAM01_STORAGE_KEY, JSON.stringify(updatedSession));
-    } catch {}
+    saveStoredExamSession(updatedSession);
   };
 
   // Ejecución de código práctico en la mini consola
@@ -339,7 +335,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
 
   // Reiniciar para rendir nuevamente (si quedan intentos disponibles)
   const handleRetakeExam = () => {
-    clearStoredExam01Session();
+    clearStoredExamSession(exam.id);
     setSession(null);
     setEvaluationResult(null);
     setEmailStatus({ loading: false, sent: false });
@@ -959,7 +955,7 @@ export const ExamRunnerView: React.FC<ExamRunnerViewProps> = ({ exam, onExit }) 
           </div>
 
           <span className="font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
-            0.5 Puntos
+            {currentQ.points ?? 0.5} Puntos
           </span>
         </div>
 

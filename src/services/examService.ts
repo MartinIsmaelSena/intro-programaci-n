@@ -68,8 +68,9 @@ export async function gradeActiveExamSession(
     Math.floor((Date.now() - session.startTimestamp) / 1000)
   );
 
-  const score = Math.round((correctCount * 0.5) * 10) / 10; // escala 0.0 a 10.0
-  const percentage = Math.round((correctCount / totalQuestions) * 100);
+  const totalScore = breakdown.reduce((sum, item) => sum + item.pointsObtained, 0);
+  const score = Math.min(10.0, Math.round(totalScore * 10) / 10); // escala 0.0 a 10.0
+  const percentage = Math.round((score / 10.0) * 100);
   const passed = score >= 6.0;
 
   return {

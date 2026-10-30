@@ -13,6 +13,7 @@ export const PRACTICAL_WORK_SETTING_ID = 'practical-work';
 // Configuración por defecto si la base de datos está offline o no configurada
 export const DEFAULT_EXAM_SETTINGS: Record<string, boolean> = {
   'exam-1': true,
+  'exam-prog-vars-logic': true,
   'exam-2': false,
   'exam-3': false,
   'exam-4': false,

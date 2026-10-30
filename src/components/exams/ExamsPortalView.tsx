@@ -3,7 +3,6 @@ import { ALL_EXAMS, isExamAvailable } from '../../data/exams/examsList';
 import { Exam, ExamEvaluationResult, ExamAttemptRecord } from '../../types/exam';
 import { useProgress } from '../../context/ProgressContext';
 import { ExamRunnerView } from './ExamRunnerView';
-import { EXAM01_ATTEMPTS_STORAGE_KEY } from '../../data/exams/exam01_block1';
 import { supabase } from '../../lib/supabase';
 import {
   getTeacherAuthState,
@@ -221,15 +220,23 @@ export const ExamsPortalView: React.FC = () => {
   const getLocalAttempts = (): ExamEvaluationResult[] => {
     try {
       if (typeof localStorage === 'undefined') return [];
-      const raw = localStorage.getItem(EXAM01_ATTEMPTS_STORAGE_KEY);
-      if (!raw) return [];
-      const map = JSON.parse(raw);
       const list: ExamEvaluationResult[] = [];
-      Object.values(map).forEach(attempts => {
-        if (Array.isArray(attempts)) {
-          list.push(...(attempts as ExamEvaluationResult[]));
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('python_exam_attempts_history_')) {
+          try {
+            const raw = localStorage.getItem(key);
+            if (raw) {
+              const map = JSON.parse(raw);
+              Object.values(map).forEach(attempts => {
+                if (Array.isArray(attempts)) {
+                  list.push(...(attempts as ExamEvaluationResult[]));
+                }
+              });
+            }
+          } catch {}
         }
-      });
+      }
       return list.sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime());
     } catch {
       return [];

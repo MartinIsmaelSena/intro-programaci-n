@@ -1,5 +1,6 @@
 import { Exam } from '../../types/exam';
 import { exam01 } from './exam01_block1';
+import { examProgVarsLogic } from './exam_prog_vars_logic';
 import { exam02 } from './exam02_block2';
 import { exam03 } from './exam03_block3';
 import { exam04 } from './exam04_block4';
@@ -7,6 +8,7 @@ import { exam05 } from './exam05_block5';
 
 export const ALL_EXAMS: Exam[] = [
   exam01,
+  examProgVarsLogic,
   exam02,
   exam03,
   exam04,
