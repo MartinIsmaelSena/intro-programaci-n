@@ -647,11 +647,29 @@ export const EXAM01_THEORY_BANK: ExamUnifiedQuestion[] = [
     correctAnswer: 0,
     explanation: 'precio * cantidad es 1500 * 2 = 3000 (subtotal). Luego total = 3000 + 500 = 3500.',
     points: 0.5
+  },
+  // 36 (Pregunta de opción múltiple: Cálculo de total con cantidad y precio)
+  {
+    id: 'e1_th_36',
+    type: 'multiple_choice',
+    moduleId: 10,
+    topic: 'Conversión con int() y operaciones aritméticas',
+    question: 'Si ejecutamos el siguiente código y el usuario ingresa el número 4 por teclado:\n\n¿Qué resultado muestra en pantalla?',
+    codeSnippet: 'cantidad = int(input("Ingresá la cantidad: "))\nprecio = 100\ntotal = cantidad * precio\nprint("Total a pagar:", total)',
+    options: [
+      'Total a pagar: 400',
+      'Total a pagar: 1004',
+      'Total a pagar: 104',
+      'Total a pagar: 4'
+    ],
+    correctAnswer: 0,
+    explanation: 'La función int() convierte el texto "4" ingresado por el usuario en el número entero 4. Luego se calcula total = 4 * 100 = 400 y se imprime "Total a pagar: 400".',
+    points: 0.5
   }
 ];
 
 // ============================================================================
-// 2. BANCO DE 13 EJERCICIOS PRÁCTICOS (Requerimiento Sección 4)
+// 2. BANCO DE 12 EJERCICIOS PRÁCTICOS (Requerimiento Sección 4)
 // ============================================================================
 
 export const EXAM01_PRACTICAL_BANK: ExamUnifiedQuestion[] = [
@@ -943,37 +961,11 @@ export const EXAM01_PRACTICAL_BANK: ExamUnifiedQuestion[] = [
   },
   // Ejercicio 12
   {
-    id: 'e1_prac_12',
-    type: 'coding',
-    moduleId: 10,
-    topic: 'Conversión Celsius a Fahrenheit',
-    title: 'Ejercicio 12: Conversión Celsius a Fahrenheit',
-    question: 'Solicitar temperatura en Celsius y convertirla a Fahrenheit. Fórmula: F = C * 9 / 5 + 32.',
-    starterCode: `# Pedí la temperatura en Celsius y mostrá el equivalente en Fahrenheit:\n\n`,
-    solution: `c = float(input())\nf = c * 9 / 5 + 32\nprint(f)`,
-    testCases: [
-      {
-        name: '0 °C = 32 °F',
-        inputs: ['0'],
-        expectedOutputs: ['32'],
-        description: '0 grados Celsius equivale a 32 Fahrenheit'
-      },
-      {
-        name: '100 °C = 212 °F',
-        inputs: ['100'],
-        expectedOutputs: ['212'],
-        description: '100 grados Celsius equivale a 212 Fahrenheit'
-      }
-    ],
-    points: 0.5
-  },
-  // Ejercicio 13
-  {
     id: 'e1_prac_13',
     type: 'coding',
     moduleId: 10,
     topic: 'Área y perímetro de rectángulo',
-    title: 'Ejercicio 13: Área y perímetro de un rectángulo',
+    title: 'Ejercicio 12: Área y perímetro de un rectángulo',
     question: 'Solicitar base y altura de un rectángulo y calcular: área (base * altura) y perímetro (2 * (base + altura)).',
     starterCode: `# Pedí base y altura de un rectángulo y mostrá área y perímetro:\n\n`,
     solution: `base = int(input())\naltura = int(input())\narea = base * altura\nperimetro = 2 * (base + altura)\nprint(area)\nprint(perimetro)`,
@@ -1098,7 +1090,7 @@ export function generateExam01Session(student: ExamStudentData, attemptNumber?: 
   // Seleccionar 2 de análisis de código
   const selectedTracing = shuffleArray(tracingPool).slice(0, EXAM01_CONFIG.distribution.tracing);
 
-  // Seleccionar 2 ejercicios prácticos del banco de 13 ejercicios
+  // Seleccionar 2 ejercicios prácticos del banco de 12 ejercicios
   const selectedCoding = shuffleArray(EXAM01_PRACTICAL_BANK).slice(0, EXAM01_CONFIG.distribution.coding);
 
   // Mezclar las opciones de respuesta para las preguntas de opción múltiple y tracing
