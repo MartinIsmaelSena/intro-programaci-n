@@ -34,6 +34,8 @@ import {
   subscribeToPracticalWorkSetting
 } from '../../services/examSettingsService';
 import { TeacherLoginModal } from '../exams/TeacherLoginModal';
+import { TPCpem69PortalView } from '../tpCpem69/TPCpem69PortalView';
+import { getStoredTPSession as getStoredCpem69Session } from '../../services/tpCpem69Service';
 import {
   Clock,
   AlertTriangle,
@@ -76,6 +78,15 @@ interface PracticalWorkPortalViewProps {
 export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = ({
   onBackToPortal
 }) => {
+  // Selector entre TP CPEM 69 (4.º A) y TP Estándar Integral
+  const [selectedTpType, setSelectedTpType] = useState<'cpem69' | 'standard'>(() => {
+    const cpemSession = getStoredCpem69Session();
+    if (cpemSession) return 'cpem69';
+    const standardSession = getStoredTPSession();
+    if (standardSession && !standardSession.submitted) return 'standard';
+    return 'cpem69';
+  });
+
   // 1. Estado de la sesión activa
   const [session, setSession] = useState<ActiveTPSession | null>(() => getStoredTPSession());
   const [evaluationResult, setEvaluationResult] = useState<TPEvaluationResult | null>(() => {
@@ -512,12 +523,64 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
     }
   };
 
+  // Selector superior de Trabajo Práctico
+  const renderTpSwitcher = () => {
+    const isCpemRunning = Boolean(getStoredCpem69Session()?.status === 'in_progress');
+    const isStandardRunning = step === 'runner';
+    if (isCpemRunning || isStandardRunning) return null;
+
+    return (
+      <div className="max-w-4xl mx-auto px-4 pt-6">
+        <div className="p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 flex items-center gap-1.5 shadow-sm">
+          <button
+            onClick={() => setSelectedTpType('cpem69')}
+            className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              selectedTpType === 'cpem69'
+                ? 'bg-white dark:bg-slate-900 text-python-blue dark:text-sky-400 shadow-md border border-slate-200/60 dark:border-slate-700/60'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <span>Trabajo Práctico de Programación – 4.º año (90 min)</span>
+            <span className="hidden sm:inline px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-[10px] font-bold">
+              CPEM 69 / 29
+            </span>
+          </button>
+
+          <button
+            onClick={() => setSelectedTpType('standard')}
+            className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              selectedTpType === 'standard'
+                ? 'bg-white dark:bg-slate-900 text-python-blue dark:text-sky-400 shadow-md border border-slate-200/60 dark:border-slate-700/60'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            <BookOpen className="w-4 h-4 text-slate-400" />
+            <span>Trabajo Práctico Integral (80 min)</span>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // Si está seleccionado el TP CPEM 69, renderizar su vista correspondiente
+  if (selectedTpType === 'cpem69') {
+    return (
+      <div className="min-h-screen">
+        {renderTpSwitcher()}
+        <TPCpem69PortalView onBackToPortal={onBackToPortal} />
+      </div>
+    );
+  }
+
   // ==========================================================================
   // PANTALLA 1: PRESENTACIÓN DEL TRABAJO PRÁCTICO
   // ==========================================================================
   if (step === 'intro') {
     return (
-      <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn py-6 px-4 pb-16">
+      <div className="min-h-screen">
+        {renderTpSwitcher()}
+        <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn py-6 px-4 pb-16">
         {/* Banner Superior con Panel de Disponibilidad Docente */}
         <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-python-blue text-white shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-4 max-w-2xl">
@@ -979,6 +1042,7 @@ export const PracticalWorkPortalView: React.FC<PracticalWorkPortalViewProps> = (
             </div>
           </div>
         )}
+        </div>
       </div>
     );
   }
